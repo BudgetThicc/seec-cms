@@ -1,6 +1,7 @@
-import * as Pages from "../pages";
+// import * as Pages from "../pages";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Form } from 'antd';
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -8,7 +9,7 @@ const mapStateToProps = state => ({
 })
 
 var wrap = (component) => {
-    return Form.create()(withTheme()(connect(mapStateToProps)(withRouter(component))))
+    return Form.create()(connect(mapStateToProps)(withRouter(component)))
 }
 
 const mainRoutes = [

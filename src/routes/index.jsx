@@ -1,7 +1,7 @@
-import Layout from "../components/layouts/layout";
+import BaseLayout from "../components/layouts/BaseLayout";
 
 const indexRoutes = [
-    { path: '/', component: Layout },
+    { path: '/', component: BaseLayout },
 ];
 
 export default indexRoutes;
