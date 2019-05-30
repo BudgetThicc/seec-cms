@@ -13,14 +13,14 @@ export class BaseComponent extends Component {
         return fetch(this.ip + url, { method: 'POST', body: form, header: { 'content-type': 'application/json' } })
             .then((response) => (response.json()))
             .catch((error) => { console.error(error); })
-            .then((result) => { handleResult(result,successAction); });
+            .then((result) => { this.handleResult(result,successAction); });
     }
 
     get = (url, successAction)=>{
         return fetch(this.ip + url, { method: 'GET'})
         .then((response) => (response.json()))
         .catch((error) => { console.error(error); })
-        .then((result) => { handleResult(result,successAction); });
+        .then((result) => { this.handleResult(result,successAction); });
     }
 
     handleResult=(result,successAction) => {

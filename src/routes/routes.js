@@ -1,4 +1,4 @@
-// import * as Pages from "../pages";
+import * as Pages from "../pages";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form } from 'antd';
@@ -13,7 +13,12 @@ var wrap = (component) => {
 }
 
 const mainRoutes = [
-
+    {
+        path: "/home",
+        sidebarName: "Home",
+        icon: 'home',
+        component: wrap(Pages.Home),
+    },
 ];
 
 export default mainRoutes;

@@ -1,8 +1,9 @@
 import React,{Component} from "react";
-import { Switch, Route } from "react-router-dom";
+import { Router, Route,withRouter } from "react-router-dom";
 import { Anchor,BackTop, Row, Layout,Menu} from 'antd';
 import Routes from "../../routes/routes";
 import BaseHeader from "./BaseHeader"
+
 const {Header,Content}=Layout;
 
 class BaseLayout extends Component {
@@ -11,8 +12,8 @@ class BaseLayout extends Component {
         super(props);
         this.state = {
             items:[
-                {id:"/Home",name:"首页"},
-                {id:"/Films",name:"电影"}
+                {key:"/home",name:"首页"},
+                {key:"/films",name:"电影"}
             ]
         }
     }
@@ -33,9 +34,9 @@ class BaseLayout extends Component {
                     <BaseHeader items={this.state.items}/>
                 </Header>
                 <Content>
-                    <Switch>
+                    <Router history={this.props.history}>
                         {this.createRoutes(Routes)}
-                    </Switch>
+                    </Router>
                 </Content>
             </Layout>
             );
@@ -44,4 +45,4 @@ class BaseLayout extends Component {
 
 
 
-export default BaseLayout;
+export default withRouter(BaseLayout);
