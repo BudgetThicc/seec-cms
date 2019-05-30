@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import indexRoutes from "./routes/index.jsx";
 import {createBrowserHistory} from 'history'
+//由于browserHistory的采用，部署时注意配置服务器端
+//https://www.thinktxt.com/react/2017/02/26/react-router-browserHistory-refresh-404-solution.html
 
 const hist = createBrowserHistory()
 var routesToRoutes = (prop) => {

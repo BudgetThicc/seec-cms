@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 
-import App from './App.js'
 import 'antd/dist/antd.css';//全局引入antD样式文件
-import * as serviceWorker from './serviceWorker';
 
+import * as serviceWorker from './serviceWorker';
+import App from './App.js'
 
 ReactDOM.render(
     <App />, 
