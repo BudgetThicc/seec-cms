@@ -37,17 +37,17 @@ export class BaseComponent extends Component {
             return;
         }
 
-        if (result.status === 'fail') {
+        if (result.success==null||result.success==false) {
             console.log(result)
-            this.pushNotification("danger", result.description);
+            this.pushNotification("danger", result.message);
             return;
         }
 
-        if (result.status === 'success') {
+        if (result.success==true) {
             successAction(result);
             return;
         } 
-        this.pushNotification("danger", result.description);
+        this.pushNotification("danger", JSON.stringify(result));
     }
 
     fromNow = (date) => {

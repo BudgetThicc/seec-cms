@@ -5,6 +5,11 @@ import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Card,Modal } from
 import { BaseComponent } from '../../components/BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
 
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+    user: state.identityReducer.user,
+    admin: state.identityReducer.admin,
+})
 
 class SignIn extends BaseComponent {
 
@@ -34,13 +39,13 @@ class SignIn extends BaseComponent {
 
             var successAction = (result) => {
                 if (result.detail !== null) {
-                    sessionStorage.setItem('userId', result.detail.userId);
+                    sessionStorage.setItem('userId', result.content.id);
                 }
                 //todo: 根据用户类型分类存储
-                this.props.dispatch(loginAsUser(result.detail.userId));
+                this.props.dispatch(loginAsUser(result.content.id));
 
-                this.goBack()
-                this.pushNotification("success", "登录成功！");
+                this.props.onCancel()
+                this.pushNotification("success", "用户"+result.content.username+"登录成功");
             }
 
             this.post('/login', form, successAction);
@@ -141,5 +146,5 @@ const styles={
 
 };
 
-export default Form.create()(withRouter(SignIn))
+export default Form.create()(connect(mapStateToProps)(withRouter(SignIn)))
 
