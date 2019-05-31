@@ -7,10 +7,17 @@ export class BaseComponent extends Component {
     
     // local
     ip = "http://localhost:8080";  
+    // remote
+    // ip = "http://139.224.238.182:8080"
 
 
     post = (url, form, successAction) => {
-        return fetch(this.ip + url, { method: 'POST', body: form, header: { 'content-type': 'application/json' } })
+        return fetch(this.ip + url, { 
+            method: 'POST', 
+            mode: 'cors',
+            body: form, 
+            header: { 'content-type': 'multipart/form-data' } 
+            })
             .then((response) => (response.json()))
             .catch((error) => { console.error(error); })
             .then((result) => { this.handleResult(result,successAction); });

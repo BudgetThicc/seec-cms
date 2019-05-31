@@ -25,11 +25,11 @@ class BaseHeader extends Component {
     renderLeftHeader=()=>{
         return(
             <Col span={12}>
-                <Col sm={0} lg={5}>
+                <Col sm={0} lg={6}>
                     {/* 当屏幕分辨率小于sm值时隐藏logo */}
                     <img style={styles.logo} src={require("./resource/logo.png")} />
                 </Col>
-                <Col sm={24} lg={19}>
+                <Col sm={24} lg={18}>
                     <Menu
                     theme="white"
                     mode="horizontal"

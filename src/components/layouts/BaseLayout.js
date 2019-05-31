@@ -1,8 +1,9 @@
 import React,{Component} from "react";
 import { Router, Route,withRouter } from "react-router-dom";
-import { Anchor,BackTop, Row, Layout,Menu} from 'antd';
+import { Form,BackTop, Row, Layout,Modal} from 'antd';
 import Routes from "../../routes/routes";
 import BaseHeader from "./BaseHeader"
+import SignIn from "../auth/signIn"
 
 const {Header,Content}=Layout;
 
@@ -14,7 +15,9 @@ class BaseLayout extends Component {
             items:[
                 {key:"/home",name:"首页"},
                 {key:"/films",name:"电影"}
-            ]
+            ],
+            signInVisible:true,
+            signUpVisible:false,
         }
     }
 
@@ -25,6 +28,13 @@ class BaseLayout extends Component {
             })
         )
     };
+
+    onCancel=()=>{
+        this.setState({
+            signInVisible:false,
+            signUpVisible:false
+        })
+    }
 
     render(){
         return (
@@ -38,6 +48,7 @@ class BaseLayout extends Component {
                         {this.createRoutes(Routes)}
                     </Router>
                 </Content>
+                <SignIn visible={this.state.signInVisible} onCancel={this.onCancel}/>
             </Layout>
             );
     }

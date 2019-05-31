@@ -15,10 +15,15 @@ var wrap = (component) => {
 const mainRoutes = [
     {
         path: "/home",
-        sidebarName: "Home",
         icon: 'home',
         component: wrap(Pages.Home),
     },
+    // {
+    //     path: "/signin",
+    //     icon: 'signin',
+    //     component: wrap(Pages.SignIn),
+    // },
+    // use Drawer Instead
 ];
 
 export default mainRoutes;
