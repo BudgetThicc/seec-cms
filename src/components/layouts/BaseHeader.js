@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {Row,Col,Menu,Typography} from 'antd';
+import {Row,Col,Menu,AutoComplete,Typography,Input,Button,Icon} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 
@@ -24,12 +24,33 @@ class BaseHeader extends Component {
 
     renderLeftHeader=()=>{
         return(
-            <Col span={12}>
-                <Col sm={0} lg={6}>
+            <Col xs={0} sm={12}>
+                <Col  sm={0} lg={8}>
                     {/* 当屏幕分辨率小于sm值时隐藏logo */}
-                    <img style={styles.logo} src={require("./resource/logo.png")} />
+                    <Row type="flex" justify='center'>
+                        <img style={styles.logo} src={require("./resource/logo.png")} />
+                    </Row>
                 </Col>
-                <Col sm={24} lg={18}>
+                <Col sm={12} lg={12}>
+                    <AutoComplete
+                    size="large"
+                    style={{ width: '100%' }}
+                    placeholder="搜索即将/已上映/已下架电影">
+                        <Input.Search
+                        size="large"
+                        enterButton
+                        onSearch={value=>console.log(value)}
+                        />
+                    </AutoComplete>
+                </Col>
+            </Col>
+        );
+    }
+
+    renderRightHeader=()=>{
+        return(
+            <Col xs={24} sm={12}>
+                <Col sm={12} lg={12}>
                     <Menu
                     theme="white"
                     mode="horizontal"
@@ -39,14 +60,6 @@ class BaseHeader extends Component {
                         {this.props.items.map(this.renderItems)}
                     </Menu>
                 </Col>
-            </Col>
-        );
-    }
-
-    renderRightHeader=()=>{
-        return(
-            <Col span={12}>
-
             </Col>
 
         )
