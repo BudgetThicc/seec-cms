@@ -15,7 +15,7 @@ export class FormButton extends Component {
         const { getFieldsError } = this.props.form;
 
         return (
-            <FormItem>
+            <FormItem style={{marginBottom:"10px"}}>
                 <Button type="primary" htmlType="submit" 
                 // disabled={this.hasErrors(getFieldsError())} 
                 style={this.props.style}>

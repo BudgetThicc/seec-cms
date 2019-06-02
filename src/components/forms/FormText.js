@@ -7,9 +7,18 @@ export class FormText extends Component {
 
     renderInput(){
         if(this.props.width)
-            return <Input style={{width:this.props.width}} type={this.props.inputType} rows={this.props.rows} prefix={<Icon type={this.props.icon} />} />
+            return <Input 
+            style={{width:this.props.width}} 
+            type={this.props.inputType} 
+            rows={this.props.rows} 
+            prefix={<Icon type={this.props.icon} />} />
         else 
-            return <Input style={{width:'349px'}} type={this.props.inputType} rows={this.props.rows} prefix={<Icon type={this.props.icon} />} />
+            return <Input 
+            size="large"
+            style={{width:"396px",height:"40px"}} 
+            type={this.props.inputType} 
+            rows={this.props.rows} 
+            prefix={<Icon type={this.props.icon} />} />
     }
 
     render() {
@@ -40,7 +49,7 @@ export class FormText extends Component {
                         }
                     ]
                 })(
-                    <Input style={{width:'349px'}} type={this.props.inputType} rows={this.props.rows} prefix={<Icon type={this.props.icon} />} />
+                    <Input size="large" style={{width:'349px'}} type={this.props.inputType} rows={this.props.rows} prefix={<Icon type={this.props.icon} />} />
                 )}
             </FormItem>
         );

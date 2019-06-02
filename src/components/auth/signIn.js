@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
 import { loginAsUser} from '../../redux/actions/action';
-import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Card,Modal } from 'antd';
+import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
 import { BaseComponent } from '../../components/BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
 
@@ -53,21 +53,23 @@ class SignIn extends BaseComponent {
         });
     }
 
-    render() {
-        return (
-        <Modal
-        title={null}
-        visible={this.props.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
-        closable={false}
-        footer={null}
-        >
-            <Row type='flex' justify='center' align="middle" >
+    renderLogo=()=>{
+        return(
+            <Row type="flex" justify='center'>
+                <img style={styles.logo} src={require("./resource/logo.png")} />
+            </Row>
+        )
+    }
+
+    renderContent=()=>{
+        return(
+            <Row type='flex' 
+            justify='center' 
+            align="middle" 
+            style={{borderRadius:'20px'}}>
                 <Col>
-                    {/* <img style={{width:'480px',height:'270px',marginRight:40,marginTop:60}} src={require('./src/Logo.PNG')}/> */}
                     <Row
-                        style={styles.cardContainer}>
+                    style={styles.cardContainer}>
                         <div style={styles.welcome}>欢迎使用Seec影院系统</div>
                         <div style={styles.welcome2}>登录</div>
                         <Form onSubmit={this.handleSubmit} type='flex' justify='center'>
@@ -81,8 +83,8 @@ class SignIn extends BaseComponent {
                             </Row>
                             <Row type='flex' justify='center'>
                                 <Col>
-                                    <FormButton form={this.props.form} label="登录" style={styles.formButton}/>
-                                    <Button style={styles.button} onClick={this.props.onCancel}>
+                                    <FormButton form={this.props.form} label="登录" style={styles.button}/>
+                                    <Button style={styles.button2} onClick={this.props.onCancel}>
                                         返回
                                     </Button>
                                 </Col>
@@ -96,6 +98,21 @@ class SignIn extends BaseComponent {
                     </Row>
                 </Col>
             </Row>
+            );
+    }
+
+    render() {
+        return (
+        <Modal
+        title={null}
+        visible={this.props.visible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+        closable={false}
+        footer={null}
+        >
+            {this.renderLogo()}
+            {this.renderContent()}
         </Modal>
         );
     }
@@ -105,29 +122,28 @@ class SignIn extends BaseComponent {
 
 
 const styles={
-
+    
     logo: {
-        marginLeft:40,
-        marginTop:5,
-        height:'50px',
-        width:'90px'
+        height:'64px',
+        width:'192px'
     },
 
     cardContainer:{
         width:'500px',
-    },
-
-    formButton:{
-        width:'300px',
-        height:'40px'
+        marginTop:'10px'
     },
 
     button:{
         width:'300px',
         height:'40px',
-        backgroundColor:'',
+    },
+
+    button2:{
+        width:'300px',
+        height:'40px',
         color:'white',
         backgroundColor: '#CCCCCC',
+        marginBottom:'20px'
     },
 
     welcome:{
