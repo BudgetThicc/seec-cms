@@ -54,7 +54,7 @@ class BaseHeader extends Component {
             );
         }else
             return(
-                <Row>this.props.user.id</Row>
+                <Row>{this.props.user.username}</Row>
             )
     }
 
