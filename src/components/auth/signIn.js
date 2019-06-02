@@ -42,7 +42,7 @@ class SignIn extends BaseComponent {
                     sessionStorage.setItem('userId', result.content.id);
                 }
                 //todo: 根据用户类型分类存储
-                this.props.dispatch(loginAsUser(result.content.id));
+                this.props.dispatch(loginAsUser(result.content));
 
                 this.props.onCancel()
                 this.pushNotification("success", "用户"+result.content.username+"登录成功");

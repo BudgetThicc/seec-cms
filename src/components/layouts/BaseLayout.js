@@ -16,7 +16,7 @@ class BaseLayout extends Component {
                 {key:"/home",name:"首页"},
                 {key:"/films",name:"电影"}
             ],
-            signInVisible:true,
+            signInVisible:false,
             signUpVisible:false,
         }
     }
@@ -41,7 +41,10 @@ class BaseLayout extends Component {
             <Layout>
                 <BackTop visibilityHeight={200}/>
                 <Header style={{backgroundColor:'white',padding:0}}>
-                    <BaseHeader items={this.state.items}/>
+                    <BaseHeader 
+                    items={this.state.items}
+                    onClickSignIn={()=>this.setState({signInVisible:true})}
+                    onClickSignUp={()=>this.setState({signUpVisible:true})}/>
                 </Header>
                 <Content>
                     <Router history={this.props.history}>
