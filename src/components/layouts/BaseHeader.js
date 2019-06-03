@@ -7,6 +7,9 @@ import back from "./resource/header_back.jpg";
 import Banner from '../Banner'
 import SearchBar from '../SearchBar'
 
+import back1 from "./resource/back1.jpg"
+import film1 from "./resource/film1.jfif"
+
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin
@@ -18,11 +21,34 @@ class BaseHeader extends Component {
         super(props);
         this.state={
             isEnter:false,
+            banners:[
+                {
+                    title:"SEEC Cinema",
+                    title2:"Make SEEC Great Again",
+                    back:back1
+                }
+            ],
+            button:{
+                text:"加入我们",
+                icon:"user",
+                onClick:this.props.onClickSignIn
+            }
         }
     };
 
     handleClick = (e) => {
-        this.props.history.push(e.key+'') 
+        this.state.banners=[
+            {
+                title:"湮灭",
+                title2:"正在热映中",
+                back:film1
+            }
+        ]
+        this.state.button={
+            text:"马上订票",
+            icon:"pay-circle"
+        }
+        this.props.history.push(e.key+'')
     }
 
     renderItems=(item)=>{
@@ -49,7 +75,7 @@ class BaseHeader extends Component {
             return(
                 <Col sm={12} lg={12} >
                     <Row type="flex" justify="end" align='middle' style={{marginRight:"40px"}}>
-                        <Button type="link" icon="user" size="large" onClick={this.props.onClickSignIn}>
+                        <Button style={{color:"white"}} type="link" icon="user" size="large" onClick={this.props.onClickSignIn}>
                             登录
                         </Button>
                         <Button type="primary" icon="user-add" size="large" onClick={this.props.onClickSignUp}>
@@ -95,9 +121,13 @@ class BaseHeader extends Component {
 
     render(){
         return (
-            <div>
-                {/* <div style={{backgroundImage:`url(${back})`,height:600}}/> */}
-                <Banner/>
+            <Row>
+                {/* <div style={{position:"absolute",
+                    left:0,right:0,top:0,height:800,zIndex:0,
+                    backgroundImage:"linear-gradient(45deg,rgba(0,0,0,0.8),rgba(255,255,255,0))"}}/> */}
+                <Banner 
+                button={this.state.button}
+                banners={this.state.banners}/>
                 <Row span={24} style={styles.header}>
                     <Paper elevation={6} style={styles.paper}>
                         <Row type="flex" align="middle">
@@ -106,7 +136,7 @@ class BaseHeader extends Component {
                         </Row>
                     </Paper>
                 </Row>
-            </div>
+            </Row>
         );
     }
 }
@@ -120,7 +150,7 @@ const styles={
         position:'absolute',
         top:'0px',
         right:'0px',
-        left:'0px'
+        left:'0px',
     },
     menu:{ 
         flex:1,

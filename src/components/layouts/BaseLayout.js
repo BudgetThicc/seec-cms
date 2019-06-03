@@ -40,7 +40,7 @@ class BaseLayout extends Component {
         return (
             <Layout>
                 <BackTop visibilityHeight={200}/>
-                <Header style={{backgroundColor:'white',padding:0}}>
+                <Header style={{backgroundColor:'white',padding:0,height:"800px"}}>
                     <BaseHeader 
                     items={this.state.items}
                     onClickSignIn={()=>this.setState({signInVisible:true})}
