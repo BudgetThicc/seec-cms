@@ -33,7 +33,9 @@ class Banner extends Component {
 
     render(){
         return(
-            <BannerAnim style={styles.banner}>
+            <BannerAnim 
+            type="verticalOverlay"
+            style={styles.banner}>
                 {this.props.banners.map(this.renderElement)}
             </BannerAnim>
         )
@@ -96,8 +98,10 @@ const styles={
         height:"800px",
         position:'absolute',
         top:0,
-        left:0,
-        right:0
+        left:-100,
+        right:-100,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
     },
     title:{
         fontSize: "64px",

@@ -9,6 +9,7 @@ import SearchBar from '../SearchBar'
 
 import back1 from "./resource/back1.jpg"
 import film1 from "./resource/film1.jfif"
+import film2 from "./resource/film2.jpg"
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -39,9 +40,14 @@ class BaseHeader extends Component {
     handleClick = (e) => {
         this.state.banners=[
             {
-                title:"湮灭",
+                title:"天气之子",
                 title2:"正在热映中",
                 back:film1
+            },
+            {
+                title:"星际穿越",
+                title2:"正在热映中",
+                back:film2
             }
         ]
         this.state.button={
