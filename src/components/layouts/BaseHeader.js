@@ -1,9 +1,11 @@
 import React,{Component} from "react";
 import {Paper} from '@material-ui/core';
-import {Row,Col,Menu,AutoComplete,Typography,Input,Button,Icon} from 'antd';
+import {Row,Col,Menu,Input,Button} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 import back from "./resource/header_back.jpg";
+import Banner from '../Banner'
+import SearchBar from '../SearchBar'
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -62,33 +64,7 @@ class BaseHeader extends Component {
             )
     }
 
-    renderSearch=()=>{
-        if(this.state.isEnter)
-            return(
-                <AutoComplete
-                size="large"
-                style={{ width: '100%',opacity:1 }}
-                placeholder="搜索即将/已上映/已下架电影">
-                    <Input.Search
-                    size="large"
-                    onSearch={value=>console.log(value)}
-                    />
-                </AutoComplete>
-            );
-        else
-            return(
-                <AutoComplete
-                size="large"
-                style={{ width: '100%',opacity:0.4 }}
-                placeholder="搜索即将/已上映/已下架电影">
-                    <Input.Search
-                    size="large"
-                    onSearch={value=>console.log(value)}
-                    />
-                </AutoComplete>
-            )
-    }
-
+    
     renderLeftHeader=()=>{
         return(
             <Col xs={0} sm={0} lg={12}>
@@ -99,11 +75,7 @@ class BaseHeader extends Component {
                     </Row>
                 </Col>
                 <Col sm={12} lg={12}>
-                    <div
-                    onMouseEnter={()=>this.setState({isEnter:true})} 
-                    onMouseLeave={()=>this.setState({isEnter:false})}>
-                        {this.renderSearch()}
-                    </div>
+                    <SearchBar/>
                 </Col>
             </Col>
         );
@@ -124,7 +96,8 @@ class BaseHeader extends Component {
     render(){
         return (
             <div>
-                <div style={{backgroundImage:`url(${back})`,height:600}}/>
+                {/* <div style={{backgroundImage:`url(${back})`,height:600}}/> */}
+                <Banner/>
                 <Row span={24} style={styles.header}>
                     <Paper elevation={6} style={styles.paper}>
                         <Row type="flex" align="middle">
