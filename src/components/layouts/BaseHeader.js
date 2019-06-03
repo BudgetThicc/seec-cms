@@ -3,6 +3,7 @@ import {Paper} from '@material-ui/core';
 import {Row,Col,Menu,AutoComplete,Typography,Input,Button,Icon} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
+import back from "./resource/header_back.jpg";
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -13,6 +14,9 @@ class BaseHeader extends Component {
     
     constructor(props){
         super(props);
+        this.state={
+            isEnter:false,
+        }
     };
 
     handleClick = (e) => {
@@ -20,7 +24,7 @@ class BaseHeader extends Component {
     }
 
     renderItems=(item)=>{
-        return (<Menu.Item key={item.key}>{item.name}</Menu.Item>);
+        return (<Menu.Item key={item.key} style={{color:'white'}}>{item.name}</Menu.Item>);
     }
 
     renderMenu=()=>{
@@ -58,6 +62,33 @@ class BaseHeader extends Component {
             )
     }
 
+    renderSearch=()=>{
+        if(this.state.isEnter)
+            return(
+                <AutoComplete
+                size="large"
+                style={{ width: '100%',opacity:1 }}
+                placeholder="搜索即将/已上映/已下架电影">
+                    <Input.Search
+                    size="large"
+                    onSearch={value=>console.log(value)}
+                    />
+                </AutoComplete>
+            );
+        else
+            return(
+                <AutoComplete
+                size="large"
+                style={{ width: '100%',opacity:0.4 }}
+                placeholder="搜索即将/已上映/已下架电影">
+                    <Input.Search
+                    size="large"
+                    onSearch={value=>console.log(value)}
+                    />
+                </AutoComplete>
+            )
+    }
+
     renderLeftHeader=()=>{
         return(
             <Col xs={0} sm={0} lg={12}>
@@ -68,16 +99,11 @@ class BaseHeader extends Component {
                     </Row>
                 </Col>
                 <Col sm={12} lg={12}>
-                    <AutoComplete
-                    size="large"
-                    style={{ width: '100%' }}
-                    placeholder="搜索即将/已上映/已下架电影">
-                        <Input.Search
-                        size="large"
-                        enterButton
-                        onSearch={value=>console.log(value)}
-                        />
-                    </AutoComplete>
+                    <div
+                    onMouseEnter={()=>this.setState({isEnter:true})} 
+                    onMouseLeave={()=>this.setState({isEnter:false})}>
+                        {this.renderSearch()}
+                    </div>
                 </Col>
             </Col>
         );
@@ -97,12 +123,17 @@ class BaseHeader extends Component {
 
     render(){
         return (
-        <Paper elevation={6}>
-            <Row type="flex" align="middle">
-                {this.renderLeftHeader()}
-                {this.renderRightHeader()}
-            </Row>
-        </Paper>
+            <div>
+                <div style={{backgroundImage:`url(${back})`,height:600}}/>
+                <Row span={24} style={styles.header}>
+                    <Paper elevation={6} style={styles.paper}>
+                        <Row type="flex" align="middle">
+                            {this.renderLeftHeader()}
+                            {this.renderRightHeader()}
+                        </Row>
+                    </Paper>
+                </Row>
+            </div>
         );
     }
 }
@@ -110,13 +141,23 @@ class BaseHeader extends Component {
 const styles={
     logo: {
         height:'64px',
-        width:'192px'
+        width:'192px',
+    },
+    header:{
+        position:'absolute',
+        top:'0px',
+        right:'0px',
+        left:'0px'
     },
     menu:{ 
         flex:1,
         fontSize:'20px',
         lineHeight: '64px',
-        border:'0px' 
+        border:'0px',
+        backgroundColor:"rgba(0,0,0,0)"
+    },
+    paper:{
+        backgroundColor:"rgba(0,0,0,0.2)",
     }
 }
 

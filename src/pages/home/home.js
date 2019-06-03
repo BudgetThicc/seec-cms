@@ -7,7 +7,7 @@ export class Home extends BaseComponent {
         return (
             <Row>
                 <Row type='flex' justify='center'>
-                    <span>seec</span>
+                    <span>home page (todo)</span>
                 </Row>
             </Row>
         );
