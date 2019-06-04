@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import { Router, Route,withRouter } from "react-router-dom";
-import { Form,BackTop, Row, Layout,Modal} from 'antd';
+import { Form,BackTop, Row, Layout} from 'antd';
 import Routes from "../../routes/routes";
 import BaseHeader from "./BaseHeader"
 import SignIn from "../auth/signIn"
@@ -40,12 +40,11 @@ class BaseLayout extends Component {
         return (
             <Layout>
                 <BackTop visibilityHeight={200}/>
-                <Header style={{backgroundColor:'white',padding:0,height:"800px"}}>
+                
                     <BaseHeader 
                     items={this.state.items}
                     onClickSignIn={()=>this.setState({signInVisible:true})}
                     onClickSignUp={()=>this.setState({signUpVisible:true})}/>
-                </Header>
                 <Content>
                     <Router history={this.props.history}>
                         {this.createRoutes(Routes)}

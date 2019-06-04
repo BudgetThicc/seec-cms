@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import {notification,Button} from 'antd';
-import BannerAnim, { Element } from 'rc-banner-anim';
+import BannerAnim, { Element,Thumb } from 'rc-banner-anim';
 import TweenOne from 'rc-tween-one';
 import 'rc-banner-anim/assets/index.css';
 
@@ -34,8 +34,11 @@ class Banner extends Component {
     render(){
         return(
             <BannerAnim 
-            type="verticalOverlay"
-            style={styles.banner}>
+            type="vertical"
+            style={this.props.bgheight}
+            arrow={false}
+            dragPlay={false}
+            autoplay>
                 {this.props.banners.map(this.renderElement)}
             </BannerAnim>
         )
@@ -51,19 +54,20 @@ class Banner extends Component {
             followParallax={{
                 delay: 500,
                 data: [
-                { id: 'bg', value: 20, bgPosition: '50%', type: ['backgroundPositionX'] },
+                { id: 'bg'+count, value: 20, bgPosition: '50%', type: ['backgroundPositionX'] },
                 { id: 'title', value: 30, type: 'x' },
                 { id: 'title2', value: -20, type: 'x' },
                 ],
             }}
             >
                 <BgElement
-                key="bg"
+                key={"bg"+count}
                 style={{
                 ...{backgroundImage: `url(${banner.back})`},
-                ...styles.bg
+                ...styles.bg,
+                ...this.props.bgheight
                 }}
-                id="bg"
+                id={"bg"+count}
                 />
                 <TweenOne
                 animation={{ y: 30, opacity: 0, type: 'from' }}
@@ -86,16 +90,12 @@ class Banner extends Component {
 }
 
 const styles={
-    banner:{
-        height:"800px"
-    },
     element:{
         textAlign: "center",
         color: "white",
         position: "relative",
     },
     bg:{
-        height:"800px",
         position:'absolute',
         top:0,
         left:-100,

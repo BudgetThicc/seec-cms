@@ -14,6 +14,7 @@ var wrap = (component) => {
 
 const mainRoutes = [
     {
+        exact:'true',
         path: "/home",
         icon: 'home',
         component: wrap(Pages.Home),

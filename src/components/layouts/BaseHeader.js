@@ -1,60 +1,97 @@
 import React,{Component} from "react";
 import {Paper} from '@material-ui/core';
-import {Row,Col,Menu,Input,Button} from 'antd';
+import {Row,Col,Menu,Input,Button,Layout} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
-import back from "./resource/header_back.jpg";
+import BaseComponent from "../BaseComponent"
 import Banner from '../Banner'
 import SearchBar from '../SearchBar'
+import { browserHistory } from 'react-router-dom';
 
 import back1 from "./resource/back1.jpg"
 import film1 from "./resource/film1.jfif"
 import film2 from "./resource/film2.jpg"
+
+const {Header}=Layout
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin
 })
 
-class BaseHeader extends Component {
+var data=[]
+
+class BaseHeader extends BaseComponent {
     
     constructor(props){
         super(props);
         this.state={
             isEnter:false,
-            banners:[
+            index:0,
+            bannerData:{}
+        }
+        data=[
+            {banners:[
                 {
                     title:"SEEC Cinema",
                     title2:"Make SEEC Great Again",
                     back:back1
                 }
-            ],
+                ],
             button:{
                 text:"加入我们",
                 icon:"user",
                 onClick:this.props.onClickSignIn
-            }
-        }
-    };
-
-    handleClick = (e) => {
-        this.state.banners=[
-            {
-                title:"天气之子",
-                title2:"正在热映中",
-                back:film1
+                },
+            bgheight:{height:"900px"}
             },
-            {
-                title:"星际穿越",
-                title2:"正在热映中",
-                back:film2
+            {//下为影片数据，应当从后端拿到
+            banners:[
+                {
+                    title:"天气之子",
+                    title2:"正在热映中",
+                    back:film1
+                },
+                {
+                    title:"星际穿越",
+                    title2:"正在热映中",
+                    back:film2
+                }
+                ],
+            button:{
+                text:"马上订票",
+                icon:"pay-circle"
+                },
+            bgheight:{height:"700px"}
             }
         ]
-        this.state.button={
-            text:"马上订票",
-            icon:"pay-circle"
-        }
+    };
+
+    componentWillMount(){
+        this.handlePath("/"+this.props.path)
+    }
+
+    handleClick = (e) => {
+        this.handlePath(e.key)
         this.props.history.push(e.key+'')
+    }
+
+    handlePath=(pathname)=>{//找到path对应的图片横幅数据组
+        if(pathname=="/home"||pathname=="/"+undefined){
+            this.state.index=0
+        }else if(pathname=="/films"){
+            this.state.index=1
+        }
+        this.state.bannerData=data[this.state.index]
+    }
+
+    renderGradient=(index)=>{
+        if(index==1)
+            return(
+                <div style={{position:"absolute",
+                left:0,right:0,top:"600px",height:"15%",zIndex:10,
+                backgroundImage:"linear-gradient(rgba(0,0,0,0),rgba(255,255,255,1))"}}/>
+            )
     }
 
     renderItems=(item)=>{
@@ -126,14 +163,17 @@ class BaseHeader extends Component {
     }
 
     render(){
+        const {button,banners,bgheight}=this.state.bannerData
         return (
+        <Header style={{
+            ...{backgroundColor:'white',padding:0},
+            ...bgheight}}>
             <Row>
-                {/* <div style={{position:"absolute",
-                    left:0,right:0,top:0,height:800,zIndex:0,
-                    backgroundImage:"linear-gradient(45deg,rgba(0,0,0,0.8),rgba(255,255,255,0))"}}/> */}
+                {this.renderGradient(this.state.index)}
                 <Banner 
-                button={this.state.button}
-                banners={this.state.banners}/>
+                button={button}
+                banners={banners}
+                bgheight={bgheight}/>
                 <Row span={24} style={styles.header}>
                     <Paper elevation={6} style={styles.paper}>
                         <Row type="flex" align="middle">
@@ -143,6 +183,7 @@ class BaseHeader extends Component {
                     </Paper>
                 </Row>
             </Row>
+        </Header>
         );
     }
 }
