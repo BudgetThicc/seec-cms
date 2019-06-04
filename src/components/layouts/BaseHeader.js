@@ -9,7 +9,7 @@ import SearchBar from '../SearchBar'
 import { browserHistory } from 'react-router-dom';
 
 import back1 from "./resource/back1.jpg"
-import film1 from "./resource/film1.jfif"
+import film1 from "./resource/film1.png"
 import film2 from "./resource/film2.jpg"
 
 const {Header}=Layout
@@ -38,11 +38,11 @@ class BaseHeader extends BaseComponent {
                     back:back1
                 }
                 ],
-            button:{
+            buttons:[{
                 text:"加入我们",
                 icon:"user",
                 onClick:this.props.onClickSignIn
-                },
+                }],
             bgheight:{height:"900px"}
             },
             {//下为影片数据，应当从后端拿到
@@ -58,10 +58,13 @@ class BaseHeader extends BaseComponent {
                     back:film2
                 }
                 ],
-            button:{
-                text:"马上订票",
-                icon:"pay-circle"
-                },
+            buttons:[{
+                    text:"马上订票",
+                    icon:"pay-circle"
+                },{
+                    text:"查看更多",
+                    icon:"caret-down"
+                }],
             bgheight:{height:"700px"}
             }
         ]
@@ -90,7 +93,7 @@ class BaseHeader extends BaseComponent {
         if(index==1)
             return(
                 <div style={{position:"absolute",
-                left:0,right:0,top:"600px",height:"15%",zIndex:10,
+                left:0,right:0,top:"300px",height:"400px",zIndex:5,
                 backgroundImage:"linear-gradient(rgba(0,0,0,0),rgba(255,255,255,1))"}}/>
             )
     }
@@ -164,15 +167,15 @@ class BaseHeader extends BaseComponent {
     }
 
     render(){
-        const {button,banners,bgheight}=this.state.bannerData
+        const {buttons,banners,bgheight}=this.state.bannerData
         return (
         <Header style={{
             ...{backgroundColor:'white',padding:0},
             ...bgheight}}>
             <Row>
-                {this.renderGradient(this.state.index)}
                 <Banner 
-                button={button}
+                index={this.state.index}
+                buttons={buttons}
                 banners={banners}
                 bgheight={bgheight}/>
                 <Row span={24} style={styles.header}>

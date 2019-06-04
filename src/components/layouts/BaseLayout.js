@@ -39,7 +39,7 @@ class BaseLayout extends Component {
     render(){
         return (
             <Layout>
-                <BackTop visibilityHeight={200}/>
+                <BackTop visibilityHeight={200} style={{zIndex:10}}/>
                 
                     <BaseHeader 
                     items={this.state.items}

@@ -12,21 +12,31 @@ class Banner extends Component {
         super(props);
     };
 
-    renderButton=(banner)=>{
-        const {icon,text}=this.props.button;
-        var onClick=this.props.button.onClick
-        if(onClick==null)//优先使用上级指定的统一onClick，否则转向各横幅自带的button
-            onClick=banner.onClick
-        if(this.props.button!=null)
+    renderButton=(button)=>{
+        const {icon,text,onClick}=button
+        return(
+            <Button 
+            type="primary"
+            style={styles.button} 
+            icon={icon} 
+            size="large" 
+            onClick={onClick}
+            ghost>
+                {text}
+            </Button>
+        )
+    }
+
+    renderGradient=()=>{
+        if(this.props.index==1)
             return(
                 <TweenOne
-                animation={{ y: 30, opacity: 0, type: 'from',delay:100 }}
-                id="button"
-                style={styles.button}
+                animation={{ y: 30, opacity: 0, type: 'from' }}
+                style={styles.gradient}
                 >
-                    <Button icon={icon} size="large" onClick={onClick} ghost>
-                        {text}
-                    </Button>
+                    <div style={{
+                    height:"300px",
+                    backgroundImage:"linear-gradient(rgba(0,0,0,0),rgba(255,255,255,1))"}}/>
                 </TweenOne>
             )
     }
@@ -60,6 +70,8 @@ class Banner extends Component {
                 ],
             }}
             >
+                
+                {this.renderGradient()}
                 <BgElement
                 key={"bg"+count}
                 style={{
@@ -69,6 +81,7 @@ class Banner extends Component {
                 }}
                 id={"bg"+count}
                 />
+
                 <TweenOne
                 animation={{ y: 30, opacity: 0, type: 'from' }}
                 id="title"
@@ -76,6 +89,7 @@ class Banner extends Component {
                 >
                     {banner.title}
                 </TweenOne>
+
                 <TweenOne
                 animation={{ y: 30, opacity: 0, type: 'from',delay:100 }}
                 id="title2"
@@ -83,7 +97,14 @@ class Banner extends Component {
                 >
                     {banner.title2}
                 </TweenOne>
-                {this.renderButton(banner)}
+                
+                <TweenOne
+                animation={{ y: 30, opacity: 0, type: 'from',delay:100 }}
+                id="button"
+                style={styles.buttons}
+                >
+                    {this.props.buttons.map(this.renderButton)}
+                </TweenOne>
             </Element>
         )
     }
@@ -94,6 +115,14 @@ const styles={
         textAlign: "center",
         color: "white",
         position: "relative",
+    },
+    gradient:{
+        position:'absolute',
+        top:"400px",
+        height:"300px",
+        left:0,
+        right:0,
+        zIndex:5
     },
     bg:{
         position:'absolute',
@@ -116,9 +145,14 @@ const styles={
         fontFamily:"Georgia"
     },
     button:{
-        top: "50%",
+        marginRight:"10px",
+        opacity:0.7
+    },
+    buttons:{
+        zIndex:6,//浮于渐变之上
+        top: "70%",
         left: "30%",
-        fontFamily:"Georgia"
+        fontFamily:"Georgia",
     }
 }
 
