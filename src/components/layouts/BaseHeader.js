@@ -68,7 +68,8 @@ class BaseHeader extends BaseComponent {
     };
 
     componentWillMount(){
-        this.handlePath("/"+this.props.path)
+        this.handlePath(this.props.history.location.pathname)
+        this.pushNotification("success",JSON.stringify(this.props.history.location.pathname))
     }
 
     handleClick = (e) => {
@@ -77,7 +78,7 @@ class BaseHeader extends BaseComponent {
     }
 
     handlePath=(pathname)=>{//找到path对应的图片横幅数据组
-        if(pathname=="/home"||pathname=="/"+undefined){
+        if(pathname=="/home"||pathname=="/"){
             this.state.index=0
         }else if(pathname=="/films"){
             this.state.index=1
