@@ -13,7 +13,7 @@ class Banner extends Component {
     };
 
     renderButton=(button)=>{
-        const {icon,text,onClick}=button
+        const {icon,text,onClick,href}=button
         return(
             <Button 
             type="primary"
@@ -21,6 +21,7 @@ class Banner extends Component {
             icon={icon} 
             size="large" 
             onClick={onClick}
+            href={href}
             ghost>
                 {text}
             </Button>

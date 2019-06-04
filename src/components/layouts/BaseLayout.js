@@ -45,7 +45,7 @@ class BaseLayout extends Component {
                     items={this.state.items}
                     onClickSignIn={()=>this.setState({signInVisible:true})}
                     onClickSignUp={()=>this.setState({signUpVisible:true})}/>
-                <Content>
+                <Content style={{backgroundColor:"white"}}>
                     <Router history={this.props.history}>
                         {this.createRoutes(Routes)}
                     </Router>

@@ -55,7 +55,8 @@ class BaseBanner extends BaseComponent {
                     icon:"pay-circle"
                 },{
                     text:"查看更多",
-                    icon:"caret-down"
+                    icon:"caret-down",
+                    href:"#list"
                 }],
             bgheight:{height:"700px"}
             }

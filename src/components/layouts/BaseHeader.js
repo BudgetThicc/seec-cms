@@ -7,10 +7,6 @@ import BaseComponent from "../BaseComponent"
 import BaseBanner from './BaseBanner'
 import SearchBar from '../SearchBar'
 
-import back1 from "./resource/back1.jpg"
-import film1 from "./resource/film1.png"
-import film2 from "./resource/film2.jpg"
-
 const {Header}=Layout
 
 const mapStateToProps = state => ({
@@ -137,6 +133,7 @@ class BaseHeader extends BaseComponent {
             ...bgheight}}>
                 <Row>
                     <BaseBanner 
+                    onClickSignIn={this.props.onClickSignIn}
                     getBanner={(c)=>this.state.banner=c}
                     index={this.state.index}/>
                     <Row span={24} style={styles.header}>
