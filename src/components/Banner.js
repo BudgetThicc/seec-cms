@@ -44,11 +44,13 @@ class Banner extends Component {
     render(){
         return(
             <BannerAnim 
+            ref={(c) => { this.props.getBanner(c); }}
             type="vertical"
             style={this.props.bgheight}
             arrow={false}
             dragPlay={false}
-            autoplay>
+            autoPlay={true}
+            autoPlaySpeed={3000}>
                 {this.props.banners.map(this.renderElement)}
             </BannerAnim>
         )
@@ -59,7 +61,7 @@ class Banner extends Component {
         return(
             <Element 
             style={styles.element}
-            key={count}
+            key={count+""}
             prefixCls="banner-user-elem"
             followParallax={{
                 delay: 500,
@@ -150,7 +152,7 @@ const styles={
     },
     buttons:{
         zIndex:6,//浮于渐变之上
-        top: "70%",
+        top: "65%",
         left: "30%",
         fontFamily:"Georgia",
     }

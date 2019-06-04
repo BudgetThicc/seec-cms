@@ -4,9 +4,8 @@ import {Row,Col,Menu,Input,Button,Layout} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 import BaseComponent from "../BaseComponent"
-import Banner from '../Banner'
+import BaseBanner from './BaseBanner'
 import SearchBar from '../SearchBar'
-import { browserHistory } from 'react-router-dom';
 
 import back1 from "./resource/back1.jpg"
 import film1 from "./resource/film1.png"
@@ -19,7 +18,8 @@ const mapStateToProps = state => ({
     admin: state.identityReducer.admin
 })
 
-var data=[]
+var heights=[{height:"800px"},{height:"700px"}]
+//每个版块的页头高度固定，不影响布局
 
 class BaseHeader extends BaseComponent {
     
@@ -28,55 +28,19 @@ class BaseHeader extends BaseComponent {
         this.state={
             isEnter:false,
             index:0,
-            bannerData:{}
+            bannerData:{},
+            banner:null
         }
-        data=[
-            {banners:[
-                {
-                    title:"SEEC Cinema",
-                    title2:"Make SEEC Great Again",
-                    back:back1
-                }
-                ],
-            buttons:[{
-                text:"加入我们",
-                icon:"user",
-                onClick:this.props.onClickSignIn
-                }],
-            bgheight:{height:"900px"}
-            },
-            {//下为影片数据，应当从后端拿到
-            banners:[
-                {
-                    title:"天气之子",
-                    title2:"正在热映中",
-                    back:film1
-                },
-                {
-                    title:"星际穿越",
-                    title2:"正在热映中",
-                    back:film2
-                }
-                ],
-            buttons:[{
-                    text:"马上订票",
-                    icon:"pay-circle"
-                },{
-                    text:"查看更多",
-                    icon:"caret-down"
-                }],
-            bgheight:{height:"700px"}
-            }
-        ]
     };
 
     componentWillMount(){
         this.handlePath(this.props.history.location.pathname)
-        this.pushNotification("success",JSON.stringify(this.props.history.location.pathname))
     }
 
     handleClick = (e) => {
         this.handlePath(e.key)
+        if(this.state.banner)
+            this.state.banner.slickGoTo(0)//将横幅滑动回第一张
         this.props.history.push(e.key+'')
     }
 
@@ -86,7 +50,6 @@ class BaseHeader extends BaseComponent {
         }else if(pathname=="/films"){
             this.state.index=1
         }
-        this.state.bannerData=data[this.state.index]
     }
 
     renderGradient=(index)=>{
@@ -167,27 +130,25 @@ class BaseHeader extends BaseComponent {
     }
 
     render(){
-        const {buttons,banners,bgheight}=this.state.bannerData
+        const bgheight=heights[this.state.index]
         return (
-        <Header style={{
+            <Header style={{
             ...{backgroundColor:'white',padding:0},
             ...bgheight}}>
-            <Row>
-                <Banner 
-                index={this.state.index}
-                buttons={buttons}
-                banners={banners}
-                bgheight={bgheight}/>
-                <Row span={24} style={styles.header}>
-                    <Paper elevation={6} style={styles.paper}>
-                        <Row type="flex" align="middle">
-                            {this.renderLeftHeader()}
-                            {this.renderRightHeader()}
-                        </Row>
-                    </Paper>
+                <Row>
+                    <BaseBanner 
+                    getBanner={(c)=>this.state.banner=c}
+                    index={this.state.index}/>
+                    <Row span={24} style={styles.header}>
+                        <Paper elevation={6} style={styles.paper}>
+                            <Row type="flex" align="middle">
+                                {this.renderLeftHeader()}
+                                {this.renderRightHeader()}
+                            </Row>
+                        </Paper>
+                    </Row>
                 </Row>
-            </Row>
-        </Header>
+            </Header>
         );
     }
 }

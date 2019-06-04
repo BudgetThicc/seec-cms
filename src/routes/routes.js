@@ -14,10 +14,15 @@ var wrap = (component) => {
 
 const mainRoutes = [
     {
-        exact:'true',
+        exact:'true',//默认路由（其实是第二层，第一层在隔壁index.jsx用来加载外层layout
         path: "/home",
         icon: 'home',
         component: wrap(Pages.Home),
+    },
+    {
+        path: "/films",
+        icon: 'films',
+        component: wrap(Pages.FilmList),
     },
     // {
     //     path: "/signin",
