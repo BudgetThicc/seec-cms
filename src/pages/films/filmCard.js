@@ -15,6 +15,21 @@ export default class FilmCard extends BaseComponent {
         )
     }
 
+    renderHidablePoster=(posterUrl,name)=>{
+        return(
+            <div>
+                <img src={posterUrl} style={styles.poster}/>
+                <div style={styles.hover}>
+                    <Row style={{zIndex:8}}>  
+                        <Col xs={24} sm={24} lg={0}>
+                            {this.renderName(name)}
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+        )
+    }
+
     render(){
         const {id,name,
             posterUrl,
@@ -22,26 +37,19 @@ export default class FilmCard extends BaseComponent {
             starring,type,country}
             =this.props.item
         return (//lg时并排显示，否则取消描述，仅保留标题
-        <Paper elevation={6} style={styles.paper}>
-            <Row >
-                <Col xs={24} sm={24} lg={8}>
-                    <div>
+            <Paper elevation={6} style={styles.paper}>
+                <Row >
+                    <Col xs={0} sm={0} lg={8}>
                         <img src={posterUrl} style={styles.poster}/>
-                        <div style={styles.hover}>
-                            <Row style={{zIndex:8}}>  
-                                <Col xs={24} sm={24} lg={0}>
-                                    {this.renderName(name)}
-                                </Col>
-                            </Row>
-                        </div>
-                    </div>
-                </Col>
-                <Col xs={0} sm={0} lg={16}>
-
-                </Col>
-                {/* <div style={styles.hover}/> */}
-            </Row>
-        </Paper>
+                    </Col>
+                    <Col xs={0} sm={0} lg={16}>
+                        
+                    </Col>
+                    <Col xs={24} sm={24} lg={0}>
+                        {this.renderHidablePoster(posterUrl,name)}
+                    </Col>
+                </Row>
+            </Paper>
         ); 
     }
 }
