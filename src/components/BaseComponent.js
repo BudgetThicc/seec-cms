@@ -25,11 +25,13 @@ export class BaseComponent extends Component {
     }
 
     get = (url, successAction)=>{
-        return fetch(this.ip + url, { method: 'GET',
-        credentials: 'include'})
-        .then((response) => (response.json()))
-        .catch((error) => { console.error(error); })
-        .then((result) => { this.handleResult(result,successAction); });
+        return fetch(this.ip + url, { 
+            method: 'GET',
+            mode: 'cors'
+            })
+            .then((response) => (response.json()))
+            .catch((error) => { console.error(error); })
+            .then((result) => { this.handleResult(result,successAction); });
     }
 
     handleResult=(result,successAction) => {

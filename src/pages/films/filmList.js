@@ -17,7 +17,7 @@ export class FilmList extends BaseComponent {
     }
 
     componentDidMount(){
-        if(this.state.data1==[])
+        if(this.state.data1.length==0)
             if(this.state.loading)
                 this.fetchFilmList()
             else

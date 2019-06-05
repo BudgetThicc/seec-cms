@@ -83,7 +83,11 @@ class BaseHeader extends BaseComponent {
             );
         }else
             return(
-                <Row>{this.props.user.username}</Row>
+            <Col sm={12} lg={12} >
+                <Row type="flex" justify="end" style={{marginRight:"40px"}}>
+                    {this.props.user.username}
+                </Row>
+            </Col>
             )
     }
 
