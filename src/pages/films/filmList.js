@@ -8,19 +8,39 @@ export class FilmList extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
-            data1:[//data for column 1,use height for example
-                {height:100},
-                {height:150},
-                {height:120},
-                {height:80},
+            data1:[
             ],
-            data2:[//data for column 2
-                {height:70},
-                {height:160},
-                {height:90},
-                {height:100},
+            data2:[
             ],
+            loading:true
         }
+    }
+
+    componentDidMount(){
+        if(this.state.data1==[])
+            if(this.state.loading)
+                this.fetchFilmList()
+            else
+                this.pushNotification("danger","获取电影失败，请检查网络")
+    }
+
+    fetchFilmList=()=>{
+        var successAction = (result) => {
+            const data1=[]
+            const data2=[]
+            if(result.content!=null&&result.content.length>0){
+                for(var i=0;i<result.content.length;i++){
+                    if(i%2==0)
+                        data1.push(result.content[i])
+                    else
+                        data2.push(result.content[i])
+                }
+                this.state.data1=data1
+                this.state.data2=data2
+            }
+            this.setState({loading:false})   
+        }
+        this.get("/movie/search?keyword=",successAction)
     }
 
 
@@ -28,13 +48,12 @@ export class FilmList extends BaseComponent {
     render(){
         return (
         <Row style={styles.container} >
-            <Row id="list" type='flex' justify='center'>
+            <Row id="listStart" type='flex' justify='center'>
                 <Col xs={24} sm={16}>
                     <h3 style={styles.titles}>电影列表</h3>
                 </Col>
             </Row>
             <Row  type='flex' justify='center'>
-                
                 <Col xs={24} sm={16}>
                     {this.renderList()}
                 </Col>

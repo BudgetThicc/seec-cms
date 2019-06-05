@@ -88,6 +88,18 @@ export class BaseComponent extends Component {
                 description:""
             })
     }
+
+    scrollToView=(id)=>{
+        if (id) {
+            let anchorElement = document.getElementById(id);
+            if(anchorElement) { 
+                anchorElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start' 
+                });
+            }
+        }
+    }
     
 
 }

@@ -22,6 +22,7 @@ class BaseBanner extends BaseComponent {
         this.state={
             banner:null
         }
+        var anchor="listStart"
         data=[
             {banners:[
                 {
@@ -56,12 +57,16 @@ class BaseBanner extends BaseComponent {
                 },{
                     text:"查看更多",
                     icon:"caret-down",
-                    href:"#list"
+                    onClick:this.handleScroll
                 }],
             bgheight:{height:"700px"}
             }
         ]
     };
+
+    handleScroll=()=>{
+        this.scrollToView("listStart")
+    }
 
     render(){
         const {buttons,banners,bgheight}=data[this.props.index]

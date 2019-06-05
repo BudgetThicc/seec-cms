@@ -51,7 +51,7 @@ class Banner extends Component {
             arrow={false}
             dragPlay={false}
             autoPlay={true}
-            autoPlaySpeed={3000}>
+            autoPlaySpeed={5000}>
                 {this.props.banners.map(this.renderElement)}
             </BannerAnim>
         )
@@ -102,7 +102,7 @@ class Banner extends Component {
                 </TweenOne>
                 
                 <TweenOne
-                animation={{ y: 30, opacity: 0, type: 'from',delay:100 }}
+                animation={{ y: 50, opacity: 0, type: 'from',delay:300 }}
                 id="button"
                 style={styles.buttons}
                 >
