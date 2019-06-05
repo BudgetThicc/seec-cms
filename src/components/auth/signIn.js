@@ -1,11 +1,12 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
-import { loginAsUser} from '../../redux/actions/action';
+import { loginAsUser,logout} from '../../redux/actions/action';
 import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
 import { BaseComponent } from '../../components/BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
 
 import { connect } from 'react-redux';
+import { stringify } from 'querystring';
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin,
@@ -28,22 +29,16 @@ class SignIn extends BaseComponent {
                 this.pushNotification("danger","密码不能为空",this.props.dispatch);
                 return;
             }
-            if (!err) {
-                console.log("hey");
-                console.log('Received values of form: ', values);
-            }
 
             let form = new FormData();
             form.append('username', values.username);
             form.append('password', values.password);
 
             var successAction = (result) => {
-                if (result.detail !== null) {
-                    sessionStorage.setItem('userId', result.content.id);
-                }
                 //todo: 根据用户类型分类存储
                 this.props.dispatch(loginAsUser(result.content));
-
+                localStorage.setItem('user', JSON.stringify(result.content));
+                this.pushNotification("success",JSON.stringify(result.content))
                 this.props.onCancel()
                 this.pushNotification("success", "用户"+result.content.username+"登录成功");
             }

@@ -10,7 +10,7 @@ var identityReducer = (state = {}, action) => {
             return { ...state, user: null, admin: action.user};
 
         case 'LOGOUT':
-            return { ...state, user: false, admin:false};
+            return { ...state, user: null, admin:null};
 
         default:
             return state;

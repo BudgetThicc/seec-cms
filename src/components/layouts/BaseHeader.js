@@ -48,15 +48,6 @@ class BaseHeader extends BaseComponent {
         }
     }
 
-    renderGradient=(index)=>{
-        if(index==1)
-            return(
-                <div style={{position:"absolute",
-                left:0,right:0,top:"300px",height:"400px",zIndex:5,
-                backgroundImage:"linear-gradient(rgba(0,0,0,0),rgba(255,255,255,1))"}}/>
-            )
-    }
-
     renderItems=(item)=>{
         return (<Menu.Item key={item.key} style={{color:'white'}}>{item.name}</Menu.Item>);
     }

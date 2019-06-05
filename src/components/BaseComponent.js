@@ -16,6 +16,7 @@ export class BaseComponent extends Component {
             method: 'POST', 
             mode: 'cors',
             body: form, 
+            credentials: 'include',
             header: { 'content-type': 'multipart/form-data' } 
             })
             .then((response) => (response.json()))
@@ -24,7 +25,8 @@ export class BaseComponent extends Component {
     }
 
     get = (url, successAction)=>{
-        return fetch(this.ip + url, { method: 'GET'})
+        return fetch(this.ip + url, { method: 'GET',
+        credentials: 'include'})
         .then((response) => (response.json()))
         .catch((error) => { console.error(error); })
         .then((result) => { this.handleResult(result,successAction); });
