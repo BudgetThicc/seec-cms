@@ -49,7 +49,7 @@ export class FilmList extends BaseComponent {
         return (
         <Row style={styles.container} >
             <Row id="listStart" type='flex' justify='center'>
-                <Col xs={24} sm={22} lg={20}>
+                <Col xs={22} sm={20} lg={18}>
                     <h3 style={styles.titles}>电影列表</h3>
                 </Col>
             </Row>

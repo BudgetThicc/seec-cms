@@ -161,6 +161,7 @@ const styles = {
         justifyContent: 'center',
         backgroundColor:'#1890ff',
         color:"white",
+        marginLeft:20,
         paddingLeft:5,
         paddingRight:5,
         paddingTop:5,

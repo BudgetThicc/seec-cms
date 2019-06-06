@@ -2,6 +2,7 @@ import React from "react";
 import BaseComponent from '../../components/BaseComponent'
 import { Row, Skeleton,Col,Button,Icon,Divider,Tabs} from 'antd';
 import {Typography,Grid} from '@material-ui/core';
+import FilmSchedule from "./filmSchedule"
 
 const { TabPane } = Tabs;
 var count=0
@@ -25,7 +26,6 @@ class FilmDrawer extends BaseComponent {
     }
 
     renderSchedules=()=>{
-        this.pushNotification("success",""+this.state.schedules)
         if(this.state.schedules==null)
             return <Skeleton active> </Skeleton>
         else if(this.state.schedules=="暂无排片信息")
@@ -45,15 +45,33 @@ class FilmDrawer extends BaseComponent {
     renderTab=(schedule)=>{
         const {date,scheduleItemList}=schedule;
         count++
-        return(
-            <TabPane
-            tab={
-                <span><Icon type="clock-circle" />{date}</span>
-            }
-            key={""+count}>
-            </TabPane>
+        if(scheduleItemList.length==0)
+            return(
+                <TabPane
+                tab={
+                    <span><Icon type="clock-circle" />{this.handleDate(date,count)}</span>
+                }
+                key={""+count}>
+                    <Typography style={{marginLeft:10}}>暂无排片信息</Typography>
+                    <Skeleton active/>
+                </TabPane>
+            )
+        else
+            return(
+                <TabPane
+                tab={
+                    <span><Icon type="clock-circle" />{this.handleDate(date,count)}</span>
+                }
+                key={""+count}>
+                <Row>
+                    {scheduleItemList.map(this.renderScheduleItem)}
+                </Row>
+                </TabPane>
+            )
+    }
 
-        )
+    renderScheduleItem=(item)=>{
+        return <FilmSchedule item={item}/>
     }
 
     renderStatus=()=>{
@@ -71,7 +89,7 @@ class FilmDrawer extends BaseComponent {
         )
     }
 
-    renderDetail=()=>{
+    render(){
         const {name,starring,director,description,type}=this.props.item
         return(
             <Row style={styles.detail}>
@@ -85,23 +103,15 @@ class FilmDrawer extends BaseComponent {
                     <Typography style={styles.description}>{"类型："+type}</Typography>
                     <Typography style={styles.description}>{"导演："+director}</Typography>
                     <Typography style={styles.description}>{"主演："+starring}</Typography>
-                    <Divider/>
+                    <Divider style={{opacity:0}}/>
                     <Typography style={styles.description}>{description}</Typography>
-                    <Divider/>
+                    <Divider />
                 </Row>
                 <Row style={styles.rows}>
                     {this.renderSchedules()}
                 </Row>
             </Row>
         )
-    }
-
-    render(){
-        return (
-            <Row>
-                {this.renderDetail()}
-            </Row>
-        ); 
     }
 }
 

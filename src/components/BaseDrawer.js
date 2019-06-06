@@ -28,14 +28,18 @@ class BaseDrawer extends BaseComponent{
             this.state.visible=true
             this.props.dispatch(resetDrawer())
         }
+        var width="60%"
+        if(document.body.clientWidth>1000)
+            width="45%"
         return(
             <Drawer
             title="影片详情"
-            width="60%"
+            width={width}
             placement="right"
             closable={true}
             onClose={this._close}
             visible={this.state.visible}
+            destroyOnClose
             >
                 {this.props.content}
             </Drawer>
