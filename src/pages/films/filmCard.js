@@ -1,7 +1,7 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
 import { Row, Skeleton,Col,Button,Icon} from 'antd';
-import {Card,CardActionArea,CardActions,Typography} from '@material-ui/core';
+import {Card,CardActionArea,CardActions,Typography,Grid} from '@material-ui/core';
 
 export default class FilmCard extends BaseComponent {
 
@@ -70,6 +70,26 @@ export default class FilmCard extends BaseComponent {
         )
     }
 
+    renderButtons=()=>{
+        let {isLike,likeCount}=this.props.item
+        let theme="outlined"
+        if(!likeCount) likeCount=0
+        if(isLike) theme="filled"
+        return(
+            <Grid container justify="center">
+                    <Button style={styles.button} type="link" size="large">
+                        <Icon type="heart" theme={theme} />
+                        {likeCount+"人想看"}
+                    </Button>
+                    
+                    <Button style={styles.button} type="link"  size="large">
+                        查看详情
+                        <Icon type="right" />
+                    </Button>
+            </Grid>
+        );
+    }
+
     render(){
         const {id,posterUrl}=this.props.item
         return (//lg时并排显示，否则取消描述，仅保留标题
@@ -88,18 +108,7 @@ export default class FilmCard extends BaseComponent {
                     </Row>
                 </CardActionArea>
                 <CardActions>
-                    <Row type="flex" justify="center">
-                        <Button.Group>
-                            <Button type="primary" size="large">
-                                <Icon type="heart" />
-                                加入想看
-                            </Button>
-                            <Button type="default" size="large">
-                                查看更多
-                                <Icon type="right" />
-                            </Button>
-                        </Button.Group>
-                    </Row>
+                    {this.renderButtons()}
                 </CardActions>
             </Card>
         ); 
@@ -116,6 +125,10 @@ const styles = {
     detail:{
         marginLeft:10,
         marginRight:10
+    },
+    button:{
+        marginRight:10,
+        marginLeft:10
     },
     poster:{
         objectFit: "cover",
@@ -148,7 +161,7 @@ const styles = {
     },
     hover:{
         position:"absolute",
-        height:"40px",
+        height:"50px",
         left:0,right:0,
         bottom:0,
         zIndex:5,
@@ -162,7 +175,7 @@ const styles = {
     name2:{
         marginTop:"10px",
         color:"white",
-        fontSize:"18px",
+        fontSize:"20px",
         fontFamily:"黑体"
     },
     description:{
