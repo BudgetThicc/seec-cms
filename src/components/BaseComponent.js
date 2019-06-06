@@ -102,6 +102,13 @@ export class BaseComponent extends Component {
             }
         }
     }
+
+    sleep(delay) {
+        var start = (new Date()).getTime();
+        while ((new Date()).getTime() - start < delay) {
+          continue;
+        }
+    }
     
 
 }

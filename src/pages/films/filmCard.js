@@ -15,19 +15,11 @@ class FilmCard extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.state={
-            schedules:null,
-        }
     }
 
-    componentDidMount(){
-        var successAction=(result)=>{
-            if(result.content)
-                this.setState({schedules:result.content})
-            else
-                this.setState({schedules:"暂无排片信息"})
-        }
-        this.get("/schedule/search/audience?movieId="+this.props.item.id,successAction)
+    toggleDrawer=()=>{
+        const content=(<FilmDrawer item={this.props.item}/>)
+        this.props.dispatch(showDrawer(content))
     }
 
     renderName=(name)=>{
@@ -37,6 +29,25 @@ class FilmCard extends BaseComponent {
                     {name}
                 </Typography>
             </Row>
+        )
+    }
+
+    renderHidablePoster=()=>{
+        const {posterUrl,name}=this.props.item
+        return(
+            <div>
+                <div style={styles.statusContainer}>
+                    {this.renderStatus()}
+                </div>
+                <img src={posterUrl} style={styles.poster}/>
+                <div style={styles.hover}>
+                    <Row style={{zIndex:8}}>  
+                        <Col xs={24} sm={24} lg={0}>
+                            {this.renderName(name)}
+                        </Col>
+                    </Row>
+                </div>
+            </div>
         )
     }
 

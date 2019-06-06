@@ -1,42 +1,58 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
-import { Row, Skeleton,Col,Button,Icon} from 'antd';
-import { showDrawer } from '../../redux/actions/action';
+import { Row, Skeleton,Col,Button,Icon,Divider,Tabs} from 'antd';
 import {Typography,Grid} from '@material-ui/core';
 
-
+const { TabPane } = Tabs;
+var count=0
 class FilmDrawer extends BaseComponent {
 
     constructor(props) {
         super(props);
+        this.state={
+            schedules:null,
+        }
     }
 
-    renderName=(name)=>{
-        return(
-            <Row type="flex" justify="center">
-                <Typography style={styles.name2}>
-                    {name}
-                </Typography>
-            </Row>
-        )
+    componentDidMount(){
+        var successAction=(result)=>{
+            if(!result.content)
+                this.setState({schedules:"暂无排片信息"})
+            else
+                this.setState({schedules:result.content})
+        }
+        this.get("/schedule/search/audience?movieId="+this.props.item.id,successAction)
     }
 
-    renderHidablePoster=()=>{
-        const {posterUrl,name}=this.props.item
+    renderSchedules=()=>{
+        this.pushNotification("success",""+this.state.schedules)
+        if(this.state.schedules==null)
+            return <Skeleton active> </Skeleton>
+        else if(this.state.schedules=="暂无排片信息")
+            return (
+                <Row>
+                    <Typography style={{fontSize:18}}>暂无排片信息</Typography>
+                </Row>
+            )
+        else
+            return(
+                <Tabs>
+                    {this.state.schedules.map(this.renderTab)}
+                </Tabs>
+            )
+    }
+
+    renderTab=(schedule)=>{
+        const {date,scheduleItemList}=schedule;
+        count++
         return(
-            <div>
-                <div style={styles.statusContainer}>
-                    {this.renderStatus()}
-                </div>
-                <img src={posterUrl} style={styles.poster}/>
-                <div style={styles.hover}>
-                    <Row style={{zIndex:8}}>  
-                        <Col xs={24} sm={24} lg={0}>
-                            {this.renderName(name)}
-                        </Col>
-                    </Row>
-                </div>
-            </div>
+            <TabPane
+            tab={
+                <span><Icon type="clock-circle" />{date}</span>
+            }
+            key={""+count}>
+            </TabPane>
+
         )
     }
 
@@ -59,25 +75,28 @@ class FilmDrawer extends BaseComponent {
         const {name,starring,director,description,type}=this.props.item
         return(
             <Row style={styles.detail}>
-                <Row  style={styles.rows} type="flex" align="middle">
-                    <Col style={{marginRight:20}}>
+                <Row type="flex" align="middle">
+                    <Col style={{marginLeft:5}}>
                         <Typography style={styles.name}>{name}</Typography>
-                    </Col>
-                    <Col>
                         {this.renderStatus()}
                     </Col>
                 </Row>
-                <Row>
+                <Row style={styles.rows}>
                     <Typography style={styles.description}>{"类型："+type}</Typography>
                     <Typography style={styles.description}>{"导演："+director}</Typography>
                     <Typography style={styles.description}>{"主演："+starring}</Typography>
+                    <Divider/>
+                    <Typography style={styles.description}>{description}</Typography>
+                    <Divider/>
+                </Row>
+                <Row style={styles.rows}>
+                    {this.renderSchedules()}
                 </Row>
             </Row>
         )
     }
 
     render(){
-        const {id,posterUrl}=this.props.item
         return (
             <Row>
                 {this.renderDetail()}
@@ -148,6 +167,11 @@ const styles = {
         color:"black",
         fontSize:"16px",
     },
+    description1:{
+        marginTop:"5px",
+        color:"black",
+        fontSize:"16px",
+    }
 }
 
 export default FilmDrawer;
