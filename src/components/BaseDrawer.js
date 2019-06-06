@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
     loading: state.drawerReducer.loading,
 })
 
-class PublicDrawer extends BaseComponent{
+class BaseDrawer extends BaseComponent{
 
     constructor(props) {
         super(props);
@@ -30,19 +30,17 @@ class PublicDrawer extends BaseComponent{
         }
         return(
             <Drawer
-            title="Basic Drawer"
+            title="影片详情"
+            width="60%"
             placement="right"
             closable={true}
             onClose={this._close}
             visible={this.state.visible}
             >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
                 {this.props.content}
             </Drawer>
         );
   }
 }
 
-export default connect(mapStateToProps)(PublicDrawer) 
+export default connect(mapStateToProps)(BaseDrawer) 

@@ -6,7 +6,7 @@ import Routes from "../../routes/routes";
 import BaseHeader from "./BaseHeader"
 import BaseComponent from "../BaseComponent"
 import SignIn from "../auth/signIn"
-import PublicDrawer from "../PublicDrawer"
+import BaseDrawer from "../BaseDrawer"
 
 import { connect } from 'react-redux';
 
@@ -68,7 +68,7 @@ class BaseLayout extends BaseComponent {
                     </Router>
                 </Content>
                 <SignIn visible={this.state.signInVisible} onCancel={this.onCancel}/>
-                <PublicDrawer />
+                <BaseDrawer />
             </Layout>
             );
     }

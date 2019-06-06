@@ -1,33 +1,14 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
-import FilmDrawer from './filmDrawer'
 import { Row, Skeleton,Col,Button,Icon} from 'antd';
 import { showDrawer } from '../../redux/actions/action';
-import {Card,CardActionArea,CardActions,Typography,Grid} from '@material-ui/core';
+import {Typography,Grid} from '@material-ui/core';
 
-import { connect } from 'react-redux';
-const mapStateToProps = state => ({
-    content: state.drawerReducer.content,
-    loading: state.drawerReducer.loading,
-})
 
-class FilmCard extends BaseComponent {
+class FilmDrawer extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.state={
-            schedules:null,
-        }
-    }
-
-    componentDidMount(){
-        var successAction=(result)=>{
-            if(result.content)
-                this.setState({schedules:result.content})
-            else
-                this.setState({schedules:"暂无排片信息"})
-        }
-        this.get("/schedule/search/audience?movieId="+this.props.item.id,successAction)
     }
 
     renderName=(name)=>{
@@ -37,6 +18,25 @@ class FilmCard extends BaseComponent {
                     {name}
                 </Typography>
             </Row>
+        )
+    }
+
+    renderHidablePoster=()=>{
+        const {posterUrl,name}=this.props.item
+        return(
+            <div>
+                <div style={styles.statusContainer}>
+                    {this.renderStatus()}
+                </div>
+                <img src={posterUrl} style={styles.poster}/>
+                <div style={styles.hover}>
+                    <Row style={{zIndex:8}}>  
+                        <Col xs={24} sm={24} lg={0}>
+                            {this.renderName(name)}
+                        </Col>
+                    </Row>
+                </div>
+            </div>
         )
     }
 
@@ -76,58 +76,17 @@ class FilmCard extends BaseComponent {
         )
     }
 
-    renderButtons=()=>{
-        let {isLike,likeCount}=this.props.item
-        let theme="outlined"
-        if(!likeCount) likeCount=0
-        if(isLike) theme="filled"
-        return(
-            <Grid container justify="center">
-                    <Button style={styles.button} type="link" size="large">
-                        <Icon type="heart" theme={theme} />
-                        {likeCount+"人想看"}
-                    </Button>
-                    
-                    <Button style={styles.button} type="link"  size="large" onClick={this.toggleDrawer}>
-                        查看详情
-                        <Icon type="right" />
-                    </Button>
-            </Grid>
-        );
-    }
-
     render(){
         const {id,posterUrl}=this.props.item
-        return (//lg时并排显示，否则取消描述，仅保留标题
-            <Card elevation={6} style={styles.paper}>
-                <CardActionArea>
-                    <Row>
-                        <Col xs={0} sm={0} lg={8}>
-                            <img src={posterUrl} style={styles.poster}/>
-                        </Col>
-                        <Col xs={0} sm={0} lg={16}>
-                            {this.renderDetail()}
-                        </Col>
-                        <Col xs={24} sm={24} lg={0}>
-                            {this.renderHidablePoster()}
-                        </Col>
-                    </Row>
-                </CardActionArea>
-                <CardActions>
-                    {this.renderButtons()}
-                </CardActions>
-            </Card>
+        return (
+            <Row>
+                {this.renderDetail()}
+            </Row>
         ); 
     }
 }
 
 const styles = {
-    paper:{
-        marginTop:20,
-        marginBottom:20,
-        borderRadius:5,
-        backgroundColor: '#FFFFFF',
-    },
     detail:{
         marginLeft:10,
         marginRight:10
@@ -191,4 +150,4 @@ const styles = {
     },
 }
 
-export default connect(mapStateToProps)(FilmCard);
+export default FilmDrawer;
