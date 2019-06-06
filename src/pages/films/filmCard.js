@@ -71,7 +71,7 @@ class FilmCard extends BaseComponent {
         return(
             <Row style={styles.detail}>
                 <Row  style={styles.rows} type="flex" align="middle">
-                    <Col style={{marginRight:20}}>
+                    <Col style={{marginRight:40}}>
                         <Typography style={styles.name}>{name}</Typography>
                     </Col>
                     <Col>
@@ -161,7 +161,6 @@ const styles = {
         justifyContent: 'center',
         backgroundColor:'#1890ff',
         color:"white",
-        marginLeft:20,
         paddingLeft:5,
         paddingRight:5,
         paddingTop:5,
