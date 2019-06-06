@@ -6,7 +6,10 @@ const preloadedState = {
     identityReducer: {
         user: null,
         admin:null
-    },
+    },drawerReducer:{
+        loading:false,
+        content:null
+    }
 
 }
 

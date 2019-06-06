@@ -1,9 +1,24 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
 import { Row, Skeleton,Col,Button,Icon} from 'antd';
+import { showDrawer } from '../../redux/actions/action';
 import {Card,CardActionArea,CardActions,Typography,Grid} from '@material-ui/core';
 
-export default class FilmCard extends BaseComponent {
+import { connect } from 'react-redux';
+const mapStateToProps = state => ({
+    content: state.drawerReducer.content,
+    loading: state.drawerReducer.loading,
+})
+
+class FilmCard extends BaseComponent {
+
+    constructor(props) {
+        super(props);
+    }
+
+    toggleDrawer=()=>{
+        this.props.dispatch(showDrawer(null))
+    }
 
     renderName=(name)=>{
         return(
@@ -82,7 +97,7 @@ export default class FilmCard extends BaseComponent {
                         {likeCount+"人想看"}
                     </Button>
                     
-                    <Button style={styles.button} type="link"  size="large">
+                    <Button style={styles.button} type="link"  size="large" onClick={this.toggleDrawer}>
                         查看详情
                         <Icon type="right" />
                     </Button>
@@ -184,3 +199,5 @@ const styles = {
         fontSize:"16px",
     },
 }
+
+export default connect(mapStateToProps)(FilmCard);
