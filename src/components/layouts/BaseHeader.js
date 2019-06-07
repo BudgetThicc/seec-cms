@@ -1,11 +1,13 @@
 import React,{Component} from "react";
 import {Paper} from '@material-ui/core';
-import {Row,Col,Menu,Input,Button,Layout} from 'antd';
+import {Row,Col,Menu,Popover,Button,Layout} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 import BaseComponent from "../BaseComponent"
 import BaseBanner from './BaseBanner'
 import SearchBar from '../SearchBar'
+import UserPopover from '../user/UserPopover'
+import UserMenu from '../user/UserMenu'
 
 const {Header}=Layout
 
@@ -54,7 +56,7 @@ class BaseHeader extends BaseComponent {
 
     renderMenu=()=>{
         return(
-            <Col sm={12} lg={12}>
+            <Col span={12}>
                 <Menu
                 theme="white"
                 mode="horizontal"
@@ -70,7 +72,7 @@ class BaseHeader extends BaseComponent {
     renderUser=()=>{
         if(this.props.user==null){
             return(
-                <Col sm={12} lg={12} >
+                <Col span={12} >
                     <Row type="flex" justify="end" align='middle' style={{marginRight:"40px"}}>
                         <Button style={{color:"white"}} type="link" icon="user" size="large" onClick={this.props.onClickSignIn}>
                             登录
@@ -81,14 +83,20 @@ class BaseHeader extends BaseComponent {
                     </Row>
                 </Col>
             );
-        }else
+        }else{
+            const content=(<UserPopover/>)
             return(
-            <Col sm={12} lg={12} >
+            <Col span={12}>
                 <Row type="flex" justify="end" style={{marginRight:"40px"}}>
-                    {this.props.user.username}
+                    <Popover content={content}>
+                        <Button style={{backgroundColor:"rgba(0,0,0,0)"}} type="link">
+                            <UserMenu/>
+                        </Button>
+                    </Popover>
                 </Row>
             </Col>
             )
+        }
     }
 
     
@@ -128,7 +136,7 @@ class BaseHeader extends BaseComponent {
             ...bgheight}}>
                 <Row>
                     <BaseBanner 
-                    onClickSignIn={this.props.onClickSignIn}
+                    onClickSignUp={this.props.onClickSignUp}
                     getBanner={(c)=>this.state.banner=c}
                     index={this.state.index}/>
                     <Row span={24} style={styles.header}>

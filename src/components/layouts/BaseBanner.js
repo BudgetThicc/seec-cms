@@ -34,7 +34,7 @@ class BaseBanner extends BaseComponent {
             buttons:[{
                 text:"加入我们",
                 icon:"user",
-                onClick:this.props.onClickSignIn
+                onClick:this.props.onClickSignUp
                 }],
             bgheight:{height:"800px"}
             },

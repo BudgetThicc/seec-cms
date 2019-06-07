@@ -28,6 +28,10 @@ class SignUp extends BaseComponent {
                 this.pushNotification("danger","密码不能为空",this.props.dispatch);
                 return;
             }
+        if(values.passwordAgain !== values.password){
+            this.pushNotification("danger","密码不一致！",this.props.dispatch);
+            return;
+        }
             if(values.name===''){
                 this.pushNotification("danger","姓名不能为空",this.props.dispatch);
             }
@@ -81,6 +85,9 @@ class SignUp extends BaseComponent {
                                     label='密码' name='password' required={true} icon="lock"
                                     inputType="password"/>
                                 <FormText form={this.props.form}
+                                    label='重复密码' name="passwordAgain" required={true} icon='lock'
+                                    inputType='password'/>
+                                <FormText form={this.props.form}
                                     label='姓名' name="name" required={true} icon="user"/>
 
 
@@ -133,16 +140,16 @@ const styles={
     },
 
     button:{
-        width:'300px',
+        width:'350px',
         height:'40px',
     },
 
     button2:{
-        width:'300px',
+        width:'350px',
         height:'40px',
         color:'white',
         backgroundColor: '#CCCCCC',
-        marginBottom:'20px'
+        marginBottom:'20px',
     },
 
     welcome:{
