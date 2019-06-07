@@ -20,7 +20,7 @@ class FilmSchedule extends BaseComponent {
         return(
             <Button style={{height:"100%"}}>
                 <Typography style={styles.time}>
-                    {"场次"+this.handleTime(startTime)+"-"+this.handleTime(endTime)}
+                    {"场次："+this.handleTime(startTime)+"-"+this.handleTime(endTime)}
                 </Typography>
                 <Row type="flex" justify="space-around">
                     <Col span={8}>

@@ -32,22 +32,24 @@ class BaseHeader extends BaseComponent {
     };
 
     componentWillMount(){
-        this.handlePath(this.props.history.location.pathname)
+        this.handlePath()
     }
 
     handleClick = (e) => {
-        this.handlePath(e.key)
+        this.handlePath()
         if(this.state.banner)
             this.state.banner.slickGoTo(0)//将横幅滑动回第一张
         this.props.history.push(e.key+'')
     }
 
-    handlePath=(pathname)=>{//找到path对应的图片横幅数据组
+    handlePath=()=>{//找到path对应的图片横幅数据组
+        const pathname=this.props.history.location.pathname
         if(pathname=="/home"||pathname=="/"){
             this.state.index=0
         }else if(pathname=="/films"){
             this.state.index=1
-        }
+        }else 
+            this.state.index=-1
     }
 
     renderItems=(item)=>{
@@ -128,19 +130,28 @@ class BaseHeader extends BaseComponent {
         )
     }
 
+    renderBanner=()=>{
+        this.handlePath()
+        if(this.state.index!=-1)
+        return(
+            <BaseBanner 
+            onClickSignUp={this.props.onClickSignUp}
+            getBanner={(c)=>this.state.banner=c}
+            index={this.state.index}/>
+        )
+    }
+
     render(){
         const bgheight=heights[this.state.index]
+        const paperStyle=this.handleStyle()
         return (
             <Header style={{
             ...{backgroundColor:'white',padding:0},
             ...bgheight}}>
                 <Row>
-                    <BaseBanner 
-                    onClickSignUp={this.props.onClickSignUp}
-                    getBanner={(c)=>this.state.banner=c}
-                    index={this.state.index}/>
+                    {this.renderBanner()}
                     <Row span={24} style={styles.header}>
-                        <Paper elevation={6} style={styles.paper}>
+                        <Paper elevation={6} style={paperStyle}>
                             <Row type="flex" align="middle">
                                 {this.renderLeftHeader()}
                                 {this.renderRightHeader()}
@@ -150,6 +161,14 @@ class BaseHeader extends BaseComponent {
                 </Row>
             </Header>
         );
+    }
+
+    handleStyle=()=>{
+        this.handlePath()
+        if(this.state.index==-1)
+            return styles.paper_normal
+        else
+            return styles.paper
     }
 }
 
@@ -173,6 +192,9 @@ const styles={
     },
     paper:{
         backgroundColor:"rgba(0,0,0,0.2)",
+    },
+    paper_normal:{
+        backgroundColor:"rgba(0,0,0,0.7)",
     }
 }
 

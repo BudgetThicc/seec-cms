@@ -8,7 +8,7 @@ export class BaseComponent extends Component {
     // local
     ip = "http://localhost:8080";  
     // remote
-    // ip = "http://139.224.238.182:8080"
+    // ip = "http://139.224.238.182:8081"
 
 
     post = (url, form, successAction) => {

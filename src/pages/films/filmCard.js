@@ -100,7 +100,7 @@ class FilmCard extends BaseComponent {
                     </Button>
                     
                     <Button style={styles.button} type="link"  size="large" onClick={this.toggleDrawer}>
-                        查看详情
+                        查看详情/购票
                         <Icon type="right" />
                     </Button>
             </Grid>

@@ -24,6 +24,11 @@ const mainRoutes = [
         icon: 'films',
         component: wrap(Pages.FilmList),
     },
+    {
+        path: "/schedule",
+        icon: 'schedule',
+        component: wrap(Pages.Schedule),
+    },
     // {
     //     path: "/signin",
     //     icon: 'signin',
