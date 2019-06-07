@@ -6,4 +6,6 @@ export const logout = () => ({ type: 'LOGOUT'});
 
 export const showDrawer = (content) =>({ type: 'SHOWDRAWER',content:content})
 
+export const closeDrawer = (content) =>({ type: 'CLOSEDRAWER'})
+
 export const resetDrawer = () =>({ type: 'RESETDRAWER'})

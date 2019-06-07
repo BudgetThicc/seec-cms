@@ -8,10 +8,12 @@ export class SeatSelection extends BaseComponent {
     }
     
     componentWillMount(){
-        var successAction=(result)=>{
-            this.pushNotification("success",JSON.stringify(result.content))
+        if(this.props.scheduleId!=undefined){
+            var successAction=(result)=>{
+                this.pushNotification("success",JSON.stringify(result.content))
+            }
+            this.get("/ticket/get/occupiedSeats?scheduleId="+this.props.scheduleId,successAction)
         }
-        this.get("/ticket/get/occupiedSeats?scheduleId="+this.props.scheduleId,successAction)
     }
     render(){
         return (

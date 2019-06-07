@@ -3,9 +3,17 @@ import BaseComponent from '../../components/BaseComponent'
 import { Row, Skeleton,Col,Button,Icon,Divider,Tabs} from 'antd';
 import {Typography,Grid} from '@material-ui/core';
 import FilmSchedule from "./filmSchedule"
+import { closeDrawer } from '../../redux/actions/action';
+import { connect } from 'react-redux';
 
 const { TabPane } = Tabs;
 var count=0
+
+const mapStateToProps = state => ({
+    content: state.drawerReducer.content,
+    loading: state.drawerReducer.loading,
+    closing: state.drawerReducer.closing,
+})
 class FilmDrawer extends BaseComponent {
 
     constructor(props) {
@@ -184,4 +192,4 @@ const styles = {
     }
 }
 
-export default FilmDrawer;
+export default connect(mapStateToProps)(FilmDrawer);

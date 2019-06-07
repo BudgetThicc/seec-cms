@@ -85,7 +85,7 @@ export class FilmList extends BaseComponent {
 const styles = {
     container:{
         backgroundColor:"white",
-        marginTop:"100px"
+        marginTop:"750px"
     },
     titles:{
         marginLeft:20,

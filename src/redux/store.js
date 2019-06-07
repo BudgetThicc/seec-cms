@@ -8,6 +8,7 @@ const preloadedState = {
         admin:null
     },drawerReducer:{
         loading:false,
+        closing:false,
         content:null
     }
 

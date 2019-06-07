@@ -27,8 +27,7 @@ export class Schedule extends BaseComponent {
 
     constructor(props){
         super(props);
-        this.props.location.state={scheduleId:20}
-        if(this.props.location.state.scheduleId){
+        if(this.props.location.state){
             const scheduleId=this.props.location.state.scheduleId
             this.state={
                 current:0,
@@ -42,6 +41,10 @@ export class Schedule extends BaseComponent {
             const scheduleId=this.props.location.state.scheduleId
             this.state.content=(<SeatSelection scheduleId={scheduleId}/>)
         }
+    }
+
+    componentDidMount(){
+        this.setState({current:0})
     }
 
     next() {
@@ -84,7 +87,7 @@ export class Schedule extends BaseComponent {
     }
 
     render(){
-        if(this.props.location.state==null)
+        if(!this.props.location.state)
             return (
                 <Row>
                     <Row type='flex' justify='center'>

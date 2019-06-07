@@ -147,7 +147,7 @@ class BaseHeader extends BaseComponent {
         return (
             <Header style={{
             ...{backgroundColor:'white',padding:0},
-            ...bgheight}}>
+            }}>
                 <Row>
                     {this.renderBanner()}
                     <Row span={24} style={styles.header}>

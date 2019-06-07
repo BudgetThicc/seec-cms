@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 const mapStateToProps = state => ({
     content: state.drawerReducer.content,
     loading: state.drawerReducer.loading,
+    closing: state.drawerReducer.closing,
 })
 
 class BaseDrawer extends BaseComponent{
@@ -24,7 +25,11 @@ class BaseDrawer extends BaseComponent{
         })
     }
     render(){
-        if(this.props.loading&&!this.state.visible){
+        if(this.props.closing){
+            this.state.visible=false
+            this.props.dispatch(resetDrawer())
+        }
+        else if(this.props.loading&&!this.state.visible){
             this.state.visible=true
             this.props.dispatch(resetDrawer())
         }

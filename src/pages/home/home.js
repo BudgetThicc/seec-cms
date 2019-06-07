@@ -5,7 +5,7 @@ import { Row, Col, AutoComplete } from 'antd';
 export class Home extends BaseComponent {
     render(){
         return (
-            <Row>
+            <Row style={styles.container}>
                 <Row type='flex' justify='center'>
                     <span>home page (todo)</span>
                 </Row>
@@ -15,6 +15,8 @@ export class Home extends BaseComponent {
 }
 
 const styles = {
-
+    container:{
+        marginTop:"900px"
+    }
 }
 
