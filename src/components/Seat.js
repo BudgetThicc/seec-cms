@@ -1,5 +1,5 @@
 import React from "react";
-import BaseComponent from '../../../components/BaseComponent'
+import BaseComponent from './BaseComponent'
 import { Row, Col,Button } from 'antd';
 
 const seatTypes=[

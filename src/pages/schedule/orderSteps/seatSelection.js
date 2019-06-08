@@ -33,6 +33,7 @@ export class SeatSelection extends BaseComponent {
     addSelected=(x,y)=>{
         const selected=this.state.selected
         selected.push([x,y])
+        this.props.addSelected(x,y)
         this.setState({
             selected:selected
         })
@@ -45,6 +46,7 @@ export class SeatSelection extends BaseComponent {
                 selected.splice(i,1)
             }
         }
+        this.props.removeSelected(x,y)
         this.setState({
             selected:selected
         })
@@ -74,14 +76,28 @@ export class SeatSelection extends BaseComponent {
     }
 
     renderTicket=(item)=>{
-        const row=item[0]+1
-        const col=item[1]+1
-        if(item.length!=0)
+        if(item.length!=0){
+            const row=item[0]+1
+            const col=item[1]+1
+            const {fare}=this.state.schedule
+            var type=this.state.seats[item[0]][item[1]]
+            switch (type){
+                case 1:
+                    type="普通座"
+                    break;
+                case 2:
+                    type="情侣座"
+                    break;
+                case 3:
+                    type="4D座"
+                    break;
+            }
             return(
                 <Row>
-                    <Typography>{row+"排"+col+"座"}</Typography>
+                    <Typography>{row+"排"+col+"座 "+type+" ¥"+fare}</Typography>
                 </Row>
             )
+        }
         else
             return null
     }
@@ -90,20 +106,18 @@ export class SeatSelection extends BaseComponent {
         const {selected,schedule}=this.state;
         const {movieName,hallName,startTime,endTime}=schedule
         return(
-            <Row type="flex" justify='start'>
-                <Col span={24}>
+            <Row type="flex" justify='center'>
+                <Col span={22}>
                     <Typography style={styles.name}>{movieName}</Typography>
                 </Col>
-                <Col span={24}>
+                <Col span={22}>
                     <Typography style={styles.name2}>{hallName}</Typography>
-                </Col>
-                <Col span={24}>
                     <Typography style={styles.name2}>{
-                        this.handleTime(startTime)+"~"+
-                        this.handleTime(endTime)
+                        this.handleTime(startTime+"")+"-"+
+                        this.handleTime(endTime+"")
                         }</Typography>
                 </Col>
-                <Col>
+                <Col span={22}>
                     {selected.map(this.renderTicket)}
                 </Col>
             </Row>
@@ -114,7 +128,7 @@ export class SeatSelection extends BaseComponent {
         return (
             <Row style={styles.rows}>
                 <Row type='flex' justify='center'>
-                    <Col xs={24} sm={24} lg={19}>
+                    <Col xs={24} sm={24} lg={17}>
                         <div style={styles.scrollable}>
                             {this.state.seats.map(this.renderRow)}
                         </div>
@@ -122,7 +136,7 @@ export class SeatSelection extends BaseComponent {
                     <Col xs={0} sm={0} lg={1}>
                         <Divider style={{height:"100%"}} type="vertical" />
                     </Col>
-                    <Col xs={24} sm={24} lg={4}>
+                    <Col xs={24} sm={24} lg={6}>
                         {this.renderTickets()}
                     </Col>
                 </Row>
@@ -136,15 +150,20 @@ const styles = {
         marginTop:40
     },
     name:{
+        textAlign:'start',
         fontSize:"22px",
         color:"black",
         fontFamily:"黑体",
-        marginLeft:10
     },
     name2:{
+        textAlign:'',
         fontSize:"22px",
         fontFamily:"黑体",
-        marginLeft:10
+    },
+    ticket:{
+        textAlign:'start',
+        fontSize:"18px",
+        fontFamily:"黑体",
     },
     scrollable:{
         width:"90%",

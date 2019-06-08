@@ -1,7 +1,7 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
-import { Row, Col, AutoComplete,Steps,Icon } from 'antd';
-import {SeatSelection} from "./orderSteps"
+import { Row, Col, AutoComplete,Steps,Icon,Button } from 'antd';
+import {SeatSelection,OrderConfirm} from "./orderSteps"
 
 const {Step} = Steps
 const steps = [
@@ -22,7 +22,6 @@ const steps = [
       icon: 'check-circle',
     }
   ];
-const content=[]
 export class Schedule extends BaseComponent {
 
     constructor(props){
@@ -31,7 +30,8 @@ export class Schedule extends BaseComponent {
             const scheduleId=this.props.location.state.scheduleId
             this.state={
                 current:0,
-                content:(<SeatSelection scheduleId={scheduleId}/>)
+                content:[],
+                selected:[[]]
             }
         }
     }
@@ -39,12 +39,43 @@ export class Schedule extends BaseComponent {
     componentWillMount(){
         if(this.props.location.state!=null){
             const scheduleId=this.props.location.state.scheduleId
-            this.state.content=(<SeatSelection scheduleId={scheduleId}/>)
+            this.state.content.push(
+                <SeatSelection 
+                scheduleId={scheduleId}
+                addSelected= {this.addSelected}
+                removeSelected= {this.removeSelected}
+                />
+            )
+            this.state.content.push(
+                <OrderConfirm 
+                selected={this.state.selected} 
+                scheduleId={scheduleId}/>
+            )
         }
     }
 
     componentDidMount(){
         this.setState({current:0})
+    }
+
+    addSelected=(x,y)=>{
+        const selected=this.state.selected
+        selected.push([x,y])
+        this.setState({
+            selected:selected
+        })
+    }
+
+    removeSelected=(x,y)=>{
+        const selected=this.state.selected
+        for(var i=0;i<selected.length;i++){
+            if(selected[i][0]==x&&selected[i][1]==y){
+                selected.splice(i,1)
+            }
+        }
+        this.setState({
+            selected:selected
+        })
     }
 
     next() {
@@ -56,7 +87,7 @@ export class Schedule extends BaseComponent {
         const current = this.state.current - 1;
         this.setState({ current });
     }
-
+    
     renderStep=(item)=>{
         const icon=(<Icon type={item.icon}/>)
         return(
@@ -77,13 +108,49 @@ export class Schedule extends BaseComponent {
     }
 
     renderContent=()=>{
+        const {current}=this.state
         return(
             <Row style={styles.rows} type="flex" justify='center'>
                 <Col span={18}>
-                    {this.state.content}
+                    {this.state.content[current]}
                 </Col>
             </Row>
         );
+    }
+
+    renderButton=()=>{
+        const {current}=this.state
+        return(
+            <Col span={20}>
+                <Row style={styles.rows} type="flex" justify="end">
+                    {current == 1 &&(
+                        <Button size="large" onClick={() => this.prev()}>
+                            上一步
+                        </Button>
+                    )}
+                    {current < 2 && (
+                        <Button size="large" style={{ marginLeft: 10 }} type="primary" onClick={() => this.next()}>
+                            下一步
+                        </Button>
+                    )}
+                    {current == 2 &&(
+                        <Button size="large" onClick={() => this.props.history.goBack()}>
+                            稍后支付
+                        </Button>
+                    )}
+                    {current ==2 && (
+                        <Button size="large" style={{ marginLeft: 10 }} type="primary" onClick={() => this.next()}>
+                            确认支付
+                        </Button>
+                    )}
+                    {current === steps.length - 1 && (
+                        <Button size="large" type="primary" onClick={() => this.props.history.goBack()}>
+                            完成
+                        </Button>
+                    )}
+                </Row>
+            </Col>
+        )
     }
 
     render(){
@@ -100,6 +167,7 @@ export class Schedule extends BaseComponent {
                 <Row>
                     {this.renderSchedule()}
                     {this.renderContent()}
+                    {this.renderButton()}
                 </Row>
             )
     }
