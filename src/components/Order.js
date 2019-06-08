@@ -16,7 +16,7 @@ export default class Order extends BaseComponent {
     }
     
     render(){
-        const {schedule,item}=this.props;
+        const {schedule,item,type}=this.props;
         const {movieName,hallName,startTime,endTime,fare}=schedule
         const row=item[0]+1
         const col=item[1]+1
@@ -47,7 +47,7 @@ export default class Order extends BaseComponent {
                     <Col span={5}>
                         <Row style={styles.courseItem}>座位</Row>
                         <Typography style={styles.content}>{
-                            row+"排"+col+"座 "
+                            row+"排"+col+"座 "+type
                         }</Typography>
                     </Col>
 

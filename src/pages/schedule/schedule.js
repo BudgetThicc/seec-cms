@@ -31,7 +31,7 @@ export class Schedule extends BaseComponent {
             this.state={
                 current:0,
                 content:[],
-                selected:[[]]
+                selected:[]
             }
         }
     }
@@ -41,6 +41,7 @@ export class Schedule extends BaseComponent {
             const scheduleId=this.props.location.state.scheduleId
             this.state.content.push(
                 <SeatSelection 
+                selected={this.state.selected}
                 scheduleId={scheduleId}
                 addSelected= {this.addSelected}
                 removeSelected= {this.removeSelected}
@@ -87,6 +88,14 @@ export class Schedule extends BaseComponent {
         const current = this.state.current - 1;
         this.setState({ current });
     }
+
+    lockSeat(){
+        var successAction=(result)=>{
+            console.log(result.content)
+            this.next()
+        }
+        // this.get("./")
+    }
     
     renderStep=(item)=>{
         const icon=(<Icon type={item.icon}/>)
@@ -119,38 +128,69 @@ export class Schedule extends BaseComponent {
     }
 
     renderButton=()=>{
-        const {current}=this.state
         return(
             <Col span={20}>
                 <Row style={styles.rows} type="flex" justify="end">
-                    {current == 1 &&(
-                        <Button size="large" onClick={() => this.prev()}>
-                            上一步
-                        </Button>
-                    )}
-                    {current < 2 && (
-                        <Button size="large" style={{ marginLeft: 10 }} type="primary" onClick={() => this.next()}>
-                            下一步
-                        </Button>
-                    )}
-                    {current == 2 &&(
-                        <Button size="large" onClick={() => this.props.history.goBack()}>
-                            稍后支付
-                        </Button>
-                    )}
-                    {current ==2 && (
-                        <Button size="large" style={{ marginLeft: 10 }} type="primary" onClick={() => this.next()}>
-                            确认支付
-                        </Button>
-                    )}
-                    {current === steps.length - 1 && (
-                        <Button size="large" type="primary" onClick={() => this.props.history.goBack()}>
-                            完成
-                        </Button>
-                    )}
+                    {this.renderLeftButton()}
+                    {this.renderRightButton()}
                 </Row>
             </Col>
         )
+    }
+
+    renderLeftButton=()=>{
+        const {current}=this.state
+        switch (current){
+            case 0:
+                return null;
+            case 1:
+                return (
+                    <Button size="large" onClick={() => this.prev()}>
+                        返回选座
+                    </Button>)
+            case 2:
+                return (
+                    <Button size="large" onClick={() => this.props.history.goBack()}>
+                        稍后支付
+                    </Button>
+                )
+        }
+        return null;
+    }
+
+    renderRightButton=()=>{
+        const {current}=this.state
+        switch (current){
+            case 0:
+                return (
+                    <Button
+                    disabled={this.state.selected.length==0}
+                    size="large" 
+                    style={{ marginLeft: 10 }} 
+                    type="primary" 
+                    onClick={() => this.next()}>
+                        下一步
+                    </Button>
+                )
+            case 1:
+                return (
+                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.lockSeat()} type="primary" >
+                        确认锁座
+                    </Button>)
+            case 2:
+                return (
+                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.next()} type="primary" >
+                        确认支付
+                    </Button>
+                )
+            case 3:
+                return (
+                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.props.history.goBack()} type="primary" >
+                        返回此前页面
+                    </Button>
+                )
+        }
+        return null;
     }
 
     render(){

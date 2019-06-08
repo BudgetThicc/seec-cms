@@ -10,7 +10,7 @@ export default class Seat extends BaseComponent{
     constructor(props){
         super(props);
         this.state={
-            selected:false,
+            selected:this.props.selected,
         }
     }
 

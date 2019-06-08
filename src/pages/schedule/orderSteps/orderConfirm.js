@@ -3,6 +3,7 @@ import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col,Button,Divider } from 'antd';
 import {Typography} from '@material-ui/core';
 import Order from '../../../components/Order'
+import { thisExpression } from "@babel/types";
 
 var row=-1
 export class OrderConfirm extends BaseComponent {
@@ -11,14 +12,14 @@ export class OrderConfirm extends BaseComponent {
         this.state={
             tickets:[],
             schedule:{},
-            seats:[]
+            seats:[[]]
         }
     }
 
     componentWillMount(){
         if(this.props.scheduleId!=undefined){
             var successAction=(result)=>{
-                const {isLocked,seats,scheduleItem}=result.content
+                const {seats,scheduleItem}=result.content
                 this.setState({
                     seats:seats,
                     schedule:scheduleItem
@@ -29,13 +30,26 @@ export class OrderConfirm extends BaseComponent {
     }
 
     renderTicket=(item)=>{
-        if(item.length!=0){
+        if(item.length!=0&&this.state.seats[0].length!=0){
+            var type=this.state.seats[item[0]][item[1]]
+            switch (type){
+                case 1:
+                    type="普通座"
+                    break;
+                case 2:
+                    type="情侣座"
+                    break;
+                case 3:
+                    type="4D座"
+                    break;
+            }
             return(
                 <Row style={{width:"100%"}}>
                     <Divider style={{margin:0}}/>
                     <Order 
                     schedule={this.state.schedule}
-                    item={item}/>
+                    item={item}
+                    type={type}/>
                 </Row>
             )
         }

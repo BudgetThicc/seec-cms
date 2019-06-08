@@ -1,6 +1,6 @@
 import React from "react";
 import BaseComponent from '../../../components/BaseComponent' 
-import Seat from "./seat"
+import Seat from "../../../components/Seat"
 import { Row, Col,Button,Divider } from 'antd';
 import {Typography} from '@material-ui/core';
 
@@ -9,9 +9,9 @@ export class SeatSelection extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
-            isLocked:[[]],
-            seats:[[]],
-            selected:[[]],
+            isLocked:[],
+            seats:[],
+            selected:[[1,2]],
             schedule:{}
         }
     }
@@ -23,7 +23,8 @@ export class SeatSelection extends BaseComponent {
                 this.setState({
                     isLocked:isLocked,
                     seats:seats,
-                    schedule:scheduleItem
+                    schedule:scheduleItem,
+                    selected:this.props.selected,
                 })
             }
             this.get("/ticket/get/occupiedSeats?scheduleId="+this.props.scheduleId,successAction)
@@ -31,34 +32,33 @@ export class SeatSelection extends BaseComponent {
     }
 
     addSelected=(x,y)=>{
-        const selected=this.state.selected
-        selected.push([x,y])
         this.props.addSelected(x,y)
         this.setState({
-            selected:selected
+            selected:this.props.selected
         })
     }
 
     removeSelected=(x,y)=>{
-        const selected=this.state.selected
-        for(var i=0;i<selected.length;i++){
-            if(selected[i][0]==x&&selected[i][1]==y){
-                selected.splice(i,1)
-            }
-        }
         this.props.removeSelected(x,y)
         this.setState({
-            selected:selected
+            selected:this.props.selected
         })
     }
 
     renderSeat=(item,index)=>{
         const isLocked=this.state.isLocked[row][index] 
-        const seats=this.state.seats[row][index] 
+        const seats=this.state.seats[row][index]
+        const selected=this.state.selected
+        var _selected=false; 
+        for(var i=0;i<selected.length;i++){
+            if(row==selected[i][0]&&index==selected[i][1])
+                _selected=true
+        }
         return(
         <Seat 
         x={row}
         y={index}
+        selected={_selected}
         isLocked={isLocked} 
         seats={seats}
         addSelected={this.addSelected}
@@ -76,7 +76,7 @@ export class SeatSelection extends BaseComponent {
     }
 
     renderTicket=(item)=>{
-        if(item.length!=0){
+        if(item.length!=0&&this.state.seats.length!=0){
             const row=item[0]+1
             const col=item[1]+1
             const {fare}=this.state.schedule
