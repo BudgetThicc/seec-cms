@@ -3,7 +3,6 @@ import BaseComponent from '../../components/BaseComponent'
 import { Row, Skeleton,Col,Button,Icon,Divider,Tabs} from 'antd';
 import {Typography,Grid} from '@material-ui/core';
 import FilmSchedule from "./filmSchedule"
-import { closeDrawer } from '../../redux/actions/action';
 import { connect } from 'react-redux';
 
 const { TabPane } = Tabs;

@@ -108,7 +108,7 @@ export class Schedule extends BaseComponent {
 
 const styles = {
     rows:{
-        marginTop:20
+        marginTop:40
     }
 }
 

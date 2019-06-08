@@ -192,9 +192,11 @@ const styles={
     },
     paper:{
         backgroundColor:"rgba(0,0,0,0.2)",
+        borderRadius:0
     },
     paper_normal:{
         backgroundColor:"rgba(0,0,0,0.7)",
+        borderRadius:0
     }
 }
 
