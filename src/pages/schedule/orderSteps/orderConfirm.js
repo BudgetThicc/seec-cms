@@ -74,12 +74,12 @@ export class OrderConfirm extends BaseComponent {
                             {this.props.selected.map(this.renderTicket)}
                         </Row>
                     </Col>
-                    <Col xs={0} sm={0} lg={1}>
+                    {/* <Col xs={0} sm={0} lg={1}>
                         <Divider style={{height:"100%"}} type="vertical" />
                     </Col>
                     <Col xs={24} sm={24} lg={6}>
                         {this.renderOrderDetail()}
-                    </Col>
+                    </Col> */}
                 </Row>
             </Row>
         );

@@ -22,6 +22,7 @@ const steps = [
       icon: 'check-circle',
     }
   ];
+var scheduleId=null
 export class Schedule extends BaseComponent {
 
     constructor(props){
@@ -31,14 +32,15 @@ export class Schedule extends BaseComponent {
             this.state={
                 current:0,
                 content:[],
-                selected:[]
+                selected:[],
+                seats:[]
             }
         }
     }
 
     componentWillMount(){
         if(this.props.location.state!=null){
-            const scheduleId=this.props.location.state.scheduleId
+            scheduleId=this.props.location.state.scheduleId
             this.state.content.push(
                 <SeatSelection 
                 selected={this.state.selected}
@@ -52,7 +54,15 @@ export class Schedule extends BaseComponent {
                 selected={this.state.selected} 
                 scheduleId={scheduleId}/>
             )
+            var successAction=(result)=>{
+                const {seats}=result.content
+                this.setState({
+                    seats:seats
+                })
+            }
+            this.get("/ticket/get/occupiedSeats?scheduleId="+scheduleId,successAction)
         }
+
     }
 
     componentDidMount(){
@@ -90,11 +100,26 @@ export class Schedule extends BaseComponent {
     }
 
     lockSeat(){
+        const user=JSON.parse(localStorage.getItem("user"))
+        const selected=this.state.selected
+        let form = new FormData();
+        form.append('userId', user.id);   
+        form.append('scheduleId', scheduleId); 
+        if(selected.length==0)
+            this.pushNotification("danger","未选中任何座位")
+        for(var i=0;i<selected.length;i++){
+            const x=selected[i][0]
+            const y=selected[i][1]
+            const type=this.state.seats[x][y]
+            form.append("seats["+i+"].columnIndex",y)
+            form.append("seats["+i+"].rowIndex",x)
+            form.append("seats["+i+"].seatType",type)
+        }  
         var successAction=(result)=>{
             console.log(result.content)
             this.next()
         }
-        // this.get("./")
+        this.post("/ticket/lockSeat",form,successAction)
     }
     
     renderStep=(item)=>{
