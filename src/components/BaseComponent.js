@@ -25,33 +25,38 @@ export class BaseComponent extends Component {
     }
 
     get = (url, successAction)=>{
-        var errorAvtion=(result)=>{
+        var unsuccessAvtion=(result)=>{
             console.log(result)
             this.pushNotification("danger", result.message);
         }
-        this.getWithErrorAction(url,successAction,errorAvtion)
+        var errorAction=()=>{
+            console.log("error")
+        }
+        this.getWithErrorAction(url,successAction,unsuccessAvtion,errorAction)
     }
 
-    getWithErrorAction = (url, successAction,errorAction)=>{
+    getWithErrorAction = (url, successAction,unsuccessAction,errorAction)=>{
         return fetch(this.ip + url, { 
             method: 'GET',
             mode: 'cors',
             credentials: 'include'
             })
             .then((response) => (response.json()))
-            .catch((error) => { console.error(error); })
-            .then((result) => { this.handleResult(result,successAction,errorAction); });
+            .catch((error) => { console.log(error); })
+            .then((result) => { this.handleResult(result,successAction,unsuccessAction,errorAction); });
     }
 
-    handleResult=(result,successAction,errorAction) => {
+    handleResult=(result,successAction,unsuccessAction,errorAction) => {
         if (!result) {
             console.log(result)
+            if(errorAction) errorAction()
             this.pushNotification("danger", "连接错误");
             return;
         }
 
         if (result.success==null||result.success==false) {
-            errorAction(result)
+            if(unsuccessAction) 
+                unsuccessAction(result)
             return;
         }
 

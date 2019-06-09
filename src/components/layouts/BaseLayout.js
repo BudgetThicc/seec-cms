@@ -37,6 +37,7 @@ class BaseLayout extends BaseComponent {
             this.props.dispatch(loginAsUser(user))
         }else{
             this.props.dispatch(logout())
+            localStorage.clear()
         }
     }
 
