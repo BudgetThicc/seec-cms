@@ -2,6 +2,7 @@ import React from "react";
 import BaseComponent from '../../components/BaseComponent'
 import { Row, Col, AutoComplete,Steps,Icon,Button } from 'antd';
 import {SeatSelection,OrderConfirm} from "./orderSteps"
+import { TicketConfirm } from "./orderSteps/ticketConfirm";
 
 const {Step} = Steps
 const steps = [
@@ -33,7 +34,9 @@ export class Schedule extends BaseComponent {
                 current:0,
                 content:[],
                 selected:[],
-                seats:[]
+                seats:[],
+                tickets:[],
+                coupons:[]
             }
         }
     }
@@ -111,12 +114,18 @@ export class Schedule extends BaseComponent {
             const x=selected[i][0]
             const y=selected[i][1]
             const type=this.state.seats[x][y]
-            form.append("seats["+i+"].columnIndex",y)
-            form.append("seats["+i+"].rowIndex",x)
+            form.append("seats["+i+"].columnIndex",y+1)
+            form.append("seats["+i+"].rowIndex",x+1)
             form.append("seats["+i+"].seatType",type)
         }  
         var successAction=(result)=>{
-            console.log(result.content)
+            this.state.tickets=result.content.ticketVOList
+            this.state.coupons=result.content.coupons
+            this.state.content.push(
+                <TicketConfirm
+                tickets={this.state.tickets}
+                coupons={this.state.coupons}/>
+            )
             this.next()
         }
         this.post("/ticket/lockSeat",form,successAction)

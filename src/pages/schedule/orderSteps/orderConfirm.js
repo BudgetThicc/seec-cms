@@ -69,7 +69,7 @@ export class OrderConfirm extends BaseComponent {
                 <Row type='flex' justify='center'>
                     <Col xs={24} sm={24} lg={17} >
                         
-                        <Typography style={{fontSize:20}}>影票列表</Typography>
+                        <Typography style={{fontSize:20}}>已选中座位列表</Typography>
                         <Row type="flex" justify="center" style={styles.rows}>
                             {this.props.selected.map(this.renderTicket)}
                         </Row>
