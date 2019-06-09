@@ -25,16 +25,25 @@ export class BaseComponent extends Component {
     }
 
     get = (url, successAction)=>{
+        var errorAvtion=(result)=>{
+            console.log(result)
+            this.pushNotification("danger", result.message);
+        }
+        this.getWithErrorAction(url,successAction,errorAvtion)
+    }
+
+    getWithErrorAction = (url, successAction,errorAction)=>{
         return fetch(this.ip + url, { 
             method: 'GET',
-            mode: 'cors'
+            mode: 'cors',
+            credentials: 'include'
             })
             .then((response) => (response.json()))
             .catch((error) => { console.error(error); })
-            .then((result) => { this.handleResult(result,successAction); });
+            .then((result) => { this.handleResult(result,successAction,errorAction); });
     }
 
-    handleResult=(result,successAction) => {
+    handleResult=(result,successAction,errorAction) => {
         if (!result) {
             console.log(result)
             this.pushNotification("danger", "连接错误");
@@ -42,8 +51,7 @@ export class BaseComponent extends Component {
         }
 
         if (result.success==null||result.success==false) {
-            console.log(result)
-            this.pushNotification("danger", result.message);
+            errorAction(result)
             return;
         }
 
@@ -122,6 +130,10 @@ export class BaseComponent extends Component {
         while ((new Date()).getTime() - start < delay) {
           continue;
         }
+    }
+
+    loadStorage(key){
+        return JSON.parse(localStorage.getItem(key))
     }
     
 

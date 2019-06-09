@@ -3,7 +3,7 @@ import {Icon,Row} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 import BaseComponent from "../BaseComponent"
-import { Grid, Avatar} from '@material-ui/core';
+import { Grid, Avatar, Typography} from '@material-ui/core';
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -24,12 +24,15 @@ class UserMenu extends BaseComponent{
     };
     
     renderAvatar = () => {
-        if (this.props.user === null) {
+        if (this.props.user === null) 
             return null;
-        }
+        const {avatar_url}=this.props.user
+        if(avatar_url==null)
+            return(
+                <Avatar style={styles.avatar}>U</Avatar>
+            )
         return (
-            <Icon style={styles.avatar} type="user"/>
-             
+            <Avatar style={styles.avatar} src={avatar_url}/>
         )
     }
     /* <Avatar style={styles.avatar} src={this.getImagePath(this.props.user.avatarId)}/> */
@@ -42,7 +45,8 @@ class UserMenu extends BaseComponent{
         return (
             <Row type="flex" align='middle' justify="center" style={styles.container}>
                 {this.renderAvatar()}
-                <span style={styles.title}>{this.props.user.username}</span>
+                <Typography style={styles.title1}>欢迎，</Typography>
+                <Typography style={styles.title2}>{this.props.user.username}</Typography>
             </Row>
         )
     }
@@ -50,16 +54,18 @@ class UserMenu extends BaseComponent{
 
 const styles = {
     container:{
-        backgroundColor:"rgba(0,0,0,0)"
+        backgroundColor:"rgba(0,0,0,0)",
     },
-    title:{
+    title1:{
+        color:"white",
+        fontSize: '20px',
+    },
+    title2:{
         color:"white",
         fontSize: '22px',
     },
     avatar: {
-        color:"white",
         marginRight:20,
-        fontSize:"22px"
     },
 
 };

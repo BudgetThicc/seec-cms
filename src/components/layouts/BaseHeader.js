@@ -8,6 +8,7 @@ import BaseBanner from './BaseBanner'
 import SearchBar from '../SearchBar'
 import UserPopover from '../user/UserPopover'
 import UserMenu from '../user/UserMenu'
+import { logout, loginAsUser } from "../../redux/actions/action";
 
 const {Header}=Layout
 
@@ -33,6 +34,20 @@ class BaseHeader extends BaseComponent {
 
     componentWillMount(){
         this.handlePath()
+        const id=this.loadStorage("user").id
+        if(id){
+            var successAction=(result)=>{
+                this.props.dispatch(loginAsUser(result.content))
+                this.pushNotification("success","用户信息刷新成功")
+            }
+            var errorAction=(result)=>{
+                this.props.dispatch(logout())
+                this.pushNotification("danger","登录已经失效，请重新登录")
+            }
+            this.getWithErrorAction("/getUser?userId="+id,successAction,errorAction)
+        }else{
+            this.props.dispatch(logout())
+        }
     }
 
     handleClick = (e) => {
@@ -91,7 +106,7 @@ class BaseHeader extends BaseComponent {
             <Col span={12}>
                 <Row type="flex" justify="end" style={{marginRight:"40px"}}>
                     <Popover content={content}>
-                        <Button style={{backgroundColor:"rgba(0,0,0,0)"}} type="link">
+                        <Button style={{height:64,backgroundColor:"rgba(0,0,0,0)"}} type="link">
                             <UserMenu/>
                         </Button>
                     </Popover>
@@ -182,6 +197,7 @@ const styles={
         top:'0px',
         right:'0px',
         left:'0px',
+        zIndex:10
     },
     menu:{ 
         flex:1,
