@@ -29,6 +29,11 @@ const mainRoutes = [
         icon: 'schedule',
         component: wrap(Pages.Schedule),
     },
+    {
+        path: "/orders",
+        icon: 'orders',
+        component: wrap(Pages.OrderList),
+    },
     // {
     //     path: "/signin",
     //     icon: 'signin',
