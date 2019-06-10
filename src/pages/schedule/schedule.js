@@ -3,6 +3,7 @@ import BaseComponent from '../../components/BaseComponent'
 import { Row, Col, AutoComplete,Steps,Icon,Button } from 'antd';
 import {SeatSelection,OrderConfirm} from "./orderSteps"
 import { TicketConfirm } from "./orderSteps/ticketConfirm";
+import { thisExpression } from "@babel/types";
 
 const {Step} = Steps
 const steps = [
@@ -38,7 +39,9 @@ export class Schedule extends BaseComponent {
                 schedule:{},
                 tickets:[],
                 coupons:[],
-                loading:false
+                loading:false,
+                completeTickets:[],
+                completeCoupon:null
             }
         }
     }
@@ -95,6 +98,17 @@ export class Schedule extends BaseComponent {
         })
     }
 
+    setCompleteTickets=(tickets,coupon)=>{
+        const _coupon=0
+        if(coupon!=null&&coupon.coupon!=null){
+            _coupon=coupon.coupon.id
+        }
+        this.setState({
+            completeTickets:tickets,
+            completeCoupon:_coupon
+        })
+    }
+
     next() {
         const current = this.state.current + 1;
         this.setState({ 
@@ -132,11 +146,28 @@ export class Schedule extends BaseComponent {
                 <TicketConfirm
                 tickets={this.state.tickets}
                 coupons={this.state.coupons}
-                fare={this.state.schedule.fare}/>
+                fare={this.state.schedule.fare}
+                setCompleteTickets={this.setCompleteTickets}/>
             )
+            this.pushNotification("success","锁座成功")
             this.next()
         }
         this.post("/ticket/lockSeat",form,successAction)
+    }
+
+    pay=()=>{
+        const ticketId=this.state.completeTickets
+        const couponId=this.state.completeCoupon
+        var url="/ticket/buy?"
+        url+="couponId="+couponId
+        ticketId.map((id)=>
+            {url+="&"+"ticketId="+id}
+        )
+        var successAction=(result)=>{
+            this.pushNotification("success","购票成功")
+            this.next()
+        }
+        this.post(url,null,successAction)
     }
     
     renderStep=(item)=>{
@@ -221,7 +252,7 @@ export class Schedule extends BaseComponent {
                     </Button>)
             case 2:
                 return (
-                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.next()} type="primary" >
+                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.pay()} type="primary" >
                         确认支付
                     </Button>
                 )
