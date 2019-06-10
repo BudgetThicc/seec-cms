@@ -7,7 +7,7 @@ export class Complete extends BaseComponent {
         return (
             <Row style={styles.container}>
                 <Row type='flex' justify='center'>
-                    <span>完成</span>
+                    <span>完成</span><span>{this.props.tickets[0].name}</span>
                 </Row>
             </Row>
         );

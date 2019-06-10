@@ -43,6 +43,7 @@ class authModal extends BaseComponent {
         visible={visible}
         closable={false}
         footer={null}
+        destroyOnClose={true}
         >
             {this.renderContent(signInVisible,signUpVisible)}
         </Modal>

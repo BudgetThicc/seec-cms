@@ -1,6 +1,6 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
-import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography,Modal } from 'antd';
+import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography,Modal,Skeleton } from 'antd';
 import * as Stats from "./orderByStat" 
 
 const { TabPane } = Tabs;
@@ -19,27 +19,58 @@ export class OrderList extends BaseComponent {
     }
 
     componentWillMount(){
-        this.state.contents.push(
-            <Stats.Incomplete/>,<Stats.Complete/>,<Stats.Canceled/>,<Stats.Expired/>
-        )
+        this.loadContent()
     }
 
     componentDidMount(){
-        
+        if(this.props.user){
+            const {id}=this.props.user
+            var successAction=(result)=>{
+                this.state.tickets=result.content
+                this.state.loading=false
+                this.loadContent()
+            }
+            this.get("/ticket/get/"+id,successAction)
+        }
+    }
+
+    loadContent=()=>{
+        let contents=[]
+        const tickets=this.state.tickets
+        contents.push(
+            <Stats.Incomplete tickets={tickets}/>,
+            <Stats.Complete tickets={tickets}/>,
+            <Stats.Canceled tickets={tickets}/>,
+            <Stats.Expired tickets={tickets}/>
+        )
+        this.setState({contents:contents})
     }
 
     renderTabPane=(item,index)=>{
-        return(
-            <TabPane
-            tab={<span>
-                    <Icon type={icons[index]} />
-                    {titles[index]}
-                </span>}
-            key={index}
-            >
-                {item}
-            </TabPane>
-        )
+        if(!this.state.loading)
+            return(
+                <TabPane
+                tab={<span>
+                        <Icon type={icons[index]} />
+                        {titles[index]}
+                    </span>}
+                key={index}
+                >
+                    {(item)}
+                </TabPane>
+            )
+        else
+            return(
+                <TabPane
+                tab={<span>
+                        <Icon type={icons[index]} />
+                        {titles[index]}
+                    </span>}
+                key={index}
+                >
+                    <Skeleton active/>
+                </TabPane>
+            )
     }
 
     render(){
