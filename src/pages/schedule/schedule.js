@@ -1,9 +1,7 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
 import { Row, Col, AutoComplete,Steps,Icon,Button } from 'antd';
-import {SeatSelection,OrderConfirm} from "./orderSteps"
-import { TicketConfirm } from "./orderSteps/ticketConfirm";
-import { thisExpression } from "@babel/types";
+import {SeatSelection,OrderConfirm,TicketConfirm ,OrderComplete} from "./orderSteps"
 
 const {Step} = Steps
 const steps = [
@@ -165,6 +163,9 @@ export class Schedule extends BaseComponent {
         )
         var successAction=(result)=>{
             this.pushNotification("success","购票成功")
+            this.state.content.push(
+                <OrderComplete/>
+            )
             this.next()
         }
         this.post(url,null,successAction)

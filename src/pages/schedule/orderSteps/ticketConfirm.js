@@ -85,7 +85,7 @@ export class TicketConfirm extends BaseComponent {
 
     renderOrderDetail=(ticketsSelected,couponSelected)=>{
         return(
-            <Row style={{marginTop:20}}>
+            <Row style={{marginTop:30}}>
                 <Row type="flex" justify="start">
                     <Typography style={styles.title}>总价</Typography>
                     <Typography style={styles.amount}>
