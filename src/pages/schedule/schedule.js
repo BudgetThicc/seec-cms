@@ -35,8 +35,10 @@ export class Schedule extends BaseComponent {
                 content:[],
                 selected:[],
                 seats:[],
+                schedule:{},
                 tickets:[],
-                coupons:[]
+                coupons:[],
+                loading:false
             }
         }
     }
@@ -58,9 +60,10 @@ export class Schedule extends BaseComponent {
                 scheduleId={scheduleId}/>
             )
             var successAction=(result)=>{
-                const {seats}=result.content
+                const {seats,scheduleItem}=result.content
                 this.setState({
-                    seats:seats
+                    seats:seats,
+                    schedule:scheduleItem
                 })
             }
             this.get("/ticket/get/occupiedSeats?scheduleId="+scheduleId,successAction)
@@ -94,7 +97,10 @@ export class Schedule extends BaseComponent {
 
     next() {
         const current = this.state.current + 1;
-        this.setState({ current });
+        this.setState({ 
+            current:current,
+            loading:false
+         });
     }
     
     prev() {
@@ -106,6 +112,7 @@ export class Schedule extends BaseComponent {
         const user=JSON.parse(localStorage.getItem("user"))
         const selected=this.state.selected
         let form = new FormData();
+        this.setState({loading:true})
         form.append('userId', user.id);   
         form.append('scheduleId', scheduleId); 
         if(selected.length==0)
@@ -124,7 +131,8 @@ export class Schedule extends BaseComponent {
             this.state.content.push(
                 <TicketConfirm
                 tickets={this.state.tickets}
-                coupons={this.state.coupons}/>
+                coupons={this.state.coupons}
+                fare={this.state.schedule.fare}/>
             )
             this.next()
         }
@@ -208,7 +216,7 @@ export class Schedule extends BaseComponent {
                 )
             case 1:
                 return (
-                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.lockSeat()} type="primary" >
+                    <Button loading={this.state.loading} size="large" style={{ marginLeft: 10 }} onClick={() => this.lockSeat()} type="primary" >
                         确认锁座
                     </Button>)
             case 2:

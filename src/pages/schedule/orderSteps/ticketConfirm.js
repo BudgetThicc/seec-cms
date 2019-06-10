@@ -1,30 +1,83 @@
 import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
-import { Row, Col,Button,Divider } from 'antd';
+import { Row, Col,Button,Divider,Select } from 'antd';
 import {Typography} from '@material-ui/core';
 import Ticket from "../../../components/Ticket";
 
+const { Option } = Select;
 export class TicketConfirm extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
-            tickets:this.props.tickets
+            ticketsSelected:[],
+            couponSelected:[]
         }
     }
 
+    componentWillMount(){
+        this.props.tickets.map((item)=>{
+            this.state.ticketsSelected.push(item.id)}
+        )
+    }
+
+    handleCouponChange=(value)=>{
+        this.setState({
+            couponSelected:value
+        })
+    }
+
+    handleTicketChange=(value)=>{
+        const {ticketsSelected}=this.state
+        for(var i=0;i<ticketsSelected.length;i++){
+            if(value==ticketsSelected[i]){
+                ticketsSelected.splice(i,1)
+                this.setState({ticketsSelected})
+                return
+            }
+        }
+        ticketsSelected.push(value)
+        this.setState({ticketsSelected})
+    }
+
+    handleAmount=(ticketsSelected)=>{
+        let amount=0;
+        this.props.tickets.map(
+            (ticket)=>{
+                for(var i=0;i<ticketsSelected.length;i++){
+                    if((ticketsSelected[i]+"")==(ticket.id)+"")
+                        amount+=this.props.fare
+                }
+            }
+        )
+        return amount+"";
+    }
+    
     renderTicket=(item)=>{
         if(item){
             return(
-                <Ticket ticket={item}/>
+                <Ticket ticket={item} onChange={this.handleTicketChange}/>
             )
         }
         else
             return null
     }
 
-    renderOrderDetail=()=>{
+    renderCoupon=(coupon)=>{
         return(
-           <div/> 
+            <Option value={coupon.id}>{coupon.description}</Option>
+        )
+    }
+
+    renderOrderDetail=(ticketsSelected)=>{
+        return(
+            <div>
+                <Row>
+                    {this.handleAmount(ticketsSelected)}
+                </Row>
+                <Row>
+                    {this.state.ticketsSelected+""}
+                </Row>
+            </div> 
         )
     }
 
@@ -42,7 +95,15 @@ export class TicketConfirm extends BaseComponent {
                         <Divider style={{height:"100%"}} type="vertical" />
                     </Col>
                     <Col xs={24} sm={24} lg={6}>
-                        {this.renderOrderDetail()}
+                        {this.renderOrderDetail(this.state.ticketsSelected)}
+                    </Col>
+                </Row>
+                <Row type="flex" justify='end'>
+                    <Col style={{marginRight:20}}>
+                        <Select size="large" defaultValue={null} style={{ width: 240}} onChange={this.handleCouponChange}>
+                            <Option value={null}>不使用优惠券</Option>
+                            {this.props.coupons.map(this.renderCoupon)}
+                        </Select>
                     </Col>
                 </Row>
             </Row>
