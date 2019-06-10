@@ -1,6 +1,6 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
-import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography } from 'antd';
+import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography,Modal } from 'antd';
 import * as Stats from "./orderByStat" 
 
 const { TabPane } = Tabs;
@@ -13,7 +13,8 @@ export class OrderList extends BaseComponent {
         this.state={
             loading:true,
             contents:[],
-            tickets:[]
+            tickets:[],
+            visible:true
         }
     }
 
@@ -24,7 +25,7 @@ export class OrderList extends BaseComponent {
     }
 
     componentDidMount(){
-
+        
     }
 
     renderTabPane=(item,index)=>{

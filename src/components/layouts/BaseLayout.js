@@ -5,8 +5,7 @@ import {loginAsUser,logout} from '../../redux/actions/action';
 import Routes from "../../routes/routes";
 import BaseHeader from "./BaseHeader"
 import BaseComponent from "../BaseComponent"
-import SignIn from "../auth/signIn"
-import SignUp from "../auth/signUp"
+import AuthModal from "../auth/authModal"
 import BaseDrawer from "../BaseDrawer"
 
 import { connect } from 'react-redux';
@@ -49,6 +48,20 @@ class BaseLayout extends BaseComponent {
         )
     };
 
+    switch=()=>{
+        if(this.state.signInVisible){
+            this.setState({
+                signInVisible:false,
+                signUpVisible:true
+            })
+        }
+        else
+            this.setState({
+                signInVisible:true,
+                signUpVisible:false
+            })
+    }
+
     onCancel=()=>{
         this.setState({
             signInVisible:false,
@@ -69,8 +82,11 @@ class BaseLayout extends BaseComponent {
                         {this.createRoutes(Routes)}
                     </Router>
                 </Content>
-                <SignIn visible={this.state.signInVisible} onCancel={this.onCancel}/>
-                <SignUp visible={this.state.signUpVisible} onCancel={this.onCancel}/>
+                <AuthModal 
+                signInVisible={this.state.signInVisible} 
+                signUpVisible={this.state.signUpVisible}
+                switch={this.switch}
+                onCancel={this.onCancel}/>
                 <BaseDrawer />
             </Layout>
             );

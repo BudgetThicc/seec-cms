@@ -101,6 +101,11 @@ class SignUp extends BaseComponent {
                                 </Col>
                             </Row>
                         </Form>
+                        <Row type='flex' justify='center'>
+                            <Col>
+                                已有账号? <Button onClick={this.props.switch} type="link">立即登录</Button>
+                            </Col>
+                        </Row>
                     </Row>
                 </Col>
             </Row>
@@ -109,17 +114,10 @@ class SignUp extends BaseComponent {
 
     render() {
         return (
-        <Modal
-        title={null}
-        visible={this.props.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
-        closable={false}
-        footer={null}
-        >
+        <Row>
             {this.renderLogo()}
             {this.renderContent()}
-        </Modal>
+        </Row>
         );
     }
 

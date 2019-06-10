@@ -4,9 +4,7 @@ import { loginAsUser,logout} from '../../redux/actions/action';
 import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
 import { BaseComponent } from '../../components/BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
-
 import { connect } from 'react-redux';
-import { stringify } from 'querystring';
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin,
@@ -86,7 +84,7 @@ class SignIn extends BaseComponent {
                         </Form>
                         <Row type='flex' justify='center'>
                             <Col>
-                                没有账号? <a href="http://localhost:3000/signUp">快速注册!</a>
+                                没有账号? <Button onClick={this.props.switch} type="link">快速注册!</Button>
                             </Col>
                         </Row>
                     </Row>
@@ -97,17 +95,10 @@ class SignIn extends BaseComponent {
 
     render() {
         return (
-        <Modal
-        title={null}
-        visible={this.props.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
-        closable={false}
-        footer={null}
-        >
+        <Row>
             {this.renderLogo()}
             {this.renderContent()}
-        </Modal>
+        </Row>
         );
     }
 
