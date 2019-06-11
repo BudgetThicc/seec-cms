@@ -1,13 +1,14 @@
 import React from "react";
-import BaseComponent from './BaseComponent'
-import { Row, Col, AutoComplete,Button, Divider } from 'antd';
+import BaseComponent from '../BaseComponent'
+import { Row, Col, AutoComplete,Button, Divider,Checkbox } from 'antd';
 import {Typography} from '@material-ui/core';
-
-export default class Order extends BaseComponent {
+import "moment/locale/zh-cn"
+var moment = require('moment');
+export default class TicketIncomplete extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
-            
+            selected:false
         }
     }
 
@@ -16,18 +17,23 @@ export default class Order extends BaseComponent {
     }
     
     render(){
-        const {schedule,item,type}=this.props;
-        const {movieName,hallName,startTime,endTime,fare}=schedule
-        const row=item[0]+1
-        const col=item[1]+1
+        const {ticket}=this.props;
+        const {id,name,hall,startTime,endTime,seat}=ticket
         return (
             <Button  onClick={this.onClick} style={styles.button}>
                 <Row type="flex" justify="center">
 
+                    <Col span={3} >
+                        <Row style={styles.courseItem}>Id</Row>
+                        <Typography style={styles.content}>
+                            {id}
+                        </Typography>
+                    </Col>
+
                     <Col span={5} >
                         <Row style={styles.courseItem}>电影名</Row>
                         <Typography style={styles.content}>
-                            {movieName}
+                            {name}
                         </Typography>
                     </Col>
 
@@ -39,24 +45,18 @@ export default class Order extends BaseComponent {
                         </Typography>
                     </Col>
 
-                    <Col span={5} >
+                    <Col span={4} >
                         <Row style={styles.courseItem}>影厅</Row>
-                        <Typography style={styles.content}>{hallName}</Typography>
+                        <Typography style={styles.content}>{hall}</Typography>
                     </Col>
 
                     <Col span={5}>
                         <Row style={styles.courseItem}>座位</Row>
-                        <Typography style={styles.content}>{
-                            row+"排"+col+"座 "+type
-                        }</Typography>
-                    </Col>
-
-                    <Col span={4}>
-                        <Row style={styles.courseItem}>票价</Row>
                         <Typography style={styles.content}>
-                            {fare}
+                            {seat}
                         </Typography>
                     </Col>
+                    
                 </Row>
             </Button>
         );

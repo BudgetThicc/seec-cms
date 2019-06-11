@@ -1,5 +1,5 @@
 import React from "react";
-import BaseComponent from './BaseComponent'
+import BaseComponent from '../BaseComponent'
 import { Row, Col, AutoComplete,Button, Divider, Checkbox } from 'antd';
 import {Typography} from '@material-ui/core';
 

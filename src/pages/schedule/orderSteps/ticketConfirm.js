@@ -2,7 +2,7 @@ import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col,Button,Divider,Select } from 'antd';
 import {Typography} from '@material-ui/core';
-import Ticket from "../../../components/Ticket";
+import Ticket from "../../../components/orders/Ticket";
 
 const { Option } = Select;
 var count=0;

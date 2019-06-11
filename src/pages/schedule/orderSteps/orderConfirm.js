@@ -2,7 +2,7 @@ import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col,Button,Divider } from 'antd';
 import {Typography} from '@material-ui/core';
-import Order from '../../../components/Order'
+import OrderSelected from '../../../components/orders/OrderSelected'
 import { thisExpression } from "@babel/types";
 
 var row=-1
@@ -46,7 +46,7 @@ export class OrderConfirm extends BaseComponent {
             return(
                 <Row style={{width:"100%"}}>
                     <Divider style={{margin:0}}/>
-                    <Order 
+                    <OrderSelected
                     schedule={this.state.schedule}
                     item={item}
                     type={type}/>

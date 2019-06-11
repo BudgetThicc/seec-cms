@@ -3,11 +3,19 @@ import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col, AutoComplete } from 'antd';
 
 export class Canceled extends BaseComponent {
+
+    renderOrder=(ticket)=>{
+        return(
+            <div />
+        )
+    }
+
     render(){
+        const {tickets}=this.props
         return (
             <Row style={styles.container}>
                 <Row type='flex' justify='center'>
-                    <span>已退票</span>
+                    {this.props.tickets.map(this.renderOrder)}
                 </Row>
             </Row>
         );
