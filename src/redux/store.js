@@ -14,6 +14,8 @@ const preloadedState = {
         signInVisible:false,
         signUpVisible:false,
         onCancel: null
+    },keywordReducer:{
+        keyword:null
     }
 
 }

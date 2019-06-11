@@ -5,7 +5,10 @@ import { Form } from 'antd';
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
-    admin: state.identityReducer.admin
+    admin: state.identityReducer.admin,
+    signInVisible:state.modalReducer.signInVisible,
+    signUpVisible:state.modalReducer.signUpVisible,
+    keyword: state.keywordReducer.keyword,
 })
 
 var wrap = (component) => {
@@ -35,6 +38,11 @@ const mainRoutes = [
         icon: 'orders',
         component: wrap(Pages.OrderList),
         auth:true
+    },
+    {
+        path: "/search",
+        icon: 'search',
+        component: wrap(Pages.Search)
     },
     // {
     //     path: "/signin",

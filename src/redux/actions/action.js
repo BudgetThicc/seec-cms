@@ -19,3 +19,7 @@ export const cancelModal= () =>({ type: 'CANCELMODAL'})
 export const setOnCancel = (onCancel) =>({ type: 'SETONCANCEL',onCancel:onCancel})
 
 export const showSignInWithOnCancel = (onCancel) =>({ type: 'SHOWSIGNINCANCEL',onCancel:onCancel})
+
+export const setKeyword = (keyword) =>({ type: 'SETKEYWORD',keyword:keyword})
+
+export const resetKeyword = (keyword) =>({ type: 'RESETKEYWORD'})

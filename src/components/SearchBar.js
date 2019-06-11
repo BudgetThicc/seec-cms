@@ -2,7 +2,12 @@ import React,{Component} from "react";
 import {Row,Col,AutoComplete,Input} from 'antd';
 import BaseComponent from './BaseComponent'
 import {withRouter} from "react-router-dom";
+import { connect } from 'react-redux';
+import {setKeyword} from '../redux/actions/action'
 
+const mapStateToProps = state => ({
+    keyword: state.keywordReducer.keyword,
+})
 class SearchBar extends BaseComponent {
     
     constructor(props){
@@ -15,12 +20,8 @@ class SearchBar extends BaseComponent {
     };
 
     search=()=>{
-        // var successAction = (result) => {
-        //     this.setState({dataSource: result.content});
-        //     console.log("success")
-        // }
-        // this.get("/movie/search?keyword="+this.state.name,successAction)
         const keyword=this.state.name
+        this.props.dispatch(setKeyword(keyword))
         this.props.history.push({pathname:"/search",state:{keyword}})
     }
 
@@ -75,4 +76,4 @@ class SearchBar extends BaseComponent {
     }
 }
 
-export default withRouter(SearchBar);
+export default connect(mapStateToProps)(withRouter(SearchBar));
