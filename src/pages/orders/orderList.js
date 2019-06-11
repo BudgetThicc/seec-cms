@@ -13,7 +13,10 @@ export class OrderList extends BaseComponent {
         this.state={
             loading:true,
             contents:[],
-            tickets:[],
+            incomplete:[],
+            complete:[],
+            expired:[],
+            canceled:[],
             visible:true
         }
     }
@@ -24,24 +27,49 @@ export class OrderList extends BaseComponent {
 
     componentDidMount(){
         if(this.props.user){
-            const {id}=this.props.user
-            var successAction=(result)=>{
-                this.state.tickets=result.content
-                this.state.loading=false
-                this.loadContent()
-            }
-            this.get("/ticket/get/"+id,successAction)
+            this.refresh()
         }
     }
 
+    refresh=()=>{
+        const {id}=this.props.user
+        const incomplete=[]
+        const complete=[]
+        const canceled=[]
+        const expired=[]
+        var successAction=(result)=>{
+            result.content.map((ticket)=>{
+                switch(ticket.state){
+                    case 0:
+                        incomplete.push(ticket)
+                        break;
+                    case 1:
+                        complete.push(ticket)
+                        break;
+                    case 2:
+                        expired.push(ticket)
+                        break;
+                    case 3:
+                        canceled.push(ticket)
+                        break;
+                    }
+                })
+            this.setState({incomplete,complete,canceled,expired})
+            this.state.loading=false
+            this.loadContent()
+        }
+        this.get("/ticket/get/"+id,successAction)
+    }
+
     loadContent=()=>{
+        const {incomplete,complete,canceled,expired}=this.state
         let contents=[]
-        const tickets=this.state.tickets
+        const refresh=this.refresh
         contents.push(
-            <Stats.Incomplete tickets={tickets}/>,
-            <Stats.Complete tickets={tickets}/>,
-            <Stats.Canceled tickets={tickets}/>,
-            <Stats.Expired tickets={tickets}/>
+            <Stats.Incomplete tickets={incomplete} refresh={refresh}/>,
+            <Stats.Complete tickets={complete} refresh={refresh}/>,
+            <Stats.Canceled tickets={canceled} refresh={refresh}/>,
+            <Stats.Expired tickets={expired} refresh={refresh}/>
         )
         this.setState({contents:contents})
     }

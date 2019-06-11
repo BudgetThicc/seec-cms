@@ -10,6 +10,30 @@ export class Complete extends BaseComponent {
             selected:[]
         }
     }
+    
+    refresh=()=>{
+        this.setState({selected:[]})
+        this.props.refresh()
+    }
+
+    onClick=()=>{
+        var successAction=()=>{
+            this.pushNotification("success","退票成功")
+            this.refresh()
+        }
+        var unsuccessAction=()=>{
+            this.pushNotification("danger","退票失败，请刷新票务信息后再试")
+            this.refresh()
+        }
+        var url="/ticket/refund?"
+        const selected=this.state.selected
+        for(var i=0;i<selected.length;i++){
+            url+="ticketIdList="+selected[i]
+            if(i!=selected.length-1)
+                url+="&"
+        }
+        this.post(url,null,successAction,unsuccessAction)
+    }
 
     onChange=(id)=>{
         let {selected}=this.state
@@ -33,8 +57,12 @@ export class Complete extends BaseComponent {
     renderAffix=()=>{
         return(
             <div style={styles.affix}>
-                <Affix offsetTop={30}>
-                    <Button type="primary" disabled={this.state.selected.length==0}>
+                <Affix offsetTop={50}>
+                    <Button
+                    size="large"
+                    onClick={this.onClick}
+                    type="primary" 
+                    disabled={this.state.selected.length==0}>
                         <Icon type="close-circle" />
                         退票
                     </Button>

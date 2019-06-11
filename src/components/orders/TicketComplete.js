@@ -8,7 +8,8 @@ export default class TicketComplete extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
-            selected:false
+            selected:false,
+            ticket:this.props.ticket
         }
     }
 
@@ -41,6 +42,10 @@ export default class TicketComplete extends BaseComponent {
     render(){
         const {ticket}=this.props;
         const {id,name,hall,startTime,endTime,seat}=ticket
+        if(this.props.ticket!=this.state.ticket){//载入新票重置选择
+            this.state.selected=false
+            this.state.ticket=this.props.ticket
+        }
         return (
             <Button  onClick={this.onClick} style={styles.button}>
                 <Row type="flex" justify="center">

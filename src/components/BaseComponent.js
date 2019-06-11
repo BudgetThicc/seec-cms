@@ -11,7 +11,7 @@ export class BaseComponent extends Component {
     // ip = "http://139.224.238.182:8081"
 
 
-    post = (url, form, successAction) => {
+    post = (url, form, successAction,unsuccessAction,errorAction) => {
         return fetch(this.ip + url, { 
             method: 'POST', 
             mode: 'cors',
@@ -21,7 +21,7 @@ export class BaseComponent extends Component {
             })
             .then((response) => (response.json()))
             .catch((error) => { console.error(error); })
-            .then((result) => { this.handleResult(result,successAction); });
+            .then((result) => { this.handleResult(result,successAction,unsuccessAction,errorAction); });
     }
 
     get = (url, successAction)=>{
