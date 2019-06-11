@@ -7,10 +7,11 @@ import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/f
 import SignIn from './signIn'
 import SignUp from './signUp'
 import { connect } from 'react-redux';
-import { stringify } from 'querystring';
+
 const mapStateToProps = state => ({
-    user: state.identityReducer.user,
-    admin: state.identityReducer.admin,
+    signInVisible:state.modalReducer.signInVisible,
+    signUpVisible:state.modalReducer.signUpVisible,
+    onCancel:state.modalReducer.onCancel,
 })
 
 class authModal extends BaseComponent {

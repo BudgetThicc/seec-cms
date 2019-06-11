@@ -1,8 +1,9 @@
 import React,{Component} from "react";
 import { Router, Route,withRouter } from "react-router-dom";
 import { BackTop, Row, Layout} from 'antd';
-import {loginAsUser,logout} from '../../redux/actions/action';
+import {loginAsUser,logout,setOnCancel,showSignIn,showSignUp,cancelModal} from '../../redux/actions/action';
 import Routes from "../../routes/routes";
+import PrivateRoute from "../PrivateRoute"
 import BaseHeader from "./BaseHeader"
 import BaseComponent from "../BaseComponent"
 import AuthModal from "../auth/authModal"
@@ -14,6 +15,8 @@ const {Header,Content}=Layout;
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin,
+    signInVisible:state.modalReducer.signInVisible,
+    signUpVisible:state.modalReducer.signUpVisible,
 })
 class BaseLayout extends BaseComponent {
     
@@ -21,11 +24,10 @@ class BaseLayout extends BaseComponent {
         super(props);
         this.state = {
             items:[
-                {key:"/home",name:"首页"},
-                {key:"/films",name:"电影"}
+                {key:"/home",name:"首页",icon:"home"},
+                {key:"/films",name:"热映电影",icon:"picture"},
+                {key:"/orders",name:"电影票",icon:"unordered-list"}
             ],
-            signInVisible:false,
-            signUpVisible:false,
         }
     }
 
@@ -38,35 +40,30 @@ class BaseLayout extends BaseComponent {
             this.props.dispatch(logout())
             localStorage.clear()
         }
+        this.props.dispatch(setOnCancel(this.onCancel))
     }
 
     createRoutes = (routes) => {
         return (
             routes.map((prop, key) => {
-                return <Route path={prop.path} component={prop.component} key={key} />;
+                if(prop.auth==true)
+                    return <PrivateRoute path={prop.path} component={prop.component} key={key} user={this.props.user}/>;
+                else
+                    return <Route path={prop.path} component={prop.component} key={key} />;
             })
         )
     };
 
     switch=()=>{
-        if(this.state.signInVisible){
-            this.setState({
-                signInVisible:false,
-                signUpVisible:true
-            })
+        if(this.props.signInVisible){
+            this.props.dispatch(showSignUp())
         }
         else
-            this.setState({
-                signInVisible:true,
-                signUpVisible:false
-            })
+            this.props.dispatch(showSignIn())
     }
 
     onCancel=()=>{
-        this.setState({
-            signInVisible:false,
-            signUpVisible:false
-        })
+        this.props.dispatch(cancelModal())
     }
 
     render(){
@@ -74,19 +71,14 @@ class BaseLayout extends BaseComponent {
             <Layout>
                 <BackTop visibilityHeight={200} style={{zIndex:10}}/>
                     <BaseHeader 
-                    items={this.state.items}
-                    onClickSignIn={()=>this.setState({signInVisible:true})}
-                    onClickSignUp={()=>this.setState({signUpVisible:true})}/>
+                    items={this.state.items}/>
                 <Content style={{backgroundColor:"white"}}>
                     <Router history={this.props.history}>
                         {this.createRoutes(Routes)}
                     </Router>
                 </Content>
                 <AuthModal 
-                signInVisible={this.state.signInVisible} 
-                signUpVisible={this.state.signUpVisible}
-                switch={this.switch}
-                onCancel={this.onCancel}/>
+                switch={this.switch}/>
                 <BaseDrawer />
             </Layout>
             );

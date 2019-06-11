@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import {Paper} from '@material-ui/core';
-import {Row,Col,Menu,Popover,Button,Layout} from 'antd';
+import {Row,Col,Menu,Popover,Button,Layout,Icon} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 import BaseComponent from "../BaseComponent"
@@ -8,13 +8,15 @@ import BaseBanner from './BaseBanner'
 import SearchBar from '../SearchBar'
 import UserPopover from '../user/UserPopover'
 import UserMenu from '../user/UserMenu'
-import { logout, loginAsUser } from "../../redux/actions/action";
+import { logout, loginAsUser,showSignIn,showSignUp } from "../../redux/actions/action";
 
 const {Header}=Layout
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
-    admin: state.identityReducer.admin
+    admin: state.identityReducer.admin,
+    signInVisible:state.modalReducer.signInVisible,
+    signUpVisible:state.modalReducer.signUpVisible,
 })
 
 var heights=[{height:"800px"},{height:"700px"}]
@@ -70,12 +72,16 @@ class BaseHeader extends BaseComponent {
             this.state.index=0
         }else if(pathname=="/films"){
             this.state.index=1
+        }else if(pathname=="/orders"){
+            this.state.index=2
         }else 
             this.state.index=-1
     }
 
     renderItems=(item)=>{
-        return (<Menu.Item key={item.key} style={{color:'white'}}>{item.name}</Menu.Item>);
+        return (<Menu.Item key={item.key} style={{color:'white'}}>
+            <Icon type={item.icon} />{item.name}
+            </Menu.Item>);
     }
 
     renderMenu=()=>{
@@ -85,6 +91,7 @@ class BaseHeader extends BaseComponent {
                 theme="white"
                 mode="horizontal"
                 style={styles.menu}
+                electedKeys={[this.state.index]}
                 onClick={this.handleClick}
                 >
                     {this.props.items.map(this.renderItems)}
@@ -93,15 +100,25 @@ class BaseHeader extends BaseComponent {
         )
     }
 
+    signIn=()=>{
+        this.props.dispatch(showSignIn())
+    }
+
+    signUp=()=>{
+        this.props.dispatch(showSignUp())
+    }
+
     renderUser=()=>{
         if(this.props.user==null){
             return(
                 <Col span={12} >
                     <Row type="flex" justify="end" align='middle' style={{marginRight:"40px"}}>
-                        <Button style={{color:"white"}} type="link" icon="user" size="large" onClick={this.props.onClickSignIn}>
+                        <Button style={{color:"white"}} type="link" icon="user" size="large" 
+                        onClick={this.signIn}>
                             登录
                         </Button>
-                        <Button type="primary" icon="user-add" size="large" onClick={this.props.onClickSignUp}>
+                        <Button type="primary" icon="user-add" size="large" 
+                        onClick={this.signUp}>
                             注册
                         </Button>
                     </Row>
@@ -154,7 +171,7 @@ class BaseHeader extends BaseComponent {
 
     renderBanner=()=>{
         this.handlePath()
-        if(this.state.index!=-1)
+        if(this.state.index!=-1&&this.state.index!=2)
         return(
             <BaseBanner 
             onClickSignUp={this.props.onClickSignUp}
@@ -187,7 +204,7 @@ class BaseHeader extends BaseComponent {
 
     handleStyle=()=>{
         this.handlePath()
-        if(this.state.index==-1)
+        if(this.state.index==-1||this.state.index==2)
             return styles.paper_normal
         else
             return styles.paper

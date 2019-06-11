@@ -1,7 +1,7 @@
 import React from "react";
 import BaseComponent from '../../components/BaseComponent'
 import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography,Modal,Skeleton } from 'antd';
-import * as Stats from "./orderByStat" 
+import * as Stats from "./stats" 
 
 const { TabPane } = Tabs;
 const titles=["未完成","已完成","已退票","已过期"]

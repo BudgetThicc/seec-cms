@@ -46,10 +46,9 @@ class SignUp extends BaseComponent {
             form.append('name',values.name);
 
             var successAction = (result) => {
-                if (result.detail !== null) {
-                    sessionStorage.setItem('userId', result.content.id);
-                }
-                
+                localStorage.setItem('user', JSON.stringify(result.content));
+                this.props.switch()
+                this.pushNotification("success", "用户注册成功，请登录");
             }
 
             this.post('/register', form, successAction);

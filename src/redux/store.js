@@ -10,9 +10,14 @@ const preloadedState = {
         loading:false,
         closing:false,
         content:null
+    },modalReducer:{
+        signInVisible:false,
+        signUpVisible:false,
+        onCancel: null
     }
 
 }
+
 
 const store = createStore (
     rootReducer,

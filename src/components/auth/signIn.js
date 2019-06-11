@@ -36,7 +36,7 @@ class SignIn extends BaseComponent {
                 //todo: 根据用户类型分类存储
                 this.props.dispatch(loginAsUser(result.content));
                 localStorage.setItem('user', JSON.stringify(result.content));
-                this.props.onCancel()
+                this.props.onCancel(this.props.user)
                 this.pushNotification("success", "用户"+result.content.username+"登录成功");
             }
 

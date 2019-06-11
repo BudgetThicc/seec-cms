@@ -28,11 +28,13 @@ const mainRoutes = [
         path: "/schedule",
         icon: 'schedule',
         component: wrap(Pages.Schedule),
+        auth:true
     },
     {
         path: "/orders",
         icon: 'orders',
         component: wrap(Pages.OrderList),
+        auth:true
     },
     // {
     //     path: "/signin",
