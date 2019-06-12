@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
+import {showSignIn} from '../../redux/actions/action';
 import BaseComponent from "../BaseComponent"
 import Banner from '../Banner'
 
@@ -34,7 +35,7 @@ class BaseBanner extends BaseComponent {
             buttons:[{
                 text:"加入我们",
                 icon:"user",
-                onClick:this.props.onClickSignUp
+                onClick:()=>{this.props.dispatch(showSignIn())}
                 }],
             bgheight:{height:"800px"}
             },
