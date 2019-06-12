@@ -1,8 +1,8 @@
 import React from "react";
-import BaseComponent from '../../../components/BaseComponent'
+import BaseComponent from '../../../../components/BaseComponent'
 import { Row, Col,Button,Divider } from 'antd';
 import {Typography} from '@material-ui/core';
-import OrderSelected from '../../../components/orders/OrderSelected'
+import OrderSelected from '../../../../components/orders/OrderSelected'
 import { thisExpression } from "@babel/types";
 
 var row=-1

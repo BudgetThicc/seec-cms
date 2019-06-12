@@ -1,5 +1,5 @@
 import React from "react";
-import BaseComponent from '../../components/BaseComponent'
+import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col, AutoComplete } from 'antd';
 
 export class Home extends BaseComponent {

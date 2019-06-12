@@ -1,9 +1,9 @@
 import React from "react";
-import BaseComponent from '../../components/BaseComponent'
+import BaseComponent from '../../../components/BaseComponent'
 import { Row, Skeleton,Col,Button,Icon,Divider,Tabs} from 'antd';
 import {Typography,Grid} from '@material-ui/core';
 import {withRouter} from "react-router-dom";
-import { closeDrawer } from '../../redux/actions/action';
+import { closeDrawer } from '../../../redux/actions/action';
 import { connect } from 'react-redux';
 
 const { TabPane } = Tabs;

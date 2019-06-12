@@ -1,8 +1,8 @@
 import React from "react";
-import BaseComponent from '../../components/BaseComponent'
+import BaseComponent from '../../../components/BaseComponent'
 import FilmDrawer from './filmDrawer'
 import { Row, Skeleton,Col,Button,Icon} from 'antd';
-import { showDrawer } from '../../redux/actions/action';
+import { showDrawer } from '../../../redux/actions/action';
 import {Card,CardActionArea,CardActions,Typography,Grid} from '@material-ui/core';
 
 import { connect } from 'react-redux';

@@ -1,6 +1,6 @@
 import React from "react";
-import BaseComponent from '../../../components/BaseComponent' 
-import Seat from "../../../components/Seat"
+import BaseComponent from '../../../../components/BaseComponent' 
+import Seat from "../../../../components/Seat"
 import { Row, Col,Button,Divider } from 'antd';
 import {Typography} from '@material-ui/core';
 

@@ -1,16 +1,16 @@
 import React from "react";
-import BaseComponent from '../../../components/BaseComponent'
+import BaseComponent from '../../../../components/BaseComponent'
 import { Row, Col, AutoComplete, Button, Affix, Icon } from 'antd';
-import TicketComplete from '../../../components/orders/TicketComplete'
+import TicketComplete from '../../../../components/orders/TicketComplete'
 
-export class Complete extends BaseComponent {
+export class Incomplete extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
             selected:[]
         }
     }
-    
+
     refresh=()=>{
         this.setState({selected:[]})
         this.props.refresh()
@@ -18,17 +18,17 @@ export class Complete extends BaseComponent {
 
     onClick=()=>{
         var successAction=()=>{
-            this.pushNotification("success","退票成功")
+            this.pushNotification("success","购票成功")
             this.refresh()
         }
         var unsuccessAction=()=>{
-            this.pushNotification("danger","退票失败，请刷新票务信息后再试")
+            this.pushNotification("danger","购票失败，请刷新票务信息后再试")
             this.refresh()
         }
-        var url="/ticket/refund?"
+        var url="/ticket/buy?couponId=0&"
         const selected=this.state.selected
         for(var i=0;i<selected.length;i++){
-            url+="ticketIdList="+selected[i]
+            url+="ticketId="+selected[i]
             if(i!=selected.length-1)
                 url+="&"
         }
@@ -57,14 +57,13 @@ export class Complete extends BaseComponent {
     renderAffix=()=>{
         return(
             <div style={styles.affix}>
-                <Affix offsetTop={50}>
+                <Affix offsetTop={30}>
                     <Button
-                    size="large"
                     onClick={this.onClick}
                     type="primary" 
                     disabled={this.state.selected.length==0}>
                         <Icon type="close-circle" />
-                        退票
+                        支付
                     </Button>
                 </Affix>
             </div>

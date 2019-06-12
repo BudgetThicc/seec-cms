@@ -1,11 +1,11 @@
 import React from "react";
-import BaseComponent from '../../components/BaseComponent'
+import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col, AutoComplete } from 'antd';
 import { connect } from 'react-redux';
-import {setKeyword} from '../../redux/actions/action'
+import {setKeyword} from '../../../redux/actions/action'
 import {withRouter} from "react-router-dom";
 import FilmCard from "../films/filmCard"
-import ErrorPage from '../../components/ErrorPage'
+import ErrorPage from '../../../components/ErrorPage'
 
 var keyword=null
 const mapStateToProps = state => ({

@@ -1,6 +1,6 @@
 import React from "react";
-import BaseComponent from '../../components/BaseComponent'
-import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography,Modal,Skeleton } from 'antd';
+import BaseComponent from '../../../components/BaseComponent'
+import { Row, Col, AutoComplete,Tabs,Button,Icon,Typography,Modal,Skeleton,Badge } from 'antd';
 import * as Stats from "./stats" 
 
 const { TabPane } = Tabs;
@@ -75,18 +75,36 @@ export class OrderList extends BaseComponent {
     }
 
     renderTabPane=(item,index)=>{
-        if(!this.state.loading)
-            return(
-                <TabPane
-                tab={<span>
-                        <Icon type={icons[index]} />
-                        {titles[index]}
-                    </span>}
-                key={index}
-                >
-                    {(item)}
-                </TabPane>
-            )
+        if(!this.state.loading){
+            
+            if(titles[index]=="未完成")
+                return(
+                    <TabPane
+                    tab={
+                        <Badge count={this.state.incomplete.length}>
+                            <span>
+                                <Icon type={icons[index]} />
+                                {titles[index]}
+                            </span>
+                        </Badge>}
+                    key={index}
+                    >
+                        {(item)}
+                    </TabPane>
+                )
+            else
+                return(
+                    <TabPane
+                    tab={<span>
+                            <Icon type={icons[index]} />
+                            {titles[index]}
+                        </span>}
+                    key={index}
+                    >
+                        {(item)}
+                    </TabPane>
+                )
+        }
         else
             return(
                 <TabPane

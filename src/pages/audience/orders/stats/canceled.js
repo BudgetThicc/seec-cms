@@ -1,7 +1,7 @@
 import React from "react";
-import BaseComponent from '../../../components/BaseComponent'
+import BaseComponent from '../../../../components/BaseComponent'
 import { Row, Col, AutoComplete, Button, Affix, Icon } from 'antd';
-import TicketIncomplete from '../../../components/orders/TicketIncomplete'
+import TicketIncomplete from '../../../../components/orders/TicketIncomplete'
 
 export class Canceled extends BaseComponent {
     constructor(props){
