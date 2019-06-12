@@ -1,8 +1,8 @@
 import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
 import ErrorPage from '../../../components/ErrorPage'
-import { Row, Col, AutoComplete,Steps,Icon,Button } from 'antd';
-import {SeatSelection,OrderConfirm,TicketConfirm ,OrderComplete} from "./orderSteps"
+import { Row, Col, AutoComplete,Steps,Icon,Button,Modal } from 'antd';
+import {SeatSelection,OrderConfirm,TicketConfirm ,OrderComplete,Payment} from "./orderSteps"
 
 const {Step} = Steps
 const steps = [
@@ -40,7 +40,8 @@ export class Schedule extends BaseComponent {
                 coupons:[],
                 loading:false,
                 completeTickets:[],
-                completeCoupon:null
+                completeCoupon:null,
+                visible:false
             }
         }
     }
@@ -171,6 +172,24 @@ export class Schedule extends BaseComponent {
         }
         this.post(url,null,successAction)
     }
+
+    payVip=(vipId)=>{
+        const ticketId=this.state.completeTickets
+        const couponId=this.state.completeCoupon
+        var url="/ticket/vip/buy?"
+        url+="couponId="+couponId+"&vipId="+vipId
+        ticketId.map((id)=>
+            {url+="&"+"ticketId="+id}
+        )
+        var successAction=(result)=>{
+            this.pushNotification("success","购票成功")
+            this.state.content.push(
+                <OrderComplete/>
+            )
+            this.next()
+        }
+        this.post(url,null,successAction)
+    }
     
     renderStep=(item)=>{
         const icon=(<Icon type={item.icon}/>)
@@ -254,7 +273,7 @@ export class Schedule extends BaseComponent {
                     </Button>)
             case 2:
                 return (
-                    <Button size="large" style={{ marginLeft: 10 }} onClick={() => this.pay()} type="primary" >
+                    <Button size="large" style={{ marginLeft: 10 }} onClick={() =>(this.setState({visible:true}))} type="primary" >
                         确认支付
                     </Button>
                 )
@@ -281,6 +300,19 @@ export class Schedule extends BaseComponent {
                     {this.renderSchedule()}
                     {this.renderContent()}
                     {this.renderButton()}
+                    <Modal
+                    title={null}
+                    visible={this.state.visible}
+                    closable={false}
+                    footer={null}
+                    destroyOnClose={true}
+                    >
+                        <Payment 
+                        onCancel={()=>{this.setState({visible:false})}}
+                        pay={this.pay} 
+                        payVip={this.payVip}/>
+                    </Modal>
+
                 </Row>
             )
     }

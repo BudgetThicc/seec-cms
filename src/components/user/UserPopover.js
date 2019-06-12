@@ -34,12 +34,16 @@ class UserPopover extends BaseComponent{
     payRecord=()=>{
         this.props.dispatch(showDrawer("历史消费记录",<PayRecord/>))
     }
+    
+    chargeRecord=()=>{
+        this.props.dispatch(showDrawer("历史充值",<ChargeRecord/>))
+    }
 
     render(){
 
         return (
             <List component="nav">
-                <ListItem button>
+                <ListItem button onClick={this.chargeRecord}>
                     <Typography>充值记录</Typography>
                 </ListItem>
                 <ListItem button onClick={this.payRecord}>

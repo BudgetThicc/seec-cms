@@ -46,7 +46,6 @@ export default class PayRecord extends BaseComponent{
                         time : time
                     }
                     this.setState({scheduleInfo})
-                    this.pushNotification("",JSON.stringify(scheduleInfo[1])+"")
                 }
             })
             
@@ -109,13 +108,15 @@ export default class PayRecord extends BaseComponent{
     }
   
     renderTicket=(ticket,item)=>{
+        const startTime=this.handleDate(item.startTime)+" "+this.handleTime(item.startTime)
+        const endTime=this.handleDate(item.endTime)+" "+this.handleTime(item.endTime)
         return(
         <Descriptions bordered size='small'>
             <Description label="影厅名">{item.hallName}</Description><Description label="票价" span={3}>{item.fare}</Description>
             <Description label="座位号">{ticket.rowIndex+"排"+ticket.columnIndex+"列"}</Description>
             <Description label="座位类型" span={3}>{this.renderSeatType(ticket.seatType)}</Description>
-            <Description label="开始放映时间">{this.handleTime(item.startTime)}</Description>
-            <Description label="结束放映时间">{this.handleTime(item.endTime)}</Description>
+            <Description label="开始放映时间">{startTime}</Description>
+            <Description label="结束放映时间">{endTime}</Description>
         </Descriptions>
         )
     }
@@ -201,7 +202,7 @@ export default class PayRecord extends BaseComponent{
 }
 
 const customPanelStyle = {
-    background: '#13c2c2',
+    background: '#d9d9d9',
     borderRadius: 4,
     marginBottom: 24,
     border: 0,
@@ -209,7 +210,7 @@ const customPanelStyle = {
   };
   
   const TicketPanelStyle = {
-    background: '#87e8de',
+    background: '#e8e8e8',
     borderRadius: 4,
     marginBottom: 24,
     border: 0,
