@@ -1,1 +1,2 @@
-export * from './audience';
+import * as Audience from './audience';
+export {Audience}

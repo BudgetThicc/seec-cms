@@ -24,7 +24,7 @@ class FilmSchedule extends BaseComponent {
 
     toSchedule=()=>{
         const {id}=this.props.item
-        this.props.history.push({ pathname: "/schedule", state: { scheduleId:id } });
+        this.props.history.push({ pathname: "/user/schedule", state: { scheduleId:id } });
         this.props.dispatch(closeDrawer())
     }
 

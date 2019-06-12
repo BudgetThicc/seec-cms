@@ -68,11 +68,11 @@ class BaseHeader extends BaseComponent {
 
     handlePath=()=>{//找到path对应的图片横幅数据组
         const pathname=this.props.history.location.pathname
-        if(pathname=="/home"||pathname=="/"){
+        if(pathname=="/user/home"||pathname=="/user"){
             this.state.index=0
-        }else if(pathname=="/films"){
+        }else if(pathname=="/user/films"){
             this.state.index=1
-        }else if(pathname=="/orders"){
+        }else if(pathname=="/user/orders"){
             this.state.index=2
         }else 
             this.state.index=-1
