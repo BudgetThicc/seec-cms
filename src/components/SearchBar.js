@@ -22,7 +22,7 @@ class SearchBar extends BaseComponent {
     search=()=>{
         const keyword=this.state.name
         this.props.dispatch(setKeyword(keyword))
-        this.props.history.push({pathname:"/search",state:{keyword}})
+        this.props.history.push({pathname:"/user/search",state:{keyword}})
     }
 
     fetchAutoComplete = (value) => {

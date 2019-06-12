@@ -17,7 +17,7 @@ const PrivateRoute = ({component: Component, user, location,history,dispatch,...
     
     const jumpBack=(_user)=>{   
         if(!_user||!_user.id)
-            history.replace('/home')
+            history.replace('/user/home')
         dispatch(cancelModal())
     }
 
