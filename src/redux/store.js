@@ -5,7 +5,8 @@ const preloadedState = {
 
     identityReducer: {
         user: null,
-        admin:null
+        admin:null,
+        sales:null
     },drawerReducer:{
         loading:false,
         closing:false,

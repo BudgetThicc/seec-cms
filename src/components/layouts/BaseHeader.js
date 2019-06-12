@@ -8,7 +8,7 @@ import BaseBanner from './BaseBanner'
 import SearchBar from '../SearchBar'
 import UserPopover from '../user/UserPopover'
 import UserMenu from '../user/UserMenu'
-import { logout, loginAsUser,showSignIn,showSignUp } from "../../redux/actions/action";
+import { logout, loginAsUser,showSignIn,showSignUp, loginAsAdmin, loginAsSales } from "../../redux/actions/action";
 
 const {Header}=Layout
 
@@ -36,27 +36,6 @@ class BaseHeader extends BaseComponent {
 
     componentWillMount(){
         this.handlePath()
-        const user=this.loadStorage("user")
-        if(user&&user.id){
-            const id=user.id
-            var successAction=(result)=>{
-                this.props.dispatch(loginAsUser(result.content))
-                this.pushNotification("success","用户信息刷新成功")
-            }
-            var unsuccessAction=(result)=>{
-                this.props.dispatch(logout())
-                localStorage.clear()
-                this.pushNotification("danger","登录已经失效，请重新登录")
-            }
-            var errorAction=()=>{
-                this.props.dispatch(logout())
-                localStorage.clear()
-            }
-            this.getWithErrorAction("/getUser?userId="+id,successAction,unsuccessAction,errorAction)
-        }else{
-            this.props.dispatch(logout())
-            localStorage.clear()
-        }
     }
 
     handleClick = (e) => {
@@ -99,6 +78,7 @@ class BaseHeader extends BaseComponent {
             </Col>
         )
     }
+    
 
     signIn=()=>{
         this.props.dispatch(showSignIn())

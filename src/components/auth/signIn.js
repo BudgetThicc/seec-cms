@@ -2,7 +2,7 @@ import React from 'react';
 import {withRouter} from "react-router-dom";
 import { loginAsUser,logout} from '../../redux/actions/action';
 import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
-import { BaseComponent } from '../../components/BaseComponent';
+import { BaseComponent } from '../BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
 import { connect } from 'react-redux';
 import md5 from "md5";

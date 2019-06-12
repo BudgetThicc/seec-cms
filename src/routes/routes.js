@@ -53,6 +53,11 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
             },
         ]
     },
+    {
+        path: "/sales",
+        icon: 'sales',
+        component: Pages.Sales.Schedule,
+    }
     // {
     //     path: "/signin",
     //     icon: 'signin',

@@ -78,17 +78,23 @@ export class BaseComponent extends Component {
     };
 
     handleDate=(_date,count)=>{
-        var date = _date.substring(5, 7) + "月" + _date.substring(8, 10) + "日";
-        if (count == 1) 
-            date += "（今天）";
-        else if (count == 2) 
-            date += "（明天）";
-        return date;
+        if(_date){
+            _date+=""
+            var date = _date.substring(5, 7) + "月" + _date.substring(8, 10) + "日";
+            if (count == 1) 
+                date += "（今天）";
+            else if (count == 2) 
+                date += "（明天）";
+            return date;
+        }
     }
 
     handleTime=(_time)=>{
-        var time= _time.substring(11, 16)
-        return time
+        if(_time){
+            _time+=""
+            var time= _time.substring(11, 16)
+            return time
+        }
     }
 
     hasErrors(fieldsError) {

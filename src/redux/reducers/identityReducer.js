@@ -3,14 +3,16 @@ var identityReducer = (state = {}, action) => {
     switch (action.type) {
 
         case 'LOGINASUSER':
-            return { ...state, user: action.user, admin: null};
-
+            return { ...state, user: action.user, admin: null,sales:null};
 
         case 'LOGINASADMIN':
-            return { ...state, user: null, admin: action.user};
+            return { ...state, user: null, admin: action.admin,sales:null};
+
+        case 'LOGINASSALES':
+            return { ...state, user: null, admin: null,sales:action.sales};
 
         case 'LOGOUT':
-            return { ...state, user: null, admin:null};
+            return { ...state, user: null, admin:null,sales:null};
 
         default:
             return state;
