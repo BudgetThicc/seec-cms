@@ -197,9 +197,9 @@ const styles = {
         fontFamily:"黑体"
     },
     description:{
-        marginTop:"3px",
+        marginTop:"6px",
         color:"black",
-        fontSize:"16px",
+        fontSize:"18px",
     },
 }
 
