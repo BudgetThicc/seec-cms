@@ -5,6 +5,8 @@ import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'ant
 import { BaseComponent } from '../../components/BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
 import { connect } from 'react-redux';
+import md5 from "md5";
+
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin,
@@ -30,7 +32,7 @@ class SignIn extends BaseComponent {
 
             let form = new FormData();
             form.append('username', values.username);
-            form.append('password', values.password);
+            form.append('password', md5(values.password));
 
             var successAction = (result) => {
                 //todo: 根据用户类型分类存储
@@ -40,7 +42,11 @@ class SignIn extends BaseComponent {
                 this.pushNotification("success", "用户"+result.content.username+"登录成功");
             }
 
-            this.post('/login', form, successAction);
+            var unsuccessAction = (result) => {
+                this.pushNotification("danger", result.message);
+            }
+
+            this.post('/login', form, successAction,unsuccessAction);
 
         });
     }

@@ -9,6 +9,7 @@ const preloadedState = {
     },drawerReducer:{
         loading:false,
         closing:false,
+        title:"",
         content:null
     },modalReducer:{
         signInVisible:false,

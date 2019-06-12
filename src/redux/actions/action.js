@@ -4,7 +4,7 @@ export const loginAsAdmin=(admin)=> ({ type: 'LOGINASADMIN',admin:admin});
 
 export const logout = () => ({ type: 'LOGOUT'});
 
-export const showDrawer = (content) =>({ type: 'SHOWDRAWER',content:content})
+export const showDrawer = (title,content) =>({ type: 'SHOWDRAWER',title:title,content:content})
 
 export const closeDrawer = () =>({ type: 'CLOSEDRAWER'})
 

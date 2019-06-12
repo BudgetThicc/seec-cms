@@ -5,6 +5,7 @@ import { resetDrawer } from '../redux/actions/action';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
+    title:state.drawerReducer.title,
     content: state.drawerReducer.content,
     loading: state.drawerReducer.loading,
     closing: state.drawerReducer.closing,
@@ -38,7 +39,7 @@ class BaseDrawer extends BaseComponent{
             width="45%"
         return(
             <Drawer
-            title="影片详情"
+            title={this.props.title}
             width={width}
             placement="right"
             closable={true}

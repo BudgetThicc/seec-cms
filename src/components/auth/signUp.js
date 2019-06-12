@@ -4,6 +4,7 @@ import { loginAsUser} from '../../redux/actions/action';
 import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
 import { BaseComponent } from '../../components/BaseComponent';
 import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
+import md5 from "md5";
 
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
@@ -42,7 +43,7 @@ class SignUp extends BaseComponent {
 
             let form = new FormData();
             form.append('username', values.username);
-            form.append('password', values.password);
+            form.append('password', md5(values.password));
             form.append('name',values.name);
 
             var successAction = (result) => {
@@ -51,7 +52,11 @@ class SignUp extends BaseComponent {
                 this.pushNotification("success", "用户注册成功，请登录");
             }
 
-            this.post('/register', form, successAction);
+            var unsuccessAction = (result) => {
+                this.pushNotification("danger", result.message);
+            }
+
+            this.post('/register', form, successAction,unsuccessAction);
 
         });
     }

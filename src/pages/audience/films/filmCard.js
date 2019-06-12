@@ -7,6 +7,7 @@ import {Card,CardActionArea,CardActions,Typography,Grid} from '@material-ui/core
 
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
+    title:state.drawerReducer.title,
     content: state.drawerReducer.content,
     loading: state.drawerReducer.loading,
 })
@@ -19,7 +20,7 @@ class FilmCard extends BaseComponent {
 
     toggleDrawer=()=>{
         const content=(<FilmDrawer item={this.props.item}/>)
-        this.props.dispatch(showDrawer(content))
+        this.props.dispatch(showDrawer("电影详情",content))
     }
 
     renderName=(name)=>{

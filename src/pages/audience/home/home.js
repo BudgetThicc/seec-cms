@@ -7,7 +7,6 @@ export class Home extends BaseComponent {
         return (
             <Row style={styles.container}>
                 <Row type='flex' justify='center'>
-                    <span>home page (todo)</span>
                 </Row>
             </Row>
         );
@@ -16,7 +15,7 @@ export class Home extends BaseComponent {
 
 const styles = {
     container:{
-        marginTop:"900px"
+        marginTop:"700px"
     }
 }
 

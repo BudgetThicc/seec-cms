@@ -10,6 +10,7 @@ const { TabPane } = Tabs;
 var count=0
 
 const mapStateToProps = state => ({
+    title:state.drawerReducer.title,
     content: state.drawerReducer.content,
     loading: state.drawerReducer.loading,
     closing: state.drawerReducer.closing,

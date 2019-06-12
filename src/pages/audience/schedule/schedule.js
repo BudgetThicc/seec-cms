@@ -1,5 +1,6 @@
 import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
+import ErrorPage from '../../../components/ErrorPage'
 import { Row, Col, AutoComplete,Steps,Icon,Button } from 'antd';
 import {SeatSelection,OrderConfirm,TicketConfirm ,OrderComplete} from "./orderSteps"
 
@@ -270,10 +271,8 @@ export class Schedule extends BaseComponent {
     render(){
         if(!this.props.location.state)
             return (
-                <Row>
-                    <Row type='flex' justify='center'>
-                        <span>abnormal Access</span>
-                    </Row>
+                <Row style={styles.container} >
+                    <ErrorPage text={"访问失败，请遵照网站指引进行浏览"}/>
                 </Row>
             );
         else
@@ -291,6 +290,9 @@ export class Schedule extends BaseComponent {
 const styles = {
     rows:{
         marginTop:40
+    },
+    container:{
+        marginTop:30
     }
 }
 

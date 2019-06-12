@@ -3,7 +3,10 @@ import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
 import BaseComponent from "../BaseComponent"
 import { Typography, List,ListItem } from '@material-ui/core';
+import { showDrawer } from '../../redux/actions/action';
 import { logout } from "../../redux/actions/action";
+import PayRecord from "./records/payRecord"
+import ChargeRecord from "./records/chargeRecord"
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -28,15 +31,19 @@ class UserPopover extends BaseComponent{
         this.props.dispatch(logout())
     }
 
+    payRecord=()=>{
+        this.props.dispatch(showDrawer("历史消费记录",<PayRecord/>))
+    }
+
     render(){
 
         return (
             <List component="nav">
                 <ListItem button>
-                    <Typography>个人信息</Typography>
+                    <Typography>充值记录</Typography>
                 </ListItem>
-                <ListItem button >
-                    <Typography>历史消费记录</Typography>
+                <ListItem button onClick={this.payRecord}>
+                    <Typography>消费记录</Typography>
                 </ListItem>
                 <ListItem button >
                     <Typography>卡包</Typography>
