@@ -30,10 +30,10 @@ class BaseLayout extends BaseComponent {
     }
 
     getDefaultRoute=()=>{
-        // if(this.props.history.location.pathname.indexOf("/user")==-1)
-        //     if(this.props.admin==null){
-        //         return(<Redirect to={"/user/home"}/>)
-        //     }
+        if(this.props.history.location.pathname.indexOf("/user")==-1)
+            if(this.props.admin==null){
+                return(<Redirect to={"/user/home"}/>)
+            }
         return null
     }
 

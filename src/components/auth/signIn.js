@@ -72,7 +72,7 @@ class SignIn extends BaseComponent {
                         <div style={styles.welcome2}>登录</div>
                         <Form onSubmit={this.handleSubmit} type='flex' justify='center'>
                             <Row justify='center'>
-                                <FormText form={this.props.form}
+                                <FormText  form={this.props.form}
                                     label='用户名' name='username' required={true} icon="user"/>
 
                                 <FormText form={this.props.form}
