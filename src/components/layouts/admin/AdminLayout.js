@@ -21,16 +21,15 @@ class AdminLayout extends BaseComponent {
         super(props);
         this.state = {
             items:[
-                {title: '首页',icon: 'home',key: '/home/other/springText'},
+                {title: '首页',icon: 'home',key: '/admin/home'},
                 {title: '会员卡管理',icon: 'laptop',key: '/admin',
                     subs:[
                     {key: '/admin/vipmanage', title: '优惠策略管理'},
-                    {key: '/home/giveCoupons', title: '赠送优惠券'}
+                    {key: '/admin/givecoupons', title: '赠送优惠券'}
                 ]},
                 {title: '退票策略管理',icon: 'bars',key: '/admin/refundmanage',},
                 {title: '影厅管理',icon: 'edit', key: '/admin/hallmanage',},
-                {title: '员工管理',icon: 'desktop',key: '/admin/staffmanage'},
-                {title: '退出管理员模式',icon: 'info-circle-o',key: '/user/home'}
+                {title: '员工管理',icon: 'desktop',key: '/admin/staffmanage'}
             ],
         }
     }
@@ -50,6 +49,8 @@ class AdminLayout extends BaseComponent {
             })
         )
     };
+
+    
 
     render(){
         return (

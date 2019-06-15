@@ -65,6 +65,11 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
         component: AdminLayout,
         children:[
             {
+                path: "/home",
+                icon: 'home',
+                component: Pages.Admin.Home,
+            },
+            {
                 path: "/refundmanage",
                 icon: 'refundmanage',
                 component: Pages.Admin.RefundManage,

@@ -1,8 +1,15 @@
 import React from 'react'
 import {Link,withRouter} from 'react-router-dom'
+import {loginAsUser,loginAsAdmin,logout,} from '../../../redux/actions/action';
 import {Paper} from '@material-ui/core';
-import {Menu, Icon,Row} from 'antd'
+import {Menu, Icon,Row,Button} from 'antd'
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => ({
+  user: state.identityReducer.user,
+  admin: state.identityReducer.admin,
+  sales: state.identityReducer.sales
+})
 class BaseSider extends React.Component {
   state = {
     openKeys: [],
@@ -93,6 +100,26 @@ class BaseSider extends React.Component {
     )
   }
 
+  onCancel=()=>{
+    //由于用例要求，退出管理员界面视为登出
+    sessionStorage.clear()
+    this.props.dispatch(logout())
+    this.props.history.push("/user/home")
+  } 
+
+  renderCancel=()=>{
+      return(
+          <Menu.Item style={{height:50,fontSize:18,marginTop:30}} key={"/user/home"}>
+              <Button style={{height:50,fontSize:18,padding:0,border:0}} onClick={this.onCancel} type="default">
+                <Row type="flex" justify="start" align="middle">
+                  <Icon style={{fontSize:18,marginRight:0}} type="vertical-right"/>
+                  <span>退出管理员系统</span>
+                </Row>
+              </Button>
+          </Menu.Item>
+      )
+  }
+
   render() {
     const {openKeys, selectedKeys} = this.state
     return (
@@ -107,9 +134,10 @@ class BaseSider extends React.Component {
                 selectedKeys={selectedKeys}
                 theme={'light'}
                 mode='inline'>
-                {this.props.menus.map(item => {
-                    return item.subs && item.subs.length > 0 ? this.renderSubMenu(item) : this.renderMenuItem(item)
-                })}
+                  {this.props.menus.map(item => {
+                      return item.subs && item.subs.length > 0 ? this.renderSubMenu(item) : this.renderMenuItem(item)
+                  })}
+                  {this.renderCancel()}
                 </Menu>
             </Row>
         </Paper>
@@ -128,4 +156,4 @@ const styles={
 }
 
 
-export default withRouter(BaseSider)
+export default connect(mapStateToProps)(withRouter(BaseSider))

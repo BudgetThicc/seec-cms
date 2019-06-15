@@ -1,4 +1,4 @@
-export * from "./schedule"
+export * from "./home"
 export * from "./vipManage"
 export * from "./staffManage"
 export * from "./refundManage"

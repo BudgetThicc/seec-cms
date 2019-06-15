@@ -33,6 +33,7 @@ class AudienceLayout extends BaseComponent {
     
     componentWillMount(){
         //如果有登陆记录而不确定是否为有效状态，先暂定为登录，在header中迅速更新用户登录状态
+        //由于用例要求，一旦退出管理员界面视为登出
         if(localStorage.getItem("user")!=null){
             const user=JSON.parse(localStorage.getItem("user"))
             this.props.dispatch(loginAsUser(user))
