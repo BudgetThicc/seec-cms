@@ -4,7 +4,6 @@ import { BackTop, Row, Layout} from 'antd';
 import {loginAsUser,loginAsSales,loginAsAdmin,logout,setOnCancel,showSignIn,showSignUp,cancelModal} from '../../redux/actions/action';
 import mainRoutes from "../../routes/routes";
 import PrivateRoute from "../PrivateRoute"
-import BaseHeader from "./BaseHeader"
 import BaseComponent from "../BaseComponent"
 
 import { connect } from 'react-redux';
@@ -22,16 +21,28 @@ class BaseLayout extends BaseComponent {
     constructor(props){
         super(props);
         this.state = {
+            admin:false,
+            sales:false
         }
     }
 
     componentWillMount(){
-        this.refreshUser()
+        if(sessionStorage.getItem("admin")!=null){//如果为超管
+            this.state.admin=true
+            const admin=JSON.parse(sessionStorage.getItem("admin"))
+            this.props.dispatch(loginAsAdmin(admin))
+        }else if(sessionStorage.getItem("sales")!=null){//如果为售票员
+            this.state.sales=true
+            const admin=JSON.parse(sessionStorage.getItem("sales"))
+            this.props.dispatch(loginAsAdmin(admin))
+        }else{//普通用户，联网获取
+            this.refreshUser()
+        }
     }
 
     getDefaultRoute=()=>{
         if(this.props.history.location.pathname.indexOf("/user")==-1)
-            if(this.props.admin==null){
+            if(!this.state.admin){
                 return(<Redirect to={"/user/home"}/>)
             }
         return null
@@ -41,7 +52,12 @@ class BaseLayout extends BaseComponent {
         return (
             routes.map((prop, key) => {
                 if(prop.auth==true)
-                    return <PrivateRoute path={prop.path} component={prop.component} key={key} user={this.props.user}/>;
+                    return <PrivateRoute 
+                    role={-1}
+                    path={prop.path} 
+                    component={prop.component} 
+                    key={key} 
+                    user={this.props.user}/>;
                 else
                     return <Route 
                     path={prop.path} 
@@ -49,9 +65,7 @@ class BaseLayout extends BaseComponent {
                     key={key}/>;
             })
         )
-    };
-
-    
+    };    
 
     refreshUser(){
         const user=this.loadStorage("user")

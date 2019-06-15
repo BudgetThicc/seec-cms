@@ -1,9 +1,7 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
-import { loginAsUser,logout} from '../../redux/actions/action';
-import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
+import { Modal } from 'antd';
 import { BaseComponent } from '../BaseComponent';
-import {FormButton, FormText, FormAvatar, FormSelector} from '..//forms';
 import SignIn from './signIn'
 import SignUp from './signUp'
 import { connect } from 'react-redux';

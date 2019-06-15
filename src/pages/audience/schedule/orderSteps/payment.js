@@ -34,7 +34,6 @@ export class Payment extends BaseComponent {
     }
 
     handleChange(value){
-        this.pushNotification("",value+"")
         this.setState({vipId:value})
     }
 

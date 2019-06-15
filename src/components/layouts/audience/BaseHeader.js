@@ -3,12 +3,12 @@ import {Paper} from '@material-ui/core';
 import {Row,Col,Menu,Popover,Button,Layout,Icon} from 'antd';
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
-import BaseComponent from "../BaseComponent"
+import BaseComponent from "../../BaseComponent"
 import BaseBanner from './BaseBanner'
-import SearchBar from '../SearchBar'
-import UserPopover from '../user/UserPopover'
-import UserMenu from '../user/UserMenu'
-import { logout, loginAsUser,showSignIn,showSignUp, loginAsAdmin, loginAsSales } from "../../redux/actions/action";
+import SearchBar from '../../SearchBar'
+import UserPopover from '../../user/UserPopover'
+import UserMenu from '../../user/UserMenu'
+import { logout, loginAsUser,showSignIn,showSignUp, loginAsAdmin, loginAsSales } from "../../../redux/actions/action";
 
 const {Header}=Layout
 

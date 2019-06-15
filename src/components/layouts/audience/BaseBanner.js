@@ -1,9 +1,9 @@
 import React,{Component} from "react";
 import {withRouter } from "react-router-dom";
 import {connect} from "react-redux"
-import {showSignIn} from '../../redux/actions/action';
-import BaseComponent from "../BaseComponent"
-import Banner from '../Banner'
+import {showSignIn} from '../../../redux/actions/action';
+import BaseComponent from "../../BaseComponent"
+import Banner from '../../Banner'
 
 import back1 from "./resource/back1.jpg"
 import film1 from "./resource/film1.png"

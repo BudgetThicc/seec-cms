@@ -1,3 +1,4 @@
 import * as Audience from './audience';
 import * as Sales from './sales';
-export {Audience,Sales}
+import * as Admin from './admin';
+export {Audience,Sales,Admin}

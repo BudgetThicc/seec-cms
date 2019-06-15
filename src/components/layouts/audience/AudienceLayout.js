@@ -1,13 +1,13 @@
 import React,{Component} from "react";
 import { Router, Route,withRouter } from "react-router-dom";
 import { BackTop, Row, Layout} from 'antd';
-import {loginAsUser,logout,setOnCancel,showSignIn,showSignUp,cancelModal} from '../../redux/actions/action';
-import {userRoutes} from "../../routes/routes";
-import PrivateRoute from "../PrivateRoute"
+import {loginAsUser,logout,setOnCancel,showSignIn,showSignUp,cancelModal} from '../../../redux/actions/action';
+import {userRoutes} from "../../../routes/routes";
+import PrivateRoute from "../../PrivateRoute"
 import BaseHeader from "./BaseHeader"
-import BaseComponent from "../BaseComponent"
-import AuthModal from "../auth/authModal"
-import BaseDrawer from "../BaseDrawer"
+import BaseComponent from "../../BaseComponent"
+import AuthModal from "../../auth/authModal"
+import BaseDrawer from "../../BaseDrawer"
 
 import { connect } from 'react-redux';
 
@@ -46,10 +46,12 @@ class AudienceLayout extends BaseComponent {
     createRoutes = (routes) => {
         return (
             routes.map((prop, key) => {
-                if(prop.auth==true)
-                    return <PrivateRoute path={"/user"+prop.path} component={prop.component} key={key} user={this.props.user}/>;
-                else
-                    return <Route path={"/user"+prop.path} component={prop.component} key={key} />;
+                    return <PrivateRoute 
+                    role={0}
+                    path={prop.path} 
+                    component={prop.component} 
+                    key={key} 
+                    user={this.props.user}/>;
             })
         )
     };

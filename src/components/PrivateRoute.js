@@ -8,11 +8,19 @@ import {notification} from 'antd';
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
     admin: state.identityReducer.admin,
-    signInVisible:state.modalReducer.signInVisible,
-    signUpVisible:state.modalReducer.signUpVisible,
+    sales: state.identityReducer.sales,
 })
 
-const PrivateRoute = ({component: Component, user, location,history,dispatch,...props}) => {
+const PrivateRoute = ({
+    component: Component, 
+    user,//传入观察值
+    location,
+    history,
+    dispatch,
+    path,//路径
+    role,//如果需要授权，需要的权限等级
+    auth,//是否需要授权
+    ...props}) => {
     // 解构赋值 将 props 里面的 component 赋值给 Component
     
     const jumpBack=(_user)=>{   
@@ -44,19 +52,35 @@ const PrivateRoute = ({component: Component, user, location,history,dispatch,...
             })
     }
 
-    return <Route {...props} 
+    switch(role){
+        case 0:
+            path="/user"+path
+            break
+        case 1:
+            path="/sales"+path
+            break
+        case 2:
+            path="/admin"+path
+    }
+
+    return <Route {...props} path={path}
         render={(p) => {
-            if (user){ 
-                return <Component />
-            } else { 
-                pushNotification("danger","请先登录再进行操作")
-                dispatch(showSignIn())
-                dispatch(setOnCancel(jumpBack))
-                return null
+                if (user||!auth){ 
+                    return <Component />
+                } else { 
+                    pushNotification("danger","请先登录再进行操作")
+                    dispatch(showSignIn())
+                    dispatch(setOnCancel(jumpBack))
+                    return null
+                }
             }
         }
-        }
     />
+}
+
+PrivateRoute.defaultProps ={
+    user:null,
+    role:0
 }
 
 export default connect(mapStateToProps)(withRouter(PrivateRoute))

@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import * as Pages from "../pages";
-import AudienceLayout from '../components/layouts/AudienceLayout'
+import AudienceLayout from '../components/layouts/audience/AudienceLayout'
+import AdminLayout from '../components/layouts/admin/AdminLayout'
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
@@ -57,6 +58,19 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
         path: "/sales",
         icon: 'sales',
         component: Pages.Sales.Schedule,
+    },
+    {
+        path: "/admin",
+        icon: 'admin',
+        component: AdminLayout,
+        children:[
+            {
+            path: "/schedule",
+            icon: 'schedule',
+            component: Pages.Admin.Schedule,
+            },
+
+        ]
     }
     // {
     //     path: "/signin",
@@ -69,4 +83,5 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
 export default mainRoutes;
 
 const userRoutes = _.find(mainRoutes, { path: '/user'}).children;
-export {userRoutes}
+const adminRoutes = _.find(mainRoutes, { path: '/admin'}).children;
+export {userRoutes,adminRoutes}

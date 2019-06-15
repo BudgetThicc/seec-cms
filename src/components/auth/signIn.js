@@ -1,9 +1,9 @@
 import React from 'react';
 import {withRouter} from "react-router-dom";
-import { loginAsUser,logout} from '../../redux/actions/action';
+import { loginAsUser,loginAsAdmin,loginAsSales} from '../../redux/actions/action';
 import { Row, Col, Divider, Button, Icon, Form, Upload, Avatar,Modal } from 'antd';
 import { BaseComponent } from '../BaseComponent';
-import {FormButton, FormText, FormAvatar, FormSelector} from '../../components/forms';
+import {FormButton, FormText} from '../../components/forms';
 import { connect } from 'react-redux';
 import md5 from "md5";
 
@@ -36,9 +36,25 @@ class SignIn extends BaseComponent {
 
             var successAction = (result) => {
                 //todo: 根据用户类型分类存储
-                this.props.dispatch(loginAsUser(result.content));
-                localStorage.setItem('user', JSON.stringify(result.content));
-                this.props.onCancel(this.props.user)
+                if(result.content&&result.content.role!=null){
+                    switch(result.content.role){
+                        case 0:
+                            this.props.dispatch(loginAsUser(result.content));
+                            localStorage.setItem('user', JSON.stringify(result.content));
+                            this.props.onCancel()
+                            break
+                        case 1:
+                            this.props.dispatch(loginAsSales(result.content));
+                            sessionStorage.setItem('sales', JSON.stringify(result.content));
+                            this.props.onCancel()
+                            break
+                        case 2:
+                            this.props.dispatch(loginAsAdmin(result.content));
+                            sessionStorage.setItem('admin', JSON.stringify(result.content));
+                            this.props.history.replace("/admin/schedule")
+                            this.props.onCancel()
+                    }
+                }
                 this.pushNotification("success", "用户"+result.content.username+"登录成功");
             }
 
