@@ -51,7 +51,7 @@ class SignIn extends BaseComponent {
                         case 2:
                             this.props.dispatch(loginAsAdmin(result.content));
                             sessionStorage.setItem('admin', JSON.stringify(result.content));
-                            this.props.history.replace("/admin/schedule")
+                            this.props.history.replace("/admin/home")
                             this.props.onCancel()
                     }
                 }
