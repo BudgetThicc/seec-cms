@@ -63,9 +63,20 @@ class BaseSider extends React.Component {
 
   renderMenuItem = ({key, icon, title,}) => {
     return (
-      <Menu.Item style={{height:50,fontSize:20}} key={key}>
+      <Menu.Item style={{height:50,fontSize:18}} key={key}>
         <Link to={key}>
-          {icon && <Icon style={{fontSize:20}} type={icon}/>}
+          {icon && <Icon style={{fontSize:18}} type={icon}/>}
+          <span>{title}</span>
+        </Link>
+      </Menu.Item>
+    )
+  }
+
+  renderSubMenuItem = ({key, icon, title,}) => {
+    return (
+      <Menu.Item style={{height:40,marginTop:10,fontSize:16}} key={key}>
+        <Link to={key}>
+          {icon && <Icon style={{fontSize:16}} type={icon}/>}
           <span>{title}</span>
         </Link>
       </Menu.Item>
@@ -74,9 +85,9 @@ class BaseSider extends React.Component {
 
   renderSubMenu = ({key, icon, title, subs}) => {
     return (
-      <Menu.SubMenu style={{marginBottom:20}} key={key} title={<span style={{fontSize:20}}>{icon && <Icon style={{fontSize:20}} type={icon}/>}<span>{title}</span></span>}>
+      <Menu.SubMenu style={{marginBottom:18}} key={key} title={<span style={{fontSize:18}}>{icon && <Icon style={{fontSize:18}} type={icon}/>}<span>{title}</span></span>}>
         {subs.map(item => {
-            return item.subs && item.subs.length > 0 ? this.renderSubMenu(item) : this.renderMenuItem(item)
+            return item.subs && item.subs.length > 0 ? this.renderSubMenu(item) : this.renderSubMenuItem(item)
         })}
       </Menu.SubMenu>
     )
@@ -85,7 +96,7 @@ class BaseSider extends React.Component {
   render() {
     const {openKeys, selectedKeys} = this.state
     return (
-        <Paper elevation={3} style={{height:document.body.scrollHeight,width:250}}>
+        <Paper elevation={3} style={{height:document.body.scrollHeight,width:200}}>
             <Row type="flex" align="middle">
                 <img style={styles.img} src={require('./resource/logo_admin.png')}/>
                 <Menu
@@ -108,8 +119,9 @@ class BaseSider extends React.Component {
 
 const styles={
     img:{
-        height:62.5,
-        width:250,
+        height:45,
+        width:180,
+        marginLeft:10,
         marginTop:20,
         marginBottom:20
     }

@@ -65,9 +65,29 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
         component: AdminLayout,
         children:[
             {
-            path: "/schedule",
-            icon: 'schedule',
-            component: Pages.Admin.Schedule,
+                path: "/refundmanage",
+                icon: 'refundmanage',
+                component: Pages.Admin.RefundManage,
+            },
+            {
+                path: "/staffmanage",
+                icon: 'staffmanage',
+                component: Pages.Admin.StaffManage,
+            },
+            {
+                path: "/vipmanage",
+                icon: 'vipmanage',
+                component: Pages.Admin.VIPManage,
+            },
+            {
+                path: "/hallmanage",
+                icon: 'hallmanage',
+                component: Pages.Admin.HallManage,
+            },
+            {
+                path: "/givecoupons",
+                icon: 'givecoupons',
+                component: Pages.Admin.GiveCoupons,
             },
 
         ]

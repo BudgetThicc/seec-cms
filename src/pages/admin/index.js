@@ -1,1 +1,6 @@
 export * from "./schedule"
+export * from "./vipManage"
+export * from "./staffManage"
+export * from "./refundManage"
+export * from "./hallManage"
+export * from "./giveCoupons"

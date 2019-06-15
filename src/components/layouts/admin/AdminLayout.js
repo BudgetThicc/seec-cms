@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import { Router, Route,withRouter } from "react-router-dom";
-import { BackTop, Row, Layout} from 'antd';
+import { BackTop, Row, Layout,Col} from 'antd';
 import {loginAsUser,loginAsAdmin,logout,} from '../../../redux/actions/action';
 import {adminRoutes} from "../../../routes/routes";
 import BaseComponent from "../../BaseComponent"
@@ -22,15 +22,15 @@ class AdminLayout extends BaseComponent {
         this.state = {
             items:[
                 {title: '首页',icon: 'home',key: '/home/other/springText'},
-                {title: '会员卡管理',icon: 'laptop',key: '/home/vipManage',
+                {title: '会员卡管理',icon: 'laptop',key: '/admin',
                     subs:[
-                    {key: '/home/vipManage', title: '会员卡优惠管理', icon: 'bulb'},
-                    {key: '/home/giveCoupons', title: '赠送会员优惠券', icon: 'bulb'}
+                    {key: '/admin/vipmanage', title: '优惠策略管理'},
+                    {key: '/home/giveCoupons', title: '赠送优惠券'}
                 ]},
-                {title: '退票策略管理',icon: 'bars',key: '/home/refundManage',},
-                {title: '影厅管理',icon: 'edit', key: '/home/hallManage',},
-                {title: '员工管理',icon: 'desktop',key: '/home/staffManage'},
-                {title: '关于',icon: 'info-circle-o',key: '/home/about'}
+                {title: '退票策略管理',icon: 'bars',key: '/admin/refundmanage',},
+                {title: '影厅管理',icon: 'edit', key: '/admin/hallmanage',},
+                {title: '员工管理',icon: 'desktop',key: '/admin/staffmanage'},
+                {title: '退出管理员模式',icon: 'info-circle-o',key: '/user/home'}
             ],
         }
     }
@@ -57,13 +57,18 @@ class AdminLayout extends BaseComponent {
                 <BackTop visibilityHeight={200} style={{zIndex:10}}/>
                 <Sider 
                 breakpoint="md"
+                collapsedWidth={0}
                 style={styles.sider}>
                     <BaseSider menus={this.state.items}/>
                 </Sider>
-                <Content style={{backgroundColor:"white",marginLeft:15}}>
-                    <Router history={this.props.history}>
-                        {this.createRoutes(adminRoutes)}
-                    </Router>
+                <Content style={{backgroundColor:"white",marginLeft:10}}>
+                    <Row type="flex" justify="center">
+                        <Col span={24}>
+                        <Router history={this.props.history}>
+                            {this.createRoutes(adminRoutes)}
+                        </Router>
+                        </Col>
+                    </Row>
                 </Content>
             </Layout>
             );
@@ -74,12 +79,8 @@ const styles={
     sider:{
         backgroundColor:"white",
         height:"100%",
-        width:250,
+        width:200,
     },
-    img:{
-        height:40,
-        width:200
-    }
 }
 
 
