@@ -46,6 +46,7 @@ class SignIn extends BaseComponent {
                         case 1:
                             this.props.dispatch(loginAsSales(result.content));
                             sessionStorage.setItem('sales', JSON.stringify(result.content));
+                            this.props.history.replace("/sales/home")
                             this.props.onCancel()
                             break
                         case 2:

@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import * as Pages from "../pages";
 import AudienceLayout from '../components/layouts/audience/AudienceLayout'
 import AdminLayout from '../components/layouts/admin/AdminLayout'
+import SalesLayout from '../components/layouts/sales/SalesLayout'
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
@@ -57,7 +58,34 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
     {
         path: "/sales",
         icon: 'sales',
-        component: Pages.Sales.Schedule,
+        component: SalesLayout,
+        children:[
+            {
+                path: "/home",
+                icon: 'home',
+                component: Pages.Sales.Home,
+            },
+            {
+                path: "/moviemanage",
+                icon: 'moviemanage',
+                component: Pages.Sales.MovieManage,
+            },
+            {
+                path: "/activitymanage",
+                icon: 'activitymanage',
+                component: Pages.Sales.ActivityManage,
+            },
+            {
+                path: "/schedulemanage",
+                icon: 'schedulemanage',
+                component: Pages.Sales.ScheduleManage,
+            },
+            {
+                path: "/statistics",
+                icon: 'statistics',
+                component: Pages.Sales.Statistics,
+            },
+        ]
     },
     {
         path: "/admin",
@@ -108,5 +136,6 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
 export default mainRoutes;
 
 const userRoutes = _.find(mainRoutes, { path: '/user'}).children;
+const salesRoutes = _.find(mainRoutes, { path: '/sales'}).children;
 const adminRoutes = _.find(mainRoutes, { path: '/admin'}).children;
-export {userRoutes,adminRoutes}
+export {userRoutes,adminRoutes,salesRoutes}

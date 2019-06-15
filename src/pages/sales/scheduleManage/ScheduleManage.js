@@ -1,20 +1,26 @@
 import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
 import { Row, Col, AutoComplete, Select, Divider, Typography,Button,Dropdown,Menu } from 'antd';
+import ScheduleForm from "./ScheduleForm";
 
 const {Option}=Select
 var moment = require('moment');
 var times=["00:00","03:00","06:00","09:00","12:00","15:00","18:00","21:00"]
-export class Schedule extends BaseComponent {
+export class ScheduleManage extends BaseComponent {
     constructor(props){
         super(props);
         this.state={
             current:"",
             hallIds:[],
             hallNames:[],
-            scheduleList:[]
+            scheduleList:[],
+            addVis:false
         }
+        this.addCancel=this.addCancel.bind(this)
+        this.handleClick=this.handleClick.bind(this)
     }
+
+    
 
     componentWillMount(){
         var successAction=(result)=>{
@@ -52,12 +58,12 @@ export class Schedule extends BaseComponent {
             date+=""
             var hour=parseInt(date.substring(11,13))
             var minute=parseInt(date.substring(14,16))
-            return (120*hour+2*minute)
+            return (60*hour+minute)
         }
     }
 
     handleLength=(date1,date2)=>{
-        if(date1&&date2){
+        if(date1&&date2){   
             date1+=""
             date2+=""
             var hour1=parseInt(date1.substring(11,13))
@@ -66,7 +72,7 @@ export class Schedule extends BaseComponent {
             var minute2=parseInt(date2.substring(14,16))
             var hour=hour2-hour1
             var minute=minute2-minute1
-            return(120*hour+2*minute)
+            return(60*hour+minute)
         }
     }
 
@@ -126,12 +132,12 @@ export class Schedule extends BaseComponent {
 
     renderSchedules=(item)=>{
         return(
-            <Row type="flex" style={{width:3040}}>
+            <Row type="flex">
                 <Col style={styles.date} type="flex" justify="center" align="middle">
                     {this.handleDate(item.date)}
                 </Col>
                 
-                <Col style={{width:2880,marginLeft:10}} type="flex">
+                <Col style={{width:"400px"}}  type="flex">
                     {item.scheduleItemList.map(this.renderSchedule)}
                 </Col>
                 <Divider style={{margin:0}}/>
@@ -141,8 +147,8 @@ export class Schedule extends BaseComponent {
 
     renderTimes=(text)=>{
         return(
-            <Col style={{fontSize:20,width:360}} type="flex" justify="start">
-                <Divider type="vertical" style={{backgroundColor:"black",height:20}}/>
+            <Col style={{fontSize:20,width:180}} type="flex" justify="start">
+                <Divider type="vertical" style={{backgroundColor:"black",height:20,marginLeft:0}}/>
                 {text}
             </Col>
         )
@@ -151,7 +157,7 @@ export class Schedule extends BaseComponent {
     renderDates=()=>{
         return(
             <Row>
-                <Row type="flex" style={{marginLeft:110,width:2880}}>
+                <Row type="flex" style={{marginLeft:100,width:1440}}>
                     {times.map(this.renderTimes)}
                 </Row>
                 {this.state.scheduleList.map(this.renderSchedules)}
@@ -171,25 +177,45 @@ export class Schedule extends BaseComponent {
         this.fetchSchedule(value)
     }
 
+    handleClick(){
+        this.setState({
+            addVis:true
+        })
+    }
+
+    addCancel(){
+        this.setState({
+            addVis:false
+        })
+    }
+
     render(){
         const {current}=this.state
         return (
+            <div>
+                <ScheduleForm visible={this.state.addVis} onCancel={this.addCancel}></ScheduleForm>
             <Row  type='flex' justify='center' style={styles.container}>
                 <Col span={22}>
                 <Row style={{fontSize:22}} type='flex' justify='center'>
                     排片信息
                 </Row>
+                <Row>
                 <Select defaultValue={"1"} 
                 size="large"
                 style={{ width: 300,marginBottom:20,fontSize:20 }} 
                 onChange={this.handleChange}>
                     {this.state.hallIds.map(this.renderOption)}
                 </Select>
+                <Button onClick={this.handleClick} style={{float:"right"}}>
+                    新增排片
+                </Button>
+                </Row>
                 <div style={styles.scrollable}>
                     {this.renderDates()}
                 </div>
                 </Col>
             </Row>
+            </div>
         );
     }
 }
@@ -211,7 +237,7 @@ const styles = {
     },
     detail:{
         color:"white",
-        fontSize:18,
+        fontSize:12,
         margin:5
     },
     detail2:{

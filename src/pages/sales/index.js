@@ -1,1 +1,5 @@
-export * from "./schedule"
+export * from "./home"
+export * from "./movieManage"
+export * from "./activityManage"
+export * from "./scheduleManage"
+export * from "./statistics"
