@@ -64,26 +64,31 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
                 path: "/home",
                 icon: 'home',
                 component: Pages.Sales.Home,
+                auth:true
             },
             {
                 path: "/moviemanage",
                 icon: 'moviemanage',
                 component: Pages.Sales.MovieManage,
+                auth:true
             },
             {
                 path: "/activitymanage",
                 icon: 'activitymanage',
                 component: Pages.Sales.ActivityManage,
+                auth:true
             },
             {
                 path: "/schedulemanage",
                 icon: 'schedulemanage',
                 component: Pages.Sales.ScheduleManage,
+                auth:true
             },
             {
                 path: "/statistics",
                 icon: 'statistics',
                 component: Pages.Sales.Statistics,
+                auth:true
             },
         ]
     },
@@ -96,31 +101,37 @@ const mainRoutes = [//默认路由（其实是第二层，第一层在隔壁inde
                 path: "/home",
                 icon: 'home',
                 component: Pages.Admin.Home,
+                auth:true
             },
             {
                 path: "/refundmanage",
                 icon: 'refundmanage',
                 component: Pages.Admin.RefundManage,
+                auth:true
             },
             {
                 path: "/staffmanage",
                 icon: 'staffmanage',
                 component: Pages.Admin.StaffManage,
+                auth:true
             },
             {
                 path: "/vipmanage",
                 icon: 'vipmanage',
                 component: Pages.Admin.VIPManage,
+                auth:true
             },
             {
                 path: "/hallmanage",
                 icon: 'hallmanage',
                 component: Pages.Admin.HallManage,
+                auth:true
             },
             {
                 path: "/givecoupons",
                 icon: 'givecoupons',
                 component: Pages.Admin.GiveCoupons,
+                auth:true
             },
 
         ]

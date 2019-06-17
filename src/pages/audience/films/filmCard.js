@@ -2,11 +2,12 @@ import React from "react";
 import BaseComponent from '../../../components/BaseComponent'
 import FilmDrawer from './filmDrawer'
 import { Row, Skeleton,Col,Button,Icon} from 'antd';
-import { showDrawer } from '../../../redux/actions/action';
+import { showDrawer,showSignIn } from '../../../redux/actions/action';
 import {Card,CardActionArea,CardActions,Typography,Grid} from '@material-ui/core';
 
 import { connect } from 'react-redux';
 const mapStateToProps = state => ({
+    user:state.identityReducer.user,
     title:state.drawerReducer.title,
     content: state.drawerReducer.content,
     loading: state.drawerReducer.loading,
@@ -16,6 +17,10 @@ class FilmCard extends BaseComponent {
 
     constructor(props) {
         super(props);
+        this.state={
+            isLike:this.props.item.isLike,
+            likeCount:this.props.item.likeCount
+        }
     }
 
     toggleDrawer=()=>{
@@ -23,6 +28,32 @@ class FilmCard extends BaseComponent {
         this.props.dispatch(showDrawer("电影详情",content))
     }
 
+    setLike=()=>{
+        const {id}=this.props.item
+        const {isLike}=this.state
+        if(!this.props.user){
+            this.pushNotification("danger","请先登录")
+            this.props.dispatch(showSignIn())
+        }else{
+            let url=""
+            if(isLike)
+                url="/movie/unlike"
+            else
+                url="/movie/like"
+            url+="?userId="+this.props.user.id
+            url+="&movieId="+id
+            var successAction=(result)=>(
+                this.get("/movie/"+id+"/like/count",(_result)=>{
+                    this.setState({
+                        isLike:!isLike,
+                        likeCount:_result.content
+                    })
+                }
+                )
+            )
+            this.post(url,null,successAction)
+        }
+    }
     renderName=(name)=>{
         return(
             <Row type="flex" justify="center">
@@ -89,13 +120,13 @@ class FilmCard extends BaseComponent {
     }
 
     renderButtons=()=>{
-        let {isLike,likeCount}=this.props.item
+        let {isLike,likeCount}=this.state
         let theme="outlined"
         if(!likeCount) likeCount=0
         if(isLike) theme="filled"
         return(
             <Grid container justify="center">
-                    <Button style={styles.button} type="link" size="large">
+                    <Button style={styles.button} type="link" size="large" onClick={this.setLike}>
                         <Icon type="heart" theme={theme} />
                         {likeCount+"人想看"}
                     </Button>

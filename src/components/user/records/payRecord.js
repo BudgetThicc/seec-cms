@@ -1,7 +1,7 @@
 import React from "react"
 import BaseComponent from '../../BaseComponent'
 import ErrorPage from '../../ErrorPage'
-import { Row, Card, Collapse, Icon, Descriptions, Badge ,Skeleton } from "antd";
+import { Row, Card,Divider, Collapse, Icon, Descriptions, Badge ,Skeleton } from "antd";
 
 
 const Panel = Collapse.Panel;
@@ -29,15 +29,15 @@ export default class PayRecord extends BaseComponent{
     }
 
     transformRecordData=()=>{
+        for(var i=0;i<this.state.payRecord.length;i++){this.state.scheduleInfo.push({})}
         for(var i=0;i<this.state.payRecord.length;i++){
-            this.state.scheduleInfo.push({})
+            const count=i+0
             if(this.state.payRecord[i].ticketVOList.length==0) continue
             var scheduleId = this.state.payRecord[i].ticketVOList[0].scheduleId
             var time=this.state.payRecord[i].ticketVOList[0].time
             this.get("/schedule/"+scheduleId,(result)=>{
                 if(result.content){
-                    let scheduleInfo=this.state.scheduleInfo
-                    scheduleInfo[i]={
+                    let scheduleInfo={
                         movieName : result.content.movieName,
                         startTime : result.content.startTime,
                         endTime : result.content.endTime,
@@ -45,7 +45,9 @@ export default class PayRecord extends BaseComponent{
                         fare : result.content.fare,
                         time : time
                     }
-                    this.setState({scheduleInfo})
+                    let scheduleInfos=this.state.scheduleInfo
+                    scheduleInfos[count]=scheduleInfo
+                    this.setState({scheduleInfo:scheduleInfos})
                 }
             })
             
@@ -130,26 +132,17 @@ export default class PayRecord extends BaseComponent{
   }
   
   renderTicketState=(state)=>{
-      if(state==1){
-          return(
-          <Badge status="success" text="可使用" />
-          )
-    }else if(state==2){
-      return(
-        <Badge status="default" text="已失效" />
-      )
-    }else if(state==3){
-      return(
-        <Badge status="warning" text="已退票" />
-      )
-    }else{
-      return(
-        <Badge status="default" text="已失效" />
-      )
-    }
+    switch(state){
+        case "未完成":
+            return(<Badge status="processing" text="未完成" />)
+        case "已完成":
+            return(<Badge status="success" text="已完成" />)
+        case "已失效":
+            return(<Badge status="default" text="已失效" />)
+        case "已退票":
+            return(<Badge status="error" text="已退票" />)
+      }
   }
-
-
 
   render=()=>{
         var key = 0;
@@ -161,16 +154,16 @@ export default class PayRecord extends BaseComponent{
         return(
         <Collapse
         bordered={true}
-        defaultActiveKey={['1']}
+        defaultActiveKey={"1"}
         expandIcon={({ isActive }) => <Icon type="money-collect" rotate={isActive ? 90 : 0} />}
         >
         {this.state.payRecord.map((item) => {
             key = key+1;
-            const schedule=this.state.scheduleInfo[key]
+            const schedule=this.state.scheduleInfo[key-1]
             if(schedule)
             return(
                 <Panel 
-                header={<Row style={{fontFamily:"微软雅黑"}}>{schedule.movieName} 下单时间:{schedule.time} <span style={{float:'right'}}>付款金额:{item.totalPay+""}</span></Row>} 
+                header={<Row style={{fontFamily:"微软雅黑",color:"#1890ff"}}>{schedule.movieName} 下单时间:{schedule.time} <span style={{float:'right'}}>付款金额:{item.totalPay+""}</span></Row>} 
                 key={key} style={customPanelStyle} border>
                     <Collapse defaultActiveKey="1" bordered={true}  expandIcon={({ isActive }) => <Icon type="caret-right" rotate={isActive ? 90 : 0} />}>
                     {keywithIn = 0}
@@ -187,12 +180,13 @@ export default class PayRecord extends BaseComponent{
                         key={keywithIn}
                         style = {TicketPanelStyle}
                         border>
-                        {this.renderTicket(ticket,schedule)}
+                            {this.renderTicket(ticket,schedule)}
                         </Panel>
                         )
                     })}
-                </Collapse>
-                {this.renderDetail(item)}
+                    </Collapse>
+                    <Divider/>
+                    {this.renderDetail(item)}
                 </Panel>        
             )
         })}
@@ -202,17 +196,13 @@ export default class PayRecord extends BaseComponent{
 }
 
 const customPanelStyle = {
-    background: '#d9d9d9',
     borderRadius: 4,
-    marginBottom: 24,
-    border: 0,
+    marginBottom: 10,
     overflow: 'hidden',
   };
   
   const TicketPanelStyle = {
-    background: '#e8e8e8',
     borderRadius: 4,
-    marginBottom: 24,
-    border: 0,
+    marginBottom: 3,
     overflow: 'hidden',
   };

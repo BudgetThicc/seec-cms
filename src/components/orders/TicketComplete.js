@@ -31,14 +31,14 @@ export default class TicketComplete extends BaseComponent {
 
             return(
                 <Col span={6}>
-                    <Row style={styles.courseItem}>距离开始时间</Row>
+                    <Row style={styles.courseItem}>距上映</Row>
                     <Typography style={styles.content}>
                         {start}
                     </Typography>
                 </Col>
             )
     }
-    
+
     render(){
         const {ticket}=this.props;
         const {id,name,hall,startTime,endTime,seat}=ticket
@@ -46,12 +46,17 @@ export default class TicketComplete extends BaseComponent {
             this.state.selected=false
             this.state.ticket=this.props.ticket
         }
+        const start=moment(startTime.substring(0,10)+startTime.substring(11,19),
+        "YYYY-MM-DDhh:mm:ss")-moment()
+        const enable=start>0
         return (
             <Button  onClick={this.onClick} style={styles.button}>
                 <Row type="flex" justify="center">
 
                     <Col span={1} >
-                        <Checkbox checked={this.state.selected} onChange={this.onChange}/>
+                        {enable&&<Checkbox disabled={false}
+                        checked={this.state.selected} 
+                        onChange={this.onChange}/>}
                     </Col>
 
                     <Col span={2} >

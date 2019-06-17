@@ -49,6 +49,7 @@ class AudienceLayout extends BaseComponent {
             routes.map((prop, key) => {
                     return <PrivateRoute 
                     role={0}
+                    auth={prop.auth}
                     path={prop.path} 
                     component={prop.component} 
                     key={key} 

@@ -103,7 +103,7 @@ class BaseLayout extends BaseComponent {
                 <Content style={{backgroundColor:"white"}}>
                     <Router history={this.props.history}>
                         {this.createRoutes(mainRoutes)}
-                        {/* {this.getDefaultRoute()} */}
+                        {this.getDefaultRoute()}
                     </Router>
                 </Content>
             </Layout>

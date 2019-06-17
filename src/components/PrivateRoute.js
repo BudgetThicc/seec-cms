@@ -6,7 +6,7 @@ import {showSignIn,setOnCancel,cancelModal} from '../redux/actions/action';
 import {notification} from 'antd';
 
 const mapStateToProps = state => ({
-    user: state.identityReducer.user,
+    user_redux: state.identityReducer.user,
     admin: state.identityReducer.admin,
     sales: state.identityReducer.sales,
 })
@@ -14,6 +14,9 @@ const mapStateToProps = state => ({
 const PrivateRoute = ({
     component: Component, 
     user,//传入观察值
+    user_redux,
+    sales,
+    admin,
     location,
     history,
     dispatch,
@@ -38,7 +41,7 @@ const PrivateRoute = ({
         if(kind=='danger')
             notification.warning({
                 message:reason,
-                description:"糟了!",
+                description:"失败!",
             })
         else if(kind=='success')
             notification.success({
@@ -51,21 +54,25 @@ const PrivateRoute = ({
                 description:""
             })
     }
-
+    
+    let login=false
     switch(role){
         case 0:
+            login=user_redux
             path="/user"+path
             break
         case 1:
+            login=sales
             path="/sales"+path
             break
         case 2:
+            login=admin
             path="/admin"+path
     }
 
     return <Route {...props} path={path}
         render={(p) => {
-                if (user||!auth){ 
+                if (user||login||!auth){ 
                     return <Component />
                 } else { 
                     pushNotification("danger","请先登录再进行操作")

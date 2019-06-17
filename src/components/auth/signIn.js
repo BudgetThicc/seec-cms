@@ -46,14 +46,14 @@ class SignIn extends BaseComponent {
                         case 1:
                             this.props.dispatch(loginAsSales(result.content));
                             sessionStorage.setItem('sales', JSON.stringify(result.content));
-                            this.props.history.replace("/sales/home")
                             this.props.onCancel()
+                            this.props.history.replace("/sales/home")
                             break
                         case 2:
                             this.props.dispatch(loginAsAdmin(result.content));
                             sessionStorage.setItem('admin', JSON.stringify(result.content));
-                            this.props.history.replace("/admin/home")
                             this.props.onCancel()
+                            this.props.history.replace("/admin/home")
                     }
                 }
                 this.pushNotification("success", "用户"+result.content.username+"登录成功");

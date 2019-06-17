@@ -30,6 +30,10 @@ export class OrderList extends BaseComponent {
             this.refresh()
         }
     }
+    
+    descending(x,y){
+        return y.id-x.id
+    }
 
     refresh=()=>{
         const {id}=this.props.user
@@ -38,7 +42,9 @@ export class OrderList extends BaseComponent {
         const canceled=[]
         const expired=[]
         var successAction=(result)=>{
-            result.content.map((ticket)=>{
+            const tickets=result.content
+            tickets.sort(this.descending)
+            tickets.map((ticket)=>{
                 switch(ticket.state){
                     case 0:
                         incomplete.push(ticket)
