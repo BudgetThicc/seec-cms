@@ -50,7 +50,7 @@ export default class TicketComplete extends BaseComponent {
         "YYYY-MM-DDhh:mm:ss")-moment()
         const enable=start>0
         return (
-            <Button  onClick={this.onClick} style={styles.button}>
+            <Button onClick={enable&&this.onClick} style={styles.button}>
                 <Row type="flex" justify="center">
 
                     <Col span={1} >
