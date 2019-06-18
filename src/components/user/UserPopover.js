@@ -7,6 +7,7 @@ import { showDrawer } from '../../redux/actions/action';
 import { logout } from "../../redux/actions/action";
 import PayRecord from "./records/payRecord"
 import ChargeRecord from "./records/chargeRecord"
+import Cards from "./cards/cards"
 
 const mapStateToProps = state => ({
     user: state.identityReducer.user,
@@ -39,6 +40,10 @@ class UserPopover extends BaseComponent{
         this.props.dispatch(showDrawer("历史充值",<ChargeRecord/>))
     }
 
+    cards=()=>{
+        this.props.dispatch(showDrawer("卡包",<Cards/>))
+    }
+
     render(){
 
         return (
@@ -49,7 +54,7 @@ class UserPopover extends BaseComponent{
                 <ListItem button onClick={this.payRecord}>
                     <Typography>消费记录</Typography>
                 </ListItem>
-                <ListItem button >
+                <ListItem button onClick={this.cards}>
                     <Typography>卡包</Typography>
                 </ListItem>
                 <ListItem button onClick={this.signOut}>
