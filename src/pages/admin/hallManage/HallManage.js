@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Card, Spin, Button, Radio, List, Switch, Avatar,BackTop,Anchor,Affix,Icon} from 'antd'
+import {Card, Spin, Button, Radio, List, Switch, Avatar,BackTop,Anchor,Affix,Icon, Modal} from 'antd'
 import './css/style.css'
 import AddHallForm from './AddHallForm';
 import { BaseComponent } from '../../../components/BaseComponent';
@@ -44,6 +44,8 @@ export class HallManage extends BaseComponent{
         this.handleClick=this.handleClick.bind(this)
         this.handleCli=this.handleCli.bind(this)
         this.changeEdit=this.changeEdit.bind(this)
+        this.deleteHall=this.deleteHall.bind(this)
+        this.refresh=this.refresh.bind(this)
     }
 
     componentWillMount(){
@@ -67,6 +69,31 @@ export class HallManage extends BaseComponent{
         return t
     }
 
+    refresh(){
+        this.get("/hall/all",result=>{
+            this.setState({
+                hallList:result.content
+            })
+        })
+    }
+
+    deleteHall(id){
+        Modal.confirm({
+            title:"您确认要删除影厅吗？",
+            onOk:()=>{
+                this.get("/hall/delete?hallId="+id,result=>{
+                    Modal.success({
+                        title:'删除影厅成功！',
+                        onOk:()=>{
+                            this.refresh()
+                        }
+                    })
+                })
+            }
+        })
+
+    }
+
     renderHall(hall){
         var r=[]
         let tem=""
@@ -82,7 +109,7 @@ export class HallManage extends BaseComponent{
         else if(hall.size===3){
             tem="巨大"
         }
-        r.push(<div><span style={{fontSize:"25px",color:"black"}}>{hall.name}</span><span>{hall.row+"*"+hall.column+" "+tem}</span></div>)
+        r.push(<div><span style={{fontSize:"25px",color:"black"}}>{hall.name}</span><span>{hall.row+"*"+hall.column+" "+tem}</span><span>{" "}<a onClick={()=>{this.deleteHall(hall.id)}}>删除影厅</a></span></div>)
         r.push(this.renderSeat(hall))
         return r
     }

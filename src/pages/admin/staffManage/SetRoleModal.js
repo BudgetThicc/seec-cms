@@ -12,6 +12,7 @@ class SetRoleModal extends BaseComponent{
         this.state={
             currentRadioValue: 1
         }
+        this.re=this.re.bind(this)
     }
 
     render=()=>{
@@ -23,6 +24,7 @@ class SetRoleModal extends BaseComponent{
             onCancel={this.props.onCancel}
             // closable={false}
             footer={null}
+            destroyOnClose={true}
             >
                 {this.renderContent()}
             </Modal>
@@ -75,6 +77,10 @@ class SetRoleModal extends BaseComponent{
         )
     }
 
+    re(){
+        this.props.refresh()
+    }
+
     handleRadioChange = (e) => {
         this.setState({currentRadioValue: e.target.value})
     }
@@ -98,9 +104,9 @@ class SetRoleModal extends BaseComponent{
 
             this.post('/staff/add', form, (result) => {
                 Modal.success({
-                    title:"添加成功！",
-                    onOk(){
-                        window.location.href="/home/staffManage"
+                    title:"添加成功！默认密码为123456。",
+                    onOk:()=>{
+                        this.re()
                     }
                 }
                 )

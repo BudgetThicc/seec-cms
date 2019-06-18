@@ -13,7 +13,8 @@ class SetVIPType extends BaseComponent{
         super(props);
         this.state={
             targetAmount: 200,
-            discountAmount: 30
+            discountAmount: 30,
+            form:this.props.form
         }
     }
 
@@ -25,6 +26,7 @@ class SetVIPType extends BaseComponent{
             onOk={this.handleOk}
             onCancel={this.props.onCancel}
             footer={null}
+            destroyOnClose={true}
             >
                 {this.renderContent()}
             </Modal>
@@ -49,7 +51,8 @@ class SetVIPType extends BaseComponent{
                                 name='VIPname' 
                                 required={true} 
                                 icon='idcard'></FormText>
-                            <FormText form={this.props.form}
+                            <FormText
+                            form={this.props.form}
                                 label='销售单价' 
                                 name='price'
                                 required={true} 
@@ -166,7 +169,7 @@ class SetVIPType extends BaseComponent{
                 Modal.success({
                     title:"发布新会员卡成功！",
                     onOk(){
-                        window.location.href="/home/vipManage"
+                        window.location.href="/admin/vipManage"
                     }
                 })
             })

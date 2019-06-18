@@ -13,10 +13,11 @@ class EditVIPType extends BaseComponent{
     constructor(props) {
         super(props);
         this.state={
-            
+            targetAmount:this.props.formt.targetAmount,
+            discountAmount:this.props.formt.discountAmount,
+            discount:this.props.formt.discount
         }
     }
-
 
     render=()=>{
         return(
@@ -27,13 +28,12 @@ class EditVIPType extends BaseComponent{
             onCancel={this.props.onCancel}
             // closable={false}
             footer={null}
+            destroyOnClose={true}
             >
                 {this.renderContent()}
             </Modal>
         )
     }
-
-
 
     renderContent=()=>{
         return(
@@ -46,13 +46,14 @@ class EditVIPType extends BaseComponent{
                         <Row justify='center'>
                             <FormText form={this.props.form}
                             initialValue="co"
+                            defaultValue={this.props.formt.name}
                                 label='名称' 
                                 name='VIPname' 
                                 required={true} 
                                 value={30}
                                 icon='idcard'></FormText>
                             <FormText form={this.props.form}
-                            val="cao"
+                                defaultValue={this.props.formt.price}
                                 label='销售单价：'
                                 name='price'
                                 required={true} 
@@ -61,31 +62,33 @@ class EditVIPType extends BaseComponent{
 
                             <FormItem label='购票折扣(%)'>
                                 <InputNumber
-                                    defaultValue={100}
+                                    defaultValue={this.props.formt.discount*100}
+                                    name='discount' 
                                     min={0}
                                     max={100}
-                                    formatter={value => `${value}%`}
-                                    parser={value => value.replace('%', '')}
-                                    //onChange={onChange}
+                                    step={1}
+                                    onChange={this.changeDiscount}
                                     prefix={<Icon type="fall" />}
                                 />
                             </FormItem>
 
                             <Row>会员卡充值满&emsp;
                                 <InputNumber 
+                                defaultValue={this.props.formt.targetAmount}
+                                name='targetAmount' 
                                 style={{width:60}}
                                 min={1} 
                                 max={100000} 
-                                defaultValue={200} 
-                                //onChange={onChange} 
+                                onChange={this.changeTargetAmount}
                                 />
                                 元送&emsp;
                                 <InputNumber 
+                                defaultValue={this.props.formt.discountAmount}
+                                name='discountAmount' 
                                 style={{width:60}}
                                 min={1} 
                                 max={100000} 
-                                defaultValue={30} 
-                                //onChange={onChange} 
+                                onChange={this.changeDiscountAmount}
                                 />
                                 元
                             </Row>
@@ -109,25 +112,55 @@ class EditVIPType extends BaseComponent{
         )
     }
 
+    changeTargetAmount=(value)=>{
+        this.setState({targetAmount: value})
+    }
+
+    changeDiscountAmount=(value)=>{
+        this.setState({discountAmount: value})
+    }
+
+    changeDiscount=(value)=>{
+        this.setState({discount: value})
+    }
+
+    refreshStates=()=>{
+        if(!this.state.targetAmount)
+            this.state.targetAmount=this.props.formt.targetAmount
+        if(!this.state.discountAmount)
+            this.state.discountAmount=this.props.formt.discountAmount
+        if(!this.state.discount)
+            this.state.discount=this.props.formt.discount
+    }
+
     handleSubmit = (e) =>{
-        e.prventDefault();
+        e.preventDefault();
+        this.refreshStates()
         this.props.form.validateFields((err, values) => {
-            if (values.username === '' ) {
-                this.pushNotification("danger","用户名不能为空",this.props.dispatch);
+            if (values.VIPname === '' ) {
+                this.pushNotification("danger","会员卡名称不能为空");
                 return;
             }
-            if(values.name === ''){
-                this.pushNotification("danger","姓名不能为空",this.props.dispatch);
+            if (Number(values.price) <= 0 || isNaN(values.price)){
+                this.pushNotification("danger","会员卡单价未规范输入");
                 return;
             }
-
             let form = new FormData();
-            form.append('username', values.username);
-            form.append('name', values.name);
-            form.append('role', this.state.currentRadioValue);
+            form.append('name', values.VIPname);
+            form.append('price', values.price);
+            form.append('targetAmount', this.state.targetAmount);
+            form.append('discountAmount', this.state.discountAmount);
+            var discout_val = (this.state.discount/100.0).toFixed(2);
+            console.log(discout_val);
+            form.append('discount', discout_val);
+            form.append('type', this.props.formt.type)
 
-            this.post('/staff/add', form, (result) => {
-                this.pushNotification("success", JSON.stringify(result.connect));
+            this.post('/vipManagement/update', form, (result) => {
+                //TODO 返回VIPType详细信息，之后应该要把数据刷新到页面，不会写
+                console.log(result.content);
+                this.props.onCancel();
+                this.props.refresh()
+                this.pushNotification("success","修改成功")
             })
         })
     }
@@ -178,6 +211,5 @@ const styles={
 
 
 export default Form.create({
-
 }
 )(EditVIPType)

@@ -5,7 +5,7 @@ import { BaseComponent } from '../../../components/BaseComponent';
 import {FormButton, FormText, FormSelector} from '../../../components/forms';
 
 
-class AddRefundForm extends BaseComponent{
+class EditRefundForm extends BaseComponent{
     
     constructor(props) {
         super(props);
@@ -20,11 +20,10 @@ class AddRefundForm extends BaseComponent{
     render=()=>{
         return(
             <Modal
-            title={<span><Icon type="plus-square"></Icon>添加退票策略</span>}
+            title={<span><Icon type="plus-square"></Icon>修改退票策略</span>}
             visible={this.props.visible}
             onOk={this.handleOk}
             onCancel={this.props.onCancel}
-            // closable={false}
             footer={null}
             destroyOnClose={true}
             >
@@ -107,7 +106,7 @@ class AddRefundForm extends BaseComponent{
                 return;
             }
             let form = new FormData();
-            form.append('id',0);
+            form.append('id',0);//此处要改为传来的id
             form.append('name',values.refundName);
             form.append('inUse',0);
             
@@ -118,13 +117,9 @@ class AddRefundForm extends BaseComponent{
             form.append('refundBorderItemList['+i+'].rate',this.state.refundRate[i]);
             }
 
-            this.post('/refund/add', form, (result) => {
-                Modal.success({
-                    title:"添加成功！",
-                    onOk:()=>{
-                        this.props.refresh()
-                    }
-                })
+            this.post('/refund/update', form, (result) => {
+                this.pushNotificaiton("success","更新成功")
+                this.props.refresh()
             })
         })
     }
@@ -174,4 +169,4 @@ const styles={
 };
 
 
-export default Form.create()(AddRefundForm)
+export default Form.create()(EditRefundForm)

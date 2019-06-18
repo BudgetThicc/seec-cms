@@ -34,8 +34,8 @@ class BaseLayout extends BaseComponent {
         }else if(sessionStorage.getItem("sales")!=null){//如果为售票员
             this.state.sales=true
             const admin=JSON.parse(sessionStorage.getItem("sales"))
-            this.props.dispatch(loginAsAdmin(admin))
-        }else{//普通用户，联网获取
+            this.props.dispatch(loginAsSales(admin))
+        }else{//普通用户，持久化存储，联网获取最新状态
             this.refreshUser()
         }
     }

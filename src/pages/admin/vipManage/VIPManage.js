@@ -4,19 +4,8 @@ import SetVIPType from './SetVIPType';
 import { timingSafeEqual } from 'crypto';
 import EditVIPType from './EditVIPType';
 import { BaseComponent } from '../../../components/BaseComponent';
+import { json } from 'graphlib';
 
-
-const data3 = []
-for(let i=0;i<23;i++){
-  data3.push({
-    key:i,
-    name:"白金卡"+i,
-    target: "100",
-    gift :"20",
-    discount :"50%",
-    price:"40"
-  })
-}
 
 const IconText = ({ type, text }) => (
     <span>
@@ -31,16 +20,18 @@ export  class VIPManage extends BaseComponent{
     this.state={
       addVis:false,
       editVis:false,
-      data:[]
-
+      data:[],
+      editS:{}
     }
-    this.handleClick=this.handleClick.bind(this)
     this.addCancel=this.addCancel.bind(this)
     this.editCancel=this.editCancel.bind(this)
-    this.edit=this.edit.bind(this)
   }
 
   componentWillMount(){
+    this.refresh()
+  }
+
+  refresh=()=>{
     this.get("/vipManagement/getAll",result=>{
       this.setState({
         data:result.content
@@ -48,20 +39,29 @@ export  class VIPManage extends BaseComponent{
     })
   }
 
-
   addCancel(){
     this.setState({addVis:false})
   }
 
-  edit(key){
-    this.setState({editVis:true})
+  edit=(name,discountAmount,targetAmount,discount,price,type)=>{
+    this.state.editS={
+        name:name,
+        discountAmount:discountAmount,
+        targetAmount:targetAmount,
+        discount:discount,
+        price:price,
+        type:type
+    }
+    this.setState({
+      editVis:true
+    })
   }
 
   editCancel(){
     this.setState({editVis:false})
   }
 
-  handleClick(){
+  handleClick=()=>{
       this.setState({addVis:true})
   }
   
@@ -95,14 +95,17 @@ export  class VIPManage extends BaseComponent{
           pagination={{pageSize: 10}}
           style={styles.listStyle}
           renderItem={item=>{
+            const des=item.description.replace(".0","").replace(".0","")
+            const amounts=des.split("满")[1].split("送")
             return (
               <List.Item
                 extra={<img width={180} height={140} alt="logo" src='http://www.juimg.com/tuku/yulantu/140516/330292-1405161H44252.jpg' />}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.avatar} />}
-                  title={<a onClick={()=>this.edit(item.key)}style={{fontSize:"25px"}}>{item.name}</a>}
+                  title={<a onClick={()=>this.edit(item.name,amounts[1],amounts[0],
+                    item.discount,item.price,item.type)} style={{fontSize:"25px"}}>{item.name}</a>}
                 />
-                {item.description.replace(".0","").replace(".0","")}
+                {des}
                 <br></br>
                 <br></br>
                 折扣：{item.discount}
@@ -116,8 +119,15 @@ export  class VIPManage extends BaseComponent{
                 }}
           />
         </Card>
-        <SetVIPType VIPname={"ao"} visible={this.state.addVis} onCancel={this.addCancel}></SetVIPType>
-        <EditVIPType visible={this.state.editVis} onCancel={this.editCancel}></EditVIPType>
+        <SetVIPType 
+        refresh={this.refresh} 
+        VIPname={"ao"} 
+        visible={this.state.addVis} 
+        onCancel={this.addCancel}/>
+        <EditVIPType refresh={this.refresh}
+         formt={this.state.editS} 
+         visible={this.state.editVis} 
+         onCancel={this.editCancel}/>
       </Row>
     )
   }

@@ -92,6 +92,14 @@ class Step1 extends BaseComponent{
   }
 
   handleclick(){
+    if(couponSelect==-1){
+      Modal.warning({
+        title:"没有选择优惠券！",
+        onOk:()=>{
+          return 
+        }
+      })
+    }else
     this.props.stepFormStore.setCurrent(1)
   }
 
@@ -131,7 +139,13 @@ class Step2 extends BaseComponent{
         </div>
       <div >
           <Button style={{textAlign:"center"}} onClick={()=>this.props.stepFormStore.setCurrent(0)} style={{ marginLeft: 8 }}>上一步</Button>
-          <Button  style={{textAlign:"center"}} onClick={()=>this.props.stepFormStore.setCurrent(2)} style={{ marginLeft: 8 }}>下一步</Button>
+          <Button  style={{textAlign:"center"}} onClick={()=>{
+            if(monetary=="" || monetary==null || isNaN(monetary)){
+              Modal.warning({title:"输入有误！"})
+            }
+            else
+            this.props.stepFormStore.setCurrent(2)
+          }} style={{ marginLeft: 8 }}>下一步</Button>
       </div>
       </div>
     )
@@ -158,6 +172,13 @@ class Step3 extends BaseComponent{
   }
 
   handleclick(){
+    if (vip.length==0){
+      Modal.warning({
+        title:"请选择想要赠送的会员！"
+      })
+      return 
+    }
+    else{
     var url="/coupon/issueCoupons?"
     url+="couponId="
     url+=couponSelect
@@ -171,9 +192,9 @@ class Step3 extends BaseComponent{
       title:"成功",
       content:"赠送优惠券成功！",
       onOk(){
-        window.location.href="/home/giveCoupons"
+        window.location.href="/admin/giveCoupons"
       }
-    })
+    })}
   }
   render(){
     const roww={

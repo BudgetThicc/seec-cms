@@ -1,7 +1,8 @@
 import React from 'react'
-import {Badge,Col,Row,Popover,Card, Spin, Button, Radio, List, Switch, Avatar,BackTop,Anchor,Affix,Icon, Divider} from 'antd'
+import {Modal,Badge,Col,Row,Popover,Card, Spin, Button, Radio, List, Switch, Avatar,BackTop,Anchor,Affix,Icon, Divider} from 'antd'
 import { BaseComponent } from '../../../components/BaseComponent';
 import AddRefundForm from './AddRefundForm';
+import EditRefundForm from './EditRefundForm';
 
 const content=(
   <div>caonima</div>
@@ -20,11 +21,13 @@ export class RefundManage extends BaseComponent{
       super(props)
       this.state={
         refundList:[],
-        addVis:false
+        addVis:false,
+        editVis:false
       }
       this.handleClick = this.handleClick.bind(this)
       this.refresh=this.refresh.bind(this)
       this.addCancel=this.addCancel.bind(this)
+      this.delete=this.delete.bind(this)
     }
 
     componentWillMount(){
@@ -48,6 +51,47 @@ export class RefundManage extends BaseComponent{
         addVis:false
       })
     }
+
+    editCancel=()=>{
+      this.setState({
+        editVis:false
+      })
+    }
+
+    refresh(){
+      this.get("/refund/getAll",(result)=>{
+        var t=JSON.stringify(result.content)
+        this.setState({
+          refundList:JSON.parse(t),
+          addVis:false,
+          editVis:false,
+        })
+      })
+    }
+
+    edit=()=>{
+      //此处传数据
+      this.setState({
+        editVis:true
+      })
+    }
+
+    delete(id){
+      Modal.confirm({
+          title:"您确认要删除该退票策略吗？",
+          onOk:()=>{
+              this.get("/refund/delete?id="+id,result=>{
+                  Modal.success({
+                      title:'删除退票策略成功！',
+                      onOk:()=>{
+                          this.refresh()
+                      }
+                  })
+              })
+          }
+      })
+
+  }
 
     renderContent(border){
       var re=[]
@@ -98,10 +142,12 @@ export class RefundManage extends BaseComponent{
     }
 
     refresh(){
+      
       this.get("/refund/getAll",(result)=>{
         var t=JSON.stringify(result.content)
         this.setState({
-          refundList:JSON.parse(t)
+          refundList:JSON.parse(t),
+          addVis:false
         })
       })
     }
@@ -116,25 +162,33 @@ export class RefundManage extends BaseComponent{
     renderCard(refund){
       let res=[]
       let content=this.renderContent(refund.refundBorderItemList)
-      let ttt;
+      let badge;
       if(refund.inUse==1)
-      ttt=<Badge status="success" text="使用中"></Badge>
+        badge=<Badge status="success" text="使用中"></Badge>
       else
-      ttt=<Badge status="default"></Badge>
-      let tit=[]
-      tit.push(<span>{refund.name+" "}</span>)
-      tit.push(ttt)
-      let yy=[]
-      yy.push(<a href="#">修改</a>)
+        badge=<Badge status="default"></Badge>
+      let left=[]
+      left.push(<span>{refund.name+" "}</span>)
+      left.push(badge)
+      let right=[]
+      right.push(<a onClick={()=>this.edit(refund.id)} href="#">修改</a>)
       if(refund.inUse==0){
-        yy.push(<Divider type="vertical"></Divider>)
-        yy.push(<a onClick={()=>{this.use(refund.id)}}>使用</a>)
+        right.push(<Divider type="vertical"></Divider>)
+        right.push(<a onClick={()=>{this.use(refund.id)}}>使用</a>)
       }
       if(refund.inUse==1){
-        yy.push(<Divider type="vertical"></Divider>)
-        yy.push(<a onClick={()=>{this.unuse(refund.id)}}>弃用</a>)
+        right.push(<Divider type="vertical"></Divider>)
+        right.push(<a onClick={()=>{this.unuse(refund.id)}}>弃用</a>)
       }
-      let temp=<Col span={12}><Card size="small" title={<div>{tit}<span style={{float:"right"}}>{yy}</span></div>}  style={{ width: 400}}>{content}</Card></Col>
+      right.push(<Divider type="vertical"></Divider>)
+      right.push(<a onClick={()=>{this.delete(refund.id)}}>删除</a>)
+      let temp=
+      <Col span={12}>
+        <Card size="small" title={
+          <div>{left}<span style={{float:"right"}}>{right}</span></div>
+          }  style={{ width: 400}}>{content}
+        </Card>
+      </Col>
       res.push(temp)
       return res
     }
@@ -144,11 +198,12 @@ export class RefundManage extends BaseComponent{
   render(){
     return (
       <div>
-    <Card bordered={false} title={<div>退票策略<Button onClick={this.handleClick} id="add" style={{float:"right"}}>新增退票策略</Button></div>} style={{marginBottom: 15}} id='verticalStyle'>
-      {this.renderList(this.state.refundList)}
+        <Card bordered={false} title={<div>退票策略<Button onClick={this.handleClick} id="add" style={{float:"right"}}>新增退票策略</Button></div>} style={{marginBottom: 15}} id='verticalStyle'>
+        {this.renderList(this.state.refundList)}
         </Card>
-        <AddRefundForm visible={this.state.addVis} onCancel={this.addCancel}></AddRefundForm>
-        </div>
+        <AddRefundForm refresh={this.refresh} visible={this.state.addVis} onCancel={this.addCancel}></AddRefundForm>
+        <EditRefundForm refresh={this.refresh} visible={this.state.editVis} onCancel={this.editCancel}/>
+      </div>
     )
   }
 }

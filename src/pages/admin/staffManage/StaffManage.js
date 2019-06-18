@@ -29,7 +29,9 @@ export class StaffManage extends BaseComponent{
     this.state={
       addVis:false,
       edit:false,
-      editKey:-1,
+      editKey:{
+
+      },
       staffList:null,
       oneDelete:'nulllll'
     }
@@ -39,13 +41,36 @@ export class StaffManage extends BaseComponent{
     this.handleEdit=this.handleEdit.bind(this)
     this.deleteSomeone=this.deleteSomeone.bind(this)
     this.delete=this.delete.bind(this)
+    this.refresh=this.refresh.bind(this)
+  }
+
+  refresh(){
+    var tt=RegExp("\"role\":2",'g')
+    var ttt=RegExp("\"role\":1",'g')
+    this.get("/staff/all",(result)=>{
+      var t=JSON.stringify(result.content.sort((a,b)=>{return b.role-a.role})).replace(tt,"\"role\":\"管理员\"")
+      t=t.replace(ttt,"\"role\":\"售票员\"")
+      this.setState({
+        staffList:JSON.parse(t)
+      })
+      //alert(JSON.stringify(this.state.staffList))
+    })
+
+    this.setState({
+      addVis:false,
+      edit:false
+    })
   }
 
 
-  handleEdit(key){
+  handleEdit(username,name,role){
     this.setState({
       edit:true,
-      editKey:key,
+      editKey:{
+        username:username,
+        name:name,
+        role:role=="售票员"?1:2
+      }
     })
   }
 
@@ -66,8 +91,8 @@ export class StaffManage extends BaseComponent{
     this.post("/staff/delete?name="+this.state.oneDelete+"&operator=me",null,result=>{
       Modal.success({
         title:"删除员工"+this.state.oneDelete+"成功！",
-        onOk(){
-          window.location.href="/home/staffManage"
+        onOk:()=>{
+          this.refresh()
         }
       })
       
@@ -93,7 +118,7 @@ export class StaffManage extends BaseComponent{
       key: 'action',
       render: (text, record) => (
         <span>
-        <a onClick={()=>{this.handleEdit(record.key)}}>修改{record.name}</a>
+        <a onClick={()=>{this.handleEdit(record.username,record.name,record.role)}}>修改{record.name}</a>
         <Divider type="vertical"/>
         <a onClick={()=>{
           this.setState({oneDelete:record.username})
@@ -108,7 +133,7 @@ export class StaffManage extends BaseComponent{
     var tt=RegExp("\"role\":2",'g')
     var ttt=RegExp("\"role\":1",'g')
     this.get("/staff/all",(result)=>{
-      var t=JSON.stringify(result.content).replace(tt,"\"role\":\"管理员\"")
+      var t=JSON.stringify(result.content.sort((a,b)=>{return b.role-a.role})).replace(tt,"\"role\":\"管理员\"")
       t=t.replace(ttt,"\"role\":\"售票员\"")
       this.setState({
         staffList:JSON.parse(t)
@@ -143,8 +168,8 @@ export class StaffManage extends BaseComponent{
                   <Table dataSource={this.state.staffList} columns={this.columns} style={styles.tableStyle}/>
       </Card>
 
-      <SetRoleModal visible={this.state.addVis} onCancel={this.Addoncancel}></SetRoleModal>
-      <EditRoleModal visible={this.state.edit} onCancel={this.Editoncancel}></EditRoleModal>
+      <SetRoleModal refresh={this.refresh} visible={this.state.addVis} onCancel={this.Addoncancel}></SetRoleModal>
+      <EditRoleModal refresh={this.refresh} formt={this.state.editKey} visible={this.state.edit} onCancel={this.Editoncancel}></EditRoleModal>
 
       </div>
     )

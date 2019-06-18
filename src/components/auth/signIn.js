@@ -35,7 +35,6 @@ class SignIn extends BaseComponent {
             form.append('password', md5(values.password));
 
             var successAction = (result) => {
-                //todo: 根据用户类型分类存储
                 if(result.content&&result.content.role!=null){
                     switch(result.content.role){
                         case 0:
