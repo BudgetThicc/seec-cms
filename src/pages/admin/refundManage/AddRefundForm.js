@@ -48,7 +48,7 @@ class AddRefundForm extends BaseComponent{
                                 icon='user'></FormText>
                             <Row>距放映:&emsp;&emsp;&emsp;&emsp;&emsp;0~&emsp;&emsp;&emsp;&emsp;
                                 <InputNumber min={0} max={Infinity} step={0.5} 
-                                defaultValue={'不限'} onChange={(e)=>this.changeRefundTime(e,0)}/>
+                                placeholder={'不限'} onChange={(e)=>this.changeRefundTime(e,0)}/>
                                 小时&emsp;退票比率&emsp;
                                 <InputNumber 
                                 style={{width:60}} min={0} 
@@ -58,7 +58,7 @@ class AddRefundForm extends BaseComponent{
                                 return(
                                     <Row>距放映:&emsp;上一时间区间末尾-&emsp;
                                     <InputNumber min={0} max={Infinity} step={0.5} 
-                                    defaultValue={'不限'} onChange={(e)=>this.changeRefundTime(e,i)}  />
+                                    placeholder={'不限'} onChange={(e)=>this.changeRefundTime(e,i)}  />
                                     小时&emsp;退票比率&emsp;
                                     <InputNumber
                                     style={{width:60}} min={0} 
@@ -87,7 +87,11 @@ class AddRefundForm extends BaseComponent{
 
     changeRefundTime=(e,index)=>{
         let refundTimeModifyed = this.state.refundTime;
-        refundTimeModifyed[index] = e;
+        if(e===undefined || e===null || e===""){
+            refundTimeModifyed[index] = 0;
+        }else{
+            refundTimeModifyed[index] = e;
+        }
         this.setState({refundTime:refundTimeModifyed})
     }
 
@@ -124,6 +128,11 @@ class AddRefundForm extends BaseComponent{
                     onOk:()=>{
                         this.props.refresh()
                     }
+                })
+            },result=>{
+                Modal.warning({
+                    title:"错误！",
+                    content:result.message
                 })
             })
         })

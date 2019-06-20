@@ -187,7 +187,7 @@ export class RefundManage extends BaseComponent{
         refund.refundBorderItemList.map((borderItem)=>{
           editDefaultRate.push(borderItem.rate)
           if(borderItem.maxTimeBorder==0){
-            timeBorder.push("不限")
+            timeBorder.push("")
           }else{
              timeBorder.push(borderItem.maxTimeBorder)
           }
@@ -196,7 +196,7 @@ export class RefundManage extends BaseComponent{
           editDefaultRate.push(100)
         }
         while(timeBorder.length<5){
-          timeBorder.push('不限')
+          timeBorder.push("")
         }
         this.editPolicy(refund.id,refund.name,editDefaultRate,timeBorder)
       }} href="#">修改</a>)

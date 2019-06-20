@@ -47,6 +47,7 @@ class EditRefundForm extends BaseComponent{
                                 icon='user'></FormText>
                             <Row>距放映:&emsp;&emsp;&emsp;&emsp;&emsp;0~&emsp;&emsp;&emsp;&emsp;
                                 <InputNumber min={0} max={Infinity} step={0.5} 
+                                placeholder = {"不限"}
                                 defaultValue={this.props.formt.time[0]} onChange={(e)=>this.changeRefundTime(e,0)}/>
                                 小时&emsp;退票比率&emsp;
                                 <InputNumber 
@@ -57,6 +58,7 @@ class EditRefundForm extends BaseComponent{
                                 return(
                                     <Row>距放映:&emsp;上一时间区间末尾-&emsp;
                                     <InputNumber min={0} max={Infinity} step={0.5} 
+                                    placeholder = {"不限"}
                                     defaultValue={this.props.formt.time[i]} onChange={(e)=>this.changeRefundTime(e,i)}  />
                                     小时&emsp;退票比率&emsp;
                                     <InputNumber
@@ -86,7 +88,11 @@ class EditRefundForm extends BaseComponent{
 
     changeRefundTime=(e,index)=>{
         let refundTimeModifyed = this.state.refundTime;
-        refundTimeModifyed[index] = e;
+        if(e===undefined || e===null || e===""){
+            refundTimeModifyed[index] = 0;
+        }else{
+            refundTimeModifyed[index] = e;
+        }
         this.setState({refundTime:refundTimeModifyed})
     }
 
@@ -113,8 +119,9 @@ class EditRefundForm extends BaseComponent{
             for(var i = 0;i<5;i++){
             form.append('refundBorderItemList['+i+'].policyId',this.props.formt.id);
             form.append('refundBorderItemList['+i+'].levelOrder',i+1);
+            
             if(this.state.refundTime[i]==-1){
-                if(this.props.formt.time[i]==='不限'){
+                if(this.props.formt.time[i]===""){
                     form.append('refundBorderItemList['+i+'].maxTimeBorder',0);
                 }else{
                     form.append('refundBorderItemList['+i+'].maxTimeBorder',this.props.formt.time[i]);
@@ -122,12 +129,14 @@ class EditRefundForm extends BaseComponent{
             }else{
                   form.append('refundBorderItemList['+i+'].maxTimeBorder',this.state.refundTime[i]);
             }
+            
             if(this.state.refundRate[i]==-1){
                  form.append('refundBorderItemList['+i+'].rate',this.props.formt.rate[i]);
             }else{
                 form.append('refundBorderItemList['+i+'].rate',this.state.refundRate[i]);
             }
-            }
+            
+        }
 
             this.post('/refund/update', form, (result) => {
                 this.props.onCancel();
@@ -135,6 +144,11 @@ class EditRefundForm extends BaseComponent{
                     title:"更新退票策略成功！",
                 })
                 this.props.refresh()
+            },result=>{
+                Modal.warning({
+                    title:"错误！",
+                    content:result.message
+                })
             })
         })
     }

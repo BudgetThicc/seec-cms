@@ -89,6 +89,11 @@ export class HallManage extends BaseComponent{
                             this.refresh()
                         }
                     })
+                },result=>{
+                    Modal.warning({
+                        title:"错误！",
+                        content:result.message
+                    })
                 })
             }
         })
@@ -145,7 +150,7 @@ export class HallManage extends BaseComponent{
         },result=>{
             Modal.warning({
                 title:"错误！",
-                content:result.message,
+                content:result.message
             })
         })
 

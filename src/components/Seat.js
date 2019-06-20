@@ -5,6 +5,8 @@ import { Row, Col,Button } from 'antd';
 const seatTypes=[
     [require("./resource/seat0.png"),require("./resource/seat0.png"),require("./resource/seat0.png")],
     [require("./resource/seat1.png"),require("./resource/seat1_occupied.png"),require("./resource/seat1_selected.png")],
+    [require("./resource/seat1.png"),require("./resource/seat1_occupied.png"),require("./resource/seat1_selected.png")],
+    [require("./resource/seat1.png"),require("./resource/seat1_occupied.png"),require("./resource/seat1_selected.png")],
 ]
 export default class Seat extends BaseComponent{
     constructor(props){
