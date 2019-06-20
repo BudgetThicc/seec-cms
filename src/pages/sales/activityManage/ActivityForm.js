@@ -62,26 +62,62 @@ class ActivityForm extends BaseComponent{
 
                         {/* <Row justify='center'></Row> */}
                         <Row gutter={16} span={24}>
-                            <Col span={12}>
+                            {/* <Col span={12}> */}
                                 <FormText form={this.props.form}
                                     label='活动名称' 
                                     name='name' 
                                     required={true} 
                                     icon='table'>
                                 </FormText>
-                            </Col>
-                            <Col span={12}>
+                            {/* </Col> */}
+                            {/* <Col span={12}> */}
                                 <FormText form={this.props.form}
                                     label='活动描述' 
                                     name='description'
                                     required={false}
-                                    icon=''>
+                                    icon='align-left'>
                                 </FormText>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
                         <Row gutter={16}>
-                            <Col span={12}>
-                            <FormItem label="开始时间">
+                            {/* <Col span={12}> */}
+                            <FormText form={this.props.form}
+                                    label='奖券名称' 
+                                    name='couponName'
+                                    required={true} 
+                                    icon='tag'>
+                                </FormText>
+                            {/* </Col> */}
+                            {/* <Col span={12}> */}
+                                <FormText form={this.props.form}
+                                    label='奖券描述' 
+                                    name='couponDescription'
+                                    required={true} 
+                                    icon='flag'>
+                                </FormText>
+                            {/* </Col> */}
+                        </Row>
+                        <Row gutter={16}>
+                            {/* <Col span={12}> */}
+                                <FormText form={this.props.form}
+                                    label='需满金额' 
+                                    name='targetAmount'
+                                    required={true} 
+                                    icon='font-colors'>
+                                </FormText>
+                            {/* </Col> */}
+                            {/* <Col span={12}> */}
+                            <FormText form={this.props.form}
+                                    label='优惠金额' 
+                                    name='discountAmount'
+                                    required={true} 
+                                    icon='font-colors'>
+                                </FormText>
+                            {/* </Col> */}
+                        </Row>
+                        <Row gutter={16}>
+                            {/* <Col span={12}> */}
+                                <FormItem label="开始时间">
                                     {getFieldDecorator('startDate', {
                                         rules: [{ required: true, message: '请填写开始时间' }],
                                     })(
@@ -92,8 +128,8 @@ class ActivityForm extends BaseComponent{
                                         />,
                                     )}
                                 </FormItem>
-                            </Col>
-                            <Col span={12}>     
+                            {/* </Col> */}
+                            {/* <Col span={12}>      */}
                             <FormItem label="结束时间">
                                     {getFieldDecorator('endDate', {
                                         rules: [{ required: true, message: '请填写结束时间' }],
@@ -105,46 +141,10 @@ class ActivityForm extends BaseComponent{
                                         />,
                                     )}
                                 </FormItem>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
                         <Row gutter={16}>
-                            <Col span={12}>
-                                <FormText form={this.props.form}
-                                    label='奖券名称' 
-                                    name='couponName'
-                                    required={true} 
-                                    icon='tag'>
-                                </FormText>
-                            </Col>
-                            <Col span={12}>
-                                <FormText form={this.props.form}
-                                    label='奖券描述' 
-                                    name='couponDescription'
-                                    required={true} 
-                                    icon='flag'>
-                                </FormText>
-                            </Col>
-                        </Row>
-                        <Row gutter={16}>
-                            <Col span={12}>
-                                <FormText form={this.props.form}
-                                    label='需满金额' 
-                                    name='targetAmount'
-                                    required={true} 
-                                    icon='font-colors'>
-                                </FormText>
-                            </Col>
-                            <Col span={12}>
-                            <FormText form={this.props.form}
-                                    label='优惠金额' 
-                                    name='discountAmount'
-                                    required={true} 
-                                    icon='font-colors'>
-                                </FormText>
-                            </Col>
-                        </Row>
-                        <Row gutter={16}>
-                            <Col span={12}>
+                            {/* <Col span={12}> */}
                                 <Select mode="multiple"
                                 placeholder="请选择电影"
                                 onChange={value=>{
@@ -159,7 +159,7 @@ class ActivityForm extends BaseComponent{
                                         })
                                     }
                                 }}>{this.state.movieL}</Select>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
 
                         <div>
@@ -230,7 +230,7 @@ class ActivityForm extends BaseComponent{
                 this.pushNotification("success", "电影上架成功！");
                 console.log(result.content);
                 this.props.onCancel();
-                window.location.href="/home/activityManage"
+                window.location.href="/admin/activityManage"
             })
 
         })

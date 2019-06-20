@@ -5,12 +5,12 @@ import { BaseComponent } from '../../../components/BaseComponent';
 import {FormButton, FormText, FormSelector} from '../../../components/forms';
 
 
-class AddHallForm extends BaseComponent{
+class EditHallForm extends BaseComponent{
 
     constructor(props) {
         super(props);
         this.state={
-            currentRadioValue: 0
+            currentRadioValue: -1
         }
         this.handleRadioChange=this.handleRadioChange.bind(this)
     }
@@ -18,7 +18,7 @@ class AddHallForm extends BaseComponent{
     render=()=>{
         return(
             <Modal
-            title={<span><Icon type="plus-square"></Icon>添加影厅</span>}
+            title={<span><Icon type="plus-square"></Icon>修改影厅(注意!若更改影厅大小则座位具体信息将还原)</span>}
             visible={this.props.visible}
             onOk={this.handleOk}
             onCancel={this.props.onCancel}
@@ -29,9 +29,6 @@ class AddHallForm extends BaseComponent{
             </Modal>
         )
     }
-
-
-
     renderContent=()=>{
         return(
             <Row type='flex' 
@@ -42,6 +39,7 @@ class AddHallForm extends BaseComponent{
                     <Form onSubmit={this.handleSubmit}>
                         <Row justify='center'>
                             <FormText form={this.props.form}
+                            defaultValue = {this.props.formt.name}
                                 label='影厅名' 
                                 name='hallname' 
                                 required={true} 
@@ -49,7 +47,7 @@ class AddHallForm extends BaseComponent{
                             <Radio.Group 
                                 onChange={this.handleRadioChange}
                                 name="size" 
-                                defaultValue={0}>
+                                defaultValue={this.props.formt.size}>
                                 <Radio value={0}>小型影厅(10*5)</Radio>
                                 <Radio value={1}>中型影厅(12*8)</Radio>
                                 <Radio value={2}>大型影厅(18*10)</Radio>
@@ -85,12 +83,20 @@ class AddHallForm extends BaseComponent{
                 return;
             }
         
+
             let form = new FormData();
-            form.append('id',1);
+            let size = -1;
+            form.append('id',this.props.formt.id);
             form.append('name',values.hallname);
-            form.append('size',this.state.currentRadioValue);
-            var seats = [];
-            if(this.state.currentRadioValue==0){
+
+            if(this.state.currentRadioValue === -1 || this.state.currentRadioValue==this.props.formt.size){
+                form.append('size',-1);
+                size = this.props.formt.size
+            }else{
+                 form.append('size',this.state.currentRadioValue);
+                 size = this.state.currentRadioValue
+            }
+            if(size==0){
                 form.append('row',5);
                 form.append('column',10);
                 var index = 0;
@@ -102,7 +108,7 @@ class AddHallForm extends BaseComponent{
                         index=index+1;
                     }
                 }
-            }else if(this.state.currentRadioValue==1){
+            }else if(size==1){
                 form.append('row',8);
                 form.append('column',12);
                 var index = 0;
@@ -114,7 +120,7 @@ class AddHallForm extends BaseComponent{
                         index=index+1;
                     }
                 }
-            }else if(this.state.currentRadioValue==2){
+            }else if(size==2){
                 form.append('row',10);
                 form.append('column',18);
                 var index = 0;
@@ -126,7 +132,7 @@ class AddHallForm extends BaseComponent{
                         index=index+1;
                     }
                 }
-            }else if(this.state.currentRadioValue==3){
+            }else if(size==3){
                 form.append('row',12);
                 form.append('column',20);
                 var index = 0;
@@ -140,16 +146,16 @@ class AddHallForm extends BaseComponent{
                 }
             }
 
-             this.post('/hall/add', form, (result) => {
+             this.post('/hall/update', form, (result) => {
                 console.log(result.content);
                 this.props.onCancel();
                 Modal.success({
-                    title:"新增影厅成功！",
+                    title:"更新影厅成功！",
                     onOk(){
                         window.location.href="/admin/hallManage"
                     }
                 })
-             })
+             } )
     })
 }
 
@@ -200,4 +206,4 @@ const styles={
 };
 
 
-export default Form.create()(AddHallForm)
+export default Form.create()(EditHallForm)

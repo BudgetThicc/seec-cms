@@ -10,10 +10,9 @@ class EditRefundForm extends BaseComponent{
     constructor(props) {
         super(props);
         this.state={
-            currentRadioValue: 1,
             addList :[1,2,3,4],
-            refundTime:[0,0,0,0,0],
-            refundRate:[100,100,100,100,100]
+            refundTime:[-1,-1,-1,-1,-1],
+            refundRate:[-1,-1,-1,-1,-1]
         }
     }
 
@@ -41,27 +40,28 @@ class EditRefundForm extends BaseComponent{
                     <Form onSubmit={this.handleSubmit}>
                         <Row justify='center'>
                             <FormText form={this.props.form}
+                            defaultValue = {this.props.formt.name}
                                 label='名称' 
                                 name='refundName' 
                                 required={true} 
                                 icon='user'></FormText>
                             <Row>距放映:&emsp;&emsp;&emsp;&emsp;&emsp;0~&emsp;&emsp;&emsp;&emsp;
                                 <InputNumber min={0} max={Infinity} step={0.5} 
-                                defaultValue={'不限'} onChange={(e)=>this.changeRefundTime(e,0)}/>
+                                defaultValue={this.props.formt.time[0]} onChange={(e)=>this.changeRefundTime(e,0)}/>
                                 小时&emsp;退票比率&emsp;
                                 <InputNumber 
                                 style={{width:60}} min={0} 
-                                max={100} step = {1} defaultValue={100} onChange={(e)=>this.changeRefundRate(e,0)} />%
+                                max={100} step = {1} defaultValue={this.props.formt.rate[0]} onChange={(e)=>this.changeRefundRate(e,0)} />%
                             </Row>
                             {this.state.addList.map((i)=>{
                                 return(
                                     <Row>距放映:&emsp;上一时间区间末尾-&emsp;
                                     <InputNumber min={0} max={Infinity} step={0.5} 
-                                    defaultValue={'不限'} onChange={(e)=>this.changeRefundTime(e,i)}  />
+                                    defaultValue={this.props.formt.time[i]} onChange={(e)=>this.changeRefundTime(e,i)}  />
                                     小时&emsp;退票比率&emsp;
                                     <InputNumber
                                     style={{width:60}} min={0} 
-                                    max={100} step = {1} defaultValue={100} onChange={(e)=>this.changeRefundRate(e,i)} />%
+                                    max={100} step = {1} defaultValue={this.props.formt.rate[i]} onChange={(e)=>this.changeRefundRate(e,i)} />%
                                     </Row>)
                                     }
                                 )
@@ -106,19 +106,34 @@ class EditRefundForm extends BaseComponent{
                 return;
             }
             let form = new FormData();
-            form.append('id',0);//此处要改为传来的id
+            form.append('id',this.props.formt.id);
             form.append('name',values.refundName);
             form.append('inUse',0);
             
             for(var i = 0;i<5;i++){
-            form.append('refundBorderItemList['+i+'].policyId',0);
+            form.append('refundBorderItemList['+i+'].policyId',this.props.formt.id);
             form.append('refundBorderItemList['+i+'].levelOrder',i+1);
-            form.append('refundBorderItemList['+i+'].maxTimeBorder',this.state.refundTime[i]);
-            form.append('refundBorderItemList['+i+'].rate',this.state.refundRate[i]);
+            if(this.state.refundTime[i]==-1){
+                if(this.props.formt.time[i]==='不限'){
+                    form.append('refundBorderItemList['+i+'].maxTimeBorder',0);
+                }else{
+                    form.append('refundBorderItemList['+i+'].maxTimeBorder',this.props.formt.time[i]);
+                }
+            }else{
+                  form.append('refundBorderItemList['+i+'].maxTimeBorder',this.state.refundTime[i]);
+            }
+            if(this.state.refundRate[i]==-1){
+                 form.append('refundBorderItemList['+i+'].rate',this.props.formt.rate[i]);
+            }else{
+                form.append('refundBorderItemList['+i+'].rate',this.state.refundRate[i]);
+            }
             }
 
             this.post('/refund/update', form, (result) => {
-                this.pushNotificaiton("success","更新成功")
+                this.props.onCancel();
+                Modal.success({
+                    title:"更新退票策略成功！",
+                })
                 this.props.refresh()
             })
         })

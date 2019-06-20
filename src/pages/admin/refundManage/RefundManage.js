@@ -22,7 +22,11 @@ export class RefundManage extends BaseComponent{
       this.state={
         refundList:[],
         addVis:false,
-        editVis:false
+        editVis:false,
+        edits:{
+          rate: [],
+          time: []
+        }
       }
       this.handleClick = this.handleClick.bind(this)
       this.refresh=this.refresh.bind(this)
@@ -69,8 +73,14 @@ export class RefundManage extends BaseComponent{
       })
     }
 
-    edit=()=>{
-      //此处传数据
+    editPolicy=(id,name,rate,time)=>{
+      this.state.edits={
+        id:id,
+        name:name,
+        rate:rate,
+        time:time
+      }
+
       this.setState({
         editVis:true
       })
@@ -171,7 +181,25 @@ export class RefundManage extends BaseComponent{
       left.push(<span>{refund.name+" "}</span>)
       left.push(badge)
       let right=[]
-      right.push(<a onClick={()=>this.edit(refund.id)} href="#">修改</a>)
+      right.push(<a onClick={()=>{
+        let editDefaultRate = []
+        let timeBorder = []
+        refund.refundBorderItemList.map((borderItem)=>{
+          editDefaultRate.push(borderItem.rate)
+          if(borderItem.maxTimeBorder==0){
+            timeBorder.push("不限")
+          }else{
+             timeBorder.push(borderItem.maxTimeBorder)
+          }
+        })
+        while(editDefaultRate.length<5){
+          editDefaultRate.push(100)
+        }
+        while(timeBorder.length<5){
+          timeBorder.push('不限')
+        }
+        this.editPolicy(refund.id,refund.name,editDefaultRate,timeBorder)
+      }} href="#">修改</a>)
       if(refund.inUse==0){
         right.push(<Divider type="vertical"></Divider>)
         right.push(<a onClick={()=>{this.use(refund.id)}}>使用</a>)
@@ -202,7 +230,11 @@ export class RefundManage extends BaseComponent{
         {this.renderList(this.state.refundList)}
         </Card>
         <AddRefundForm refresh={this.refresh} visible={this.state.addVis} onCancel={this.addCancel}></AddRefundForm>
-        <EditRefundForm refresh={this.refresh} visible={this.state.editVis} onCancel={this.editCancel}/>
+        <EditRefundForm 
+        refresh={this.refresh} 
+        formt = {this.state.edits}
+        visible={this.state.editVis} 
+        onCancel={this.editCancel}/>
       </div>
     )
   }

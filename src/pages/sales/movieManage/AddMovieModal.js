@@ -51,69 +51,90 @@ class AddMovieModal extends BaseComponent{
 
                         {/* <Row justify='center'></Row> */}
                         <Row gutter={16}>
-                            <Col span={12}>
+                            {/* <Col span={8}> */}
                                 <FormText form={this.props.form}
                                     label='电影名称' 
                                     name='movieName' 
                                     required={true} 
                                     icon='table'>
                                 </FormText>
-                            </Col>
-                            <Col span={12}>
+                            {/* </Col> */}
+                            {/* <Col span={8}> */}
                                 <FormText form={this.props.form}
                                     label='导演' 
                                     name='director'
                                     required={true} 
                                     icon='user'>
                                 </FormText>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
                         <Row gutter={16}>
-                            <Col span={12}>
+                            {/* <Col span={8}> */}
                                 <FormText form={this.props.form}
                                     label='编剧' 
                                     name='screenWriter'
                                     required={true} 
                                     icon='user'>
                                 </FormText>   
-                            </Col>
-                            <Col span={12}>     
+                            {/* </Col> */}
+                            {/* <Col span={8}>      */}
                                 <FormText form={this.props.form}
                                     label='主演' 
                                     name='starring'
                                     required={true} 
                                     icon='team'>
                                 </FormText>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
                         <Row gutter={16}>
-                            <Col span={12}>
+                            {/* <Col span={8}> */}
                                 <FormText form={this.props.form}
                                     label='电影类型' 
                                     name='type'
                                     required={true} 
                                     icon='tag'>
                                 </FormText>
-                            </Col>
-                            <Col span={12}>
+                            {/* </Col> */}
+                            {/* <Col span={8}> */}
                                 <FormText form={this.props.form}
                                     label='制片国家' 
                                     name='country'
                                     required={true} 
                                     icon='flag'>
                                 </FormText>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
                         <Row gutter={16}>
-                            <Col span={12}>
+                            {/* <Col span={8}> */}
                                 <FormText form={this.props.form}
                                     label='语言' 
                                     name='language'
                                     required={true} 
                                     icon='font-colors'>
                                 </FormText>
-                            </Col>
-                            <Col span={12}>
+                            {/* </Col> */}
+                            {/* <Col span={8}> */}
+                                <FormText form={this.props.form}
+                                    label='海报URL' 
+                                    name='posterUrl'
+                                    required={true} 
+                                    icon='global'>
+                                </FormText>
+                            {/* </Col> */}
+                        </Row>
+                        <Row gutter={16}>
+                            {/* <Col span={8}> */}
+                                <FormItem label="片长" required={true}>
+                                    {getFieldDecorator('length', { 
+                                        initialValue: 120 })
+                                        (<InputNumber 
+                                            min={1} max={1000}
+                                            formatter={value => `${value}min`}
+                                            parser={value => value.replace('min', '')}
+                                        />)}
+                                </FormItem>
+                            {/* </Col> */}
+                            {/* <Col span={8}> */}
                                 <FormItem label="上映时间">
                                     {getFieldDecorator('startDate', {
                                         rules: [{ required: true, message: '请填写上映时间' }],
@@ -125,28 +146,7 @@ class AddMovieModal extends BaseComponent{
                                         />,
                                     )}
                                 </FormItem>
-                            </Col>
-                        </Row>
-                        <Row gutter={16}>
-                            <Col span={12}>
-                                <FormItem label="片长" required={true}>
-                                    {getFieldDecorator('length', { 
-                                        initialValue: 120 })
-                                        (<InputNumber 
-                                            min={1} max={1000}
-                                            formatter={value => `${value}min`}
-                                            parser={value => value.replace('min', '')}
-                                        />)}
-                                </FormItem>
-                            </Col>
-                            <Col span={12}>
-                                <FormText form={this.props.form}
-                                    label='海报URL' 
-                                    name='posterUrl'
-                                    required={true} 
-                                    icon='global'>
-                                </FormText>
-                            </Col>
+                            {/* </Col> */}
                         </Row>
                         <Row gutter={16}>
                             <Form.Item label="描述">

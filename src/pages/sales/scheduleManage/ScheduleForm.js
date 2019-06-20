@@ -65,44 +65,40 @@ class ScheduleForm extends BaseComponent{
             style={{borderRadius:'20px'}}>
                 <Col>
                     <Form onSubmit={this.handleSubmit}>
-
-                        {/* <Row justify='center'></Row> */}
-                        <Row gutter={12}>
-                            <Col span={12}>
+                        <Row>
+                            <Col span={20} style={{margin:5}}>
+                                <Row>电影名称</Row>
                                 <Select 
                                 style={{width:"100%"}}
                                 form={this.props.form}
-                                defaultValue="1"
-                                    label='电影名称' 
-                                    name='movieName' 
-                                    required={true} 
-                                    icon='table'
-                                    onChange={value=>{
-                                        this.setState({
-                                            movieSe:value
-                                        })
-                                    }}>{this.state.movieL}
+                                label='电影名称' 
+                                name='movieName' 
+                                required={true} 
+                                icon='table'
+                                onChange={value=>{
+                                    this.setState({
+                                        movieSe:value
+                                    })
+                                }}>{this.state.movieL}
                                 </Select>
                             </Col>
-                        </Row>
-                        <Row>
-                        <Col span={12}>
+                            <Col span={20} style={{margin:5}}>
+                                <Row>放映影厅</Row>
                                 <Select form={this.props.form}
-                                    label='放映影厅' 
-                                    defaultValue="1"
-                                    name='hall'
-                                    required={true} 
-                                    icon='user'
-                                    onChange={value=>{
-                                        this.setState({
-                                            hallSe:value
-                                        })}}
-                                        >{this.state.hallL}
+                                label='放映影厅' 
+                                name='hall'
+                                required={true} 
+                                icon='user'
+                                onChange={value=>{
+                                    this.setState({
+                                        hallSe:value
+                                    })}}
+                                    >{this.state.hallL}
                                 </Select>
                             </Col>
                         </Row>
-                        <Row gutter={16}>
-                        <Col span={12}>
+                        <Row >
+                        <Col span={20}>
                             <FormItem label="开始时间">
                                     {getFieldDecorator('startDate', {
                                         rules: [{ required: true, message: '请填写开始时间' }],
@@ -118,7 +114,7 @@ class ScheduleForm extends BaseComponent{
                             </Col>
                         </Row>
                         <Row>
-                        <Col span={12}>
+                        <Col span={20}>
                             <FormItem label="结束时间">
                                     {getFieldDecorator('endDate', {
                                         rules: [{ required: true, message: '请填写开始时间' }],
@@ -127,34 +123,28 @@ class ScheduleForm extends BaseComponent{
                                             style={{ width: '100%' }}
                                             showTime={true}
                                             getPopupContainer={trigger => trigger.parentNode}
-                                            placeholder='开始时间'
+                                            placeholder='结束时间'
                                         />,
                                     )}
                                 </FormItem>
                             </Col>
                         </Row>
-                        <Row gutter={16}>
-                            <Col span={12}>
-                                <FormText form={this.props.form}
-                                    label='场次票价' 
-                                    name='fare'
-                                    required={true} 
-                                    icon='tag'>
-                                </FormText>
-                            </Col>
+                        
+                        <Row type='flex' justify='start'>
+                            <FormText form={this.props.form}
+                                label='场次票价' 
+                                name='fare'
+                                required={true} 
+                                icon='tag'>
+                            </FormText>
                         </Row>
- 
-
-                        <div>
-                        <span>&emsp;</span>
-                        </div>
-                        <Row type='flex' justify='center'>
-                                    <FormButton form={this.props.form} label="提交" style={styles.button}/>
-                                    <div>&emsp;&emsp;&emsp;&emsp;</div>
-                                    <Button style={styles.button2} onClick={this.props.onCancel}>
-                                        取消
-                                    </Button>
-                                </Row>
+                        
+                        <Row type='flex' justify='start'>
+                            <FormButton form={this.props.form} label="提交" style={styles.button}/>
+                            <Button style={styles.button2} onClick={this.props.onCancel}>
+                                取消
+                            </Button>
+                        </Row>
                     </Form>
                 </Col>
             </Row>
@@ -179,13 +169,15 @@ class ScheduleForm extends BaseComponent{
             form.append('startTime', values.startDate);
             form.append('endTime', values.endDate);
             form.append('fare',values.fare);
-
-            this.post('/schedule/add', form, (result) => {
-                //TODO 
+            var success=(result) => {
                 this.pushNotification("success", "新增排片成功！");
                 console.log(result.content);
                 this.props.onCancel();
-            })
+            }
+            var unsuccess=(result) => {
+                this.pushNotification("danger", result.message);
+            }
+            this.post('/schedule/add', form,success ,unsuccess)
 
         })
     }
@@ -218,6 +210,7 @@ const styles={
     },
 
     button2:{
+        marginLeft:10,
         width:'150px',
         height:'40px',
         color:'white',
