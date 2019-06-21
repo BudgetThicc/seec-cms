@@ -146,7 +146,7 @@ class AddHallForm extends BaseComponent{
                 Modal.success({
                     title:"新增影厅成功！",
                     onOk(){
-                        window.location.href="/home/hallManage"
+                        window.location.href="/admin/hallManage"
                     }
                 })
              },result=>{

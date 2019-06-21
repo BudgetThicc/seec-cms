@@ -212,10 +212,14 @@ export class RefundManage extends BaseComponent{
       right.push(<a onClick={()=>{this.delete(refund.id)}}>删除</a>)
       let temp=
       <Col span={12}>
-        <Card size="small" title={
-          <div>{left}<span style={{float:"right"}}>{right}</span></div>
-          }  style={{ width: 400}}>{content}
-        </Card>
+        <Row justify="center" type="flex" style={{margin:10}}>
+          <Col span={18}>
+            <Card size="small" title={
+              <div>{left}<span style={{float:"right"}}>{right}</span></div>
+              } >{content}
+            </Card>
+          </Col>
+        </Row>
       </Col>
       res.push(temp)
       return res

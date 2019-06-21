@@ -152,7 +152,7 @@ class EditHallForm extends BaseComponent{
                 Modal.success({
                     title:"更新影厅成功！",
                     onOk(){
-                        window.location.href="/home/hallManage"
+                        window.location.href="/admin/hallManage"
                     }
                 })
              } ,result=>{

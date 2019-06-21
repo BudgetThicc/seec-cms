@@ -66,7 +66,7 @@ export class MovieManage extends BaseComponent{
                 extra={<img width={160} height={200} onerror="this.src='http://img.daimg.com/uploads/allimg/181010/1-1Q010161035.jpg'" src={item.posterUrl} />}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.avatar} />}
-                  title={<a href={"/home/movieDetail?id="+item.id}>{item.name}</a>}
+                  title={<a href={"/admin/movieDetail?id="+item.id}>{item.name}</a>}
                 />
                 类型：{item.type}&emsp;导演：{item.director}&emsp;主演：{item.starring}
                 <br></br>
